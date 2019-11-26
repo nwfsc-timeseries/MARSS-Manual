@@ -1,0 +1,77 @@
+```{r intro-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "intro-")
+options(prompt=" ", continue=" ")
+```
+
+# Overview {#chap-overview}
+
+MARSS stands for Multivariate Auto-Regressive(1) State-Space. The **MARSS** package is an \R package for estimating the parameters of linear MARSS models with Gaussian errors.  This class of model is extremely important in the study of linear stochastic dynamical systems, and these models are important in many different fields, including economics, engineering, genetics, physics and ecology (Appendix \@ref(chap-SSreferences) ).  The model class has different names in different fields, for example in some fields they are termed dynamic linear models (DLMs) or vector autoregressive (VAR) state-space models.  The **MARSS** package allows you to easily fit time-varying constrained and unconstrained MARSS models with or without covariates to multivariate time-series data via maximum-likelihood using primarily an EM algorithm. The EM algorithm in the **MARSS** package allows you to apply linear constraints on all the parameters within the model matrices.  Fitting via the BFGS algorithm is also provided in the package using \R's `optim` function, but this is not the focus of the **MARSS** package. 
+
+A full MARSS model, with Gaussian errors, takes the form:
+\begin{subequations}\label{eqn:marss}
+\begin{gather}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ where } \ww_t \sim \MVN(0,\QQ_t) \label{eqn:marssx}\\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ where } \vv_t \sim \MVN(0,\RR_t) \label{eqn:marssy}\\
+\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)\label{eqn:marssx1}
+\end{gather}
+\end{subequations}
+The $\xx$ equation is termed the state process and the $\yy$ equation is termed the observation process.  Data enter the model as the $\yy$; that is the $\yy$ is treated as the data although there may be missing data.  The $\cc_t$ and $\dd_t$ are inputs (aka, exogenous variables, covariates or indicator variables).  The $\GG_t$ and $\HH_t$ are also typically inputs (fixed values with no missing values).
+
+The bolded terms are matrices with the following definitions: 
+ \begin{description}
+	\item[$\xx$] is a $m \times T$ matrix of states.  Each $\xx_t$ is a realization of the random variable $\XX_t$ at time $t$.
+	\item[$\ww$] is a $m \times T$ matrix of the process errors.  The process errors at time $t$ are multivariate normal with mean 0 and covariance matrix $\QQ_t$.
+	\item[$\yy$] is a $n \times T$ matrix of the observations.   Some observations may be missing.
+	\item[$\vv$] is a $n \times T$ column vector of the non-process errors.  The observation erros at time $t$ are multivariate normal with mean 0 and covariance matrix $\RR_t$.
+	\item[$\BB_t$ and $\ZZ_t$] are parameters and are $m \times m$ and $n \times m$ matrices.
+	\item[$\uu_t$ and $\aa_t$] are parameters and are $m \times 1$ and $n \times 1$ column vectors.
+	\item[$\QQ_t$ and $\RR_t$] are parameters and are $g \times g$ (typically $m \times m$) and $h \times h$ (typically $n \times n$) variance-covariance matrices.
+	\item[$\pipi$] is either a parameter or a fixed prior. It is a $m \times 1$ matrix\index{prior}.
+	\item[$\LAM$] is either a parameter or a fixed prior. It is a $m \times m$ variance-covariance matrix.
+	\item[$\CC_t$ and $\DD_t$] are parameters and are $m \times p$ and $n \times q$ matrices.
+	\item[$\cc$ and $\dd$] are inputs (no missing values) and are $p \times T$ and $q \times T$ matrices.
+  \item[$\GG_t$ and $\HH_t$] are inputs (no missing values) and are $m \times g$ and $n \times h$ matrices.
+\end{description}
+
+AR(p) models can be written in the above form by properly defining the $\xx$ vector and setting some of the $\RR$ variances to zero; see Chapter \ref{chap:ARMA}. Although the model appears to only include i.i.d. errors ($\vv_t$ and $\ww_t$), in practice, AR(p) errors can be included by moving the error terms into the state model.  Similarly, the model appears to have independent process ($\vv_t$) and observation ($\ww_t$) errors, however, in practice, these can be modeled as identical or correlated by using one of the state processes to model the errors with the $\BB$ matrix set appropriately for AR or white noise---although one may have to fix many of the parameters associated with the errors to have an identifiable model.  Study the application chapters and textbooks on MARSS models (Appendix \@ref(chap-SSreferences)) for examples of how a wide variety of autoregressive models can be written in MARSS form.  
+
+## Examples of MARSS models
+
+Written in an unconstrained form, meaning all the elements in a parameter matrices are allowed to be different and none constrained to be equal or related, a MARSS model can be written out as follows. Two state processes ($\xx$) and three observation processes ($\yy$) are used here as an example.
+\begin{gather*}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
+= \begin{bmatrix}b_{11}&b_{12}\\b_{21}&b_{22}\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_{t-1}
++ \begin{bmatrix}w_1\\ w_2\end{bmatrix}_t,\quad 
+\begin{bmatrix}w_1\\ w_2\end{bmatrix}_t \sim \MVN\begin{pmatrix}\begin{bmatrix}u_1\\u_2\end{bmatrix},\begin{bmatrix}q_{11}&q_{12}\\q_{21}&q_{22}\end{bmatrix} \end{pmatrix}  \\
+\\
+\begin{bmatrix}y_1\\ y_2\\ y_3\end{bmatrix}_t
+= \begin{bmatrix}z_{11}&z_{12}\\ z_{21}&z_{22}\\ z_{31}&z_{32}\end{bmatrix}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
++ \begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t,
+\begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t \sim \MVN\begin{pmatrix}\begin{bmatrix}a_1\\ a_2\\ a_3\end{bmatrix},
+ \begin{bmatrix}r_{11}&r_{12}&r_{13}\\r_{21}&r_{22}&r_{23}\\r_{31}&r_{32}&r_{33}\end{bmatrix} \end{pmatrix}  \\
+\\
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \MVN\begin{pmatrix}\begin{bmatrix}\pi_1\\ \pi_2\end{bmatrix},\begin{bmatrix}\nu_{11}&\nu_{12}\\ \nu_{21}&\nu_{22}\end{bmatrix} \end{pmatrix} \quad 
+or\quad 
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_1 \sim \MVN\begin{pmatrix}\begin{bmatrix}\pi_1\\ \pi_2\end{bmatrix},\begin{bmatrix}\nu_{11}&\nu_{12}\\ \nu_{21}&\nu_{22}\end{bmatrix} \end{pmatrix} 
+\end{gather*}
+
+However not all parameter elements can be estimated simultaneously. Constraints are required in order to specify a model with a unique solution. The MARSS package allows you to specify constraints by fixing elements in a parameter matrix or specifying that some elements are estimated---and have a linear relationship to other elements. Here is an example of a MARSS model with fixed and estimated parameter elements:
+\begin{gather*}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
+= \begin{bmatrix}a&0\\0&a\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_{t-1}
++ \begin{bmatrix}w_1\\ w_2\end{bmatrix}_t,\quad 
+\begin{bmatrix}w_1\\ w_2\end{bmatrix}_t \sim \MVN\begin{pmatrix}\begin{bmatrix}0.1\\u\end{bmatrix},\begin{bmatrix}q_{11}&q_{12}\\q_{12}&q_{22}\end{bmatrix} \end{pmatrix}  \\
+\\
+\begin{bmatrix}y_1\\ y_2\\ y_3\end{bmatrix}_t
+= \begin{bmatrix}d&d\\ c& c\\ 1+2d+3c&2+3d\end{bmatrix}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
++ \begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t,\quad
+\begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t \sim \MVN\begin{pmatrix}\begin{bmatrix}a_1\\ a_2\\ 0\end{bmatrix},
+ \begin{bmatrix}r&0&0\\0&r&0\\0&0&r\end{bmatrix} \end{pmatrix}  \\
+\\
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \MVN\begin{pmatrix}\begin{bmatrix}\pi\\ \pi\end{bmatrix},\begin{bmatrix}1&0\\ 0&1\end{bmatrix} \end{pmatrix}
+\end{gather*}
+Notice that some elements are fixed (in this case to 0, but could be any fixed number), some elements are shared (have the same value), and some elements are linear combinations of other estimated values ($c$, $1+2d+3c$ and $2+3d$ are linear combinations of $c$ and $d$).
