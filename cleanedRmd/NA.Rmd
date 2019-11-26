@@ -1,0 +1,78 @@
+--- 
+title: "MARSS Package Manual"
+author: "E. E. Holmes"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+fontsize: 12pt
+documentclass: book
+bibliography: [tex/book.bib, tex/packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data."
+cover-image: images/cover.png
+favicon: "favicon.ico"
+---
+
+# Preface {-}
+
+```{r RUNFIRST, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA, cache=TRUE, tidy.opts=list(width.cutoff=60), tidy=TRUE, fig.align='center', out.width='80%')
+library(MARSS)
+```
+
+The **MARSS** R package allows you to fit **constrained** multivariate autoregressive state-space models. 
+
+This manual covers the **MARSS** R package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see the companion book *MARSS Modeling for Environmental Data* by Holmes, Scheurell, and Ward. 
+
+### Installation {-}
+
+To install and load the **MARSS** package from CRAN:
+
+```
+install.packages("MARSS")
+library(MARSS)
+```
+
+The latest release on GitHub may be ahead of the CRAN release. To install the latest release on GitHub:
+```
+install.packages("devtools")
+library(devtools)
+install_github("nwfsc-timeseries/MARSS@*release")
+library(MARSS)
+```
+The master branch on GitHub is not a 'release'. It has work leading up to a GitHub release.  The code here may be broken though usually preliminary work is done on a development branch.  To install the master branch:
+```
+install_github("nwfsc-timeseries/MARSS")
+```
+If you are on a Windows machine and get an error saying 'loading failed for i386' or similar, then try
+```
+options(devtools.install.args = "--no-multiarch")
+```
+To install an R package from Github, you need to be able to build an R package on your machine. If you are on Windows, that means you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). On a Mac, installation should work fine; you don't need to install anything.
+
+
+### Author {-}
+
+Elizabeth E. Holmes is a research scientist at the Northwest Fisheries Science Center (NWFSC) a US Federal government research center.  This work was conducted as part of her job for NOAA Fisheries, as such the work is in the public domain and cannot be copyrighted.   
+
+Links to more code and publications can be found on our academic websites:
+
+* http://faculty.washington.edu/eeholmes
+
+
+### Citation {-}
+
+
+Holmes, E. E. 2019. MARSS Manual. NOAA Fisheries, Northwest Fisheries Science Center, 2725 Montlake Blvd E., Seattle, WA 98112.  Contact eli.holmes@noaa.gov.
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  'MARSS','bookdown', 'knitr', 'rmarkdown','tseries','tidyverse'
+), 'tex/packages.bib')
+```
+
+# Preface {-}
+
+

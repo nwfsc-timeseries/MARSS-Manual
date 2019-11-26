@@ -1,0 +1,12 @@
+```{r output-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "output-")
+```
+
+# MARSS outputs
+
+MARSS models are used in many different ways and different users will want different types of output.  Some users will want the parameter estimates while others want the smoothed states and others want to use MARSS models to interpolate missing values and want the expected values of missing data.  
+
+The best way to find out how to get output is to type `?print.MARSS` at the command line after installing the **MARSS** package.  The print help page discusses how to get parameter estimates in different forms, the smoothed and filtered states, all the Kalman filter and smoother output, all the expectations of y (missing data), confidence intervals and bias estimates for the parameters, 
+and standard errors of the states.  If you are looking only for Kalman filter and smoother output, see the relevant section in Chapter \ref{chap:algorithms} and see the help page for the `MARSSkf()` function (type `?MARSSkf` at the \,\textbf{R} command line).
+
+You might also want to look at the `augment()`, `tidy()` and `glance()` functions which will summarize commonly needed output from a MARSS model fit.  Type `?augment.marssMLE` at the command line to see examples.  These functions work as they do in the **broom** R package.

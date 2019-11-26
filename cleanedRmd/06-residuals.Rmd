@@ -1,0 +1,6 @@
+```{r resids-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "resids-")
+```
+
+# MARSS Residuals
+

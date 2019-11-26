@@ -1,14 +1,14 @@
 --- 
-title: "Applied Time Series Analysis for Fisheries and Environmental Sciences"
-author: "E. E. Holmes, M. D. Scheuerell, and E. J. Ward"
+title: "MARSS Package Manual"
+author: "E. E. Holmes"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 fontsize: 12pt
 documentclass: book
-bibliography: [tex/Fish507.bib, tex/book.bib, tex/packages.bib]
+bibliography: [tex/book.bib, tex/packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "These are the computer labs for Fish 507: Applied Time Series Analysis for Fisheries and Environmental Sciences."
+description: "This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data."
 cover-image: images/cover.png
 favicon: "favicon.ico"
 ---
@@ -17,40 +17,59 @@ favicon: "favicon.ico"
 
 ```{r RUNFIRST, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment=NA, cache=TRUE, tidy.opts=list(width.cutoff=60), tidy=TRUE, fig.align='center', out.width='80%')
+library(MARSS)
 ```
 
-This is material that was developed as part of a course we teach at the University of Washington on applied time series analysis for fisheries and environmental data.  You can find our lectures on our course website [ATSA](https://nwfsc-timeseries.github.io/atsa/).
+The **MARSS** R package allows you to fit **constrained** multivariate autoregressive state-space models. 
 
-### Book package {-}
+This manual covers the **MARSS** \textbf{R} package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see the companion book *MARSS Modeling for Environmental Data* by Holmes, Scheurell, and Ward. 
 
-The book uses a number of R packages and a variety of fisheries data sets.  The packages and data sets can be installed by installing our  **atsalibrary** package which is hosted on GitHub:
+### Installation {-}
 
-```{r preface-load-atsa, eval=FALSE}
+To install and load the **MARSS** package from CRAN:
+
+```
+install.packages("MARSS")
+library(MARSS)
+```
+
+The latest release on GitHub may be ahead of the CRAN release. To install the latest release on GitHub:
+```
+install.packages("devtools")
 library(devtools)
-devtools::install_github("nwfsc-timeseries/atsalibrary")
+install_github("nwfsc-timeseries/MARSS@*release")
+library(MARSS)
 ```
+The master branch on GitHub is not a 'release'. It has work leading up to a GitHub release.  The code here may be broken though usually preliminary work is done on a development branch.  To install the master branch:
+```
+install_github("nwfsc-timeseries/MARSS")
+```
+If you are on a Windows machine and get an error saying 'loading failed for i386' or similar, then try
+```
+options(devtools.install.args = "--no-multiarch")
+```
+To install an \textbf{R} package from Github, you need to be able to build an \textbf{R} package on your machine. If you are on Windows, that means you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). On a Mac, installation should work fine; you don't need to install anything.
 
-### Authors {-}
 
-The authors are research scientists at the Northwest Fisheries Science Center (NWFSC).  This work was conducted as part of our jobs at the NWFSC, a research center for NOAA Fisheries which is a United States federal government agency.   
+### Author {-}
+
+Elizabeth E. Holmes is a research scientist at the Northwest Fisheries Science Center (NWFSC) a US Federal government research center.  This work was conducted as part of her job for NOAA Fisheries, as such the work is in the public domain and cannot be copyrighted.   
 
 Links to more code and publications can be found on our academic websites:
 
 * http://faculty.washington.edu/eeholmes
-* http://faculty.washington.edu/scheuerl
-* http://faculty.washington.edu/warde
 
 
 ### Citation {-}
 
 
-Holmes, E. E., M. D. Scheuerell, and E. J. Ward. Applied time series analysis for fisheries and environmental data. NOAA Fisheries, Northwest Fisheries Science Center, 2725 Montlake Blvd E., Seattle, WA 98112.  Contacts eli.holmes@noaa.gov, eric.ward@noaa.gov, and mark.scheuerell@noaa.gov
+Holmes, E. E. 2019. MARSS Manual. NOAA Fisheries, Northwest Fisheries Science Center, 2725 Montlake Blvd E., Seattle, WA 98112.  Contact eli.holmes@noaa.gov.
 
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  'rstan','MARSS','forecast','ggplot2','R2jags','rjags','bookdown', 'knitr', 'rmarkdown','urca','tseries'
+  'MARSS','bookdown', 'knitr', 'rmarkdown','tseries','tidyverse'
 ), 'tex/packages.bib')
 ```
 

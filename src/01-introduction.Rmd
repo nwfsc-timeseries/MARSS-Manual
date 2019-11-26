@@ -1,6 +1,5 @@
 ```{r intro-setup, include=FALSE, purl=FALSE}
 knitr::opts_knit$set(unnamed.chunk.label = "intro-")
-options(prompt=" ", continue=" ")
 ```
 
 # Overview {#chap-overview}

@@ -100,8 +100,3 @@ Try `MARSSinfo()` if you get errors you don't understand or MARSS is taking a lo
 
 \section*{Need more information?}
 The MARSS User Guide starts with some tutorials on MARSS models and walks through many examples showing how to write multivariate time-series models in MARSS form.  The user guide also has a series of vignettes: how to write AR(p) models in state-space form, dynamic linear models (regression models where the regression parameters are AR(p)), multivariate regression models with regression parameters that are time-varying and enter the non-AR part of your model or the AR part, detecting breakpoints using state-space models, and dynamic factor analysis.  All of these can be written in MARSS form.  It also has a series of vignettes on analysis of multivariate biological data.  Background on the algorithms used in MARSS is included in the user guide.  Lectures and more examples on fitting multivariate models can be found at \url{https://nwfsc-timeseries.github.io/}.
-
-```{r Reset, echo=FALSE}
-options(prompt="> ", continue="+ ")
-```
-\end{document}
