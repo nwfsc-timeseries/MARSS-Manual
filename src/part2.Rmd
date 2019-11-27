@@ -1,3 +1,0 @@
-# <i style="font-size: 110%; color:#990017;">Part 2. Examples</i> {- #part2}
-
-Here a series of short examples are shown for different types of models specified in MARSS structure. Output is shown briefly. See the chapters on different types of output from **MARSS** model objects and MARSS models in general.

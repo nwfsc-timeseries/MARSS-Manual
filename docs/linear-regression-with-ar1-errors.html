@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4.3 Linear regression with AR(1) errors | MARSS Package Manual</title>
+  <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4.3 Linear regression with AR(1) errors | MARSS Package Manual" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.3 Linear regression with AR(1) errors | MARSS Package Manual" />
+  
+  <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="E. E. Holmes" />
+
+
+<meta name="date" content="2019-11-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="ar1-observed-with-error.html"/>
+<link rel="next" href="linear-regression-with-ar1-errors-and-independent-errors.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MARSS Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
+</ul></li>
+<li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
+<li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
+<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
+<li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
+<li class="chapter" data-level="3.1" data-path="univariate-ts-object.html"><a href="univariate-ts-object.html"><i class="fa fa-check"></i><b>3.1</b> Univariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.2" data-path="multivariate-ts-object.html"><a href="multivariate-ts-object.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate <strong>ts</strong> object</a></li>
+</ul></li>
+<li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
+<li class="chapter" data-level="4" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>4</b> Univariate Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>4.1</b> Random walk with drift</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html#output"><i class="fa fa-check"></i><b>4.1.1</b> Output</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>4.2</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="4.3" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>4.3</b> Linear regression with AR(1) errors</a></li>
+<li class="chapter" data-level="4.4" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>4.4</b> Linear regression with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="4.5" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>4.5</b> Linear regression with AR(1) driven by covariate</a></li>
+<li class="chapter" data-level="4.6" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>4.6</b> Flat level model</a></li>
+<li class="chapter" data-level="4.7" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>4.7</b> Linear trend model</a></li>
+<li class="chapter" data-level="4.8" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>4.8</b> Stochastic level model</a></li>
+<li class="chapter" data-level="4.9" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>4.9</b> Stochastic slope model</a></li>
+</ul></li>
+<li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
+<li class="chapter" data-level="5" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>5</b> MARSS outputs</a></li>
+<li class="chapter" data-level="6" data-path="marss-residuals.html"><a href="marss-residuals.html"><i class="fa fa-check"></i><b>6</b> MARSS Residuals</a></li>
+<li class="chapter" data-level="7" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>7</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="8" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>8</b> Predictions</a></li>
+<li><a href="part4.html#part4"><i style="font-size: 110%; color:#990017;">Part 4. Tips and Tricks</i></a></li>
+<li class="chapter" data-level="9" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>9</b> Troubleshooting</a></li>
+<li class="chapter" data-level="10" data-path="em-algorithm.html"><a href="em-algorithm.html"><i class="fa fa-check"></i><b>10</b> EM algorithm</a><ul>
+<li class="chapter" data-level="10.1" data-path="important-notes-about-the-algorithms.html"><a href="important-notes-about-the-algorithms.html"><i class="fa fa-check"></i><b>10.1</b> Important notes about the algorithms</a></li>
+<li class="chapter" data-level="10.2" data-path="state-space-form-of-armapq-models.html"><a href="state-space-form-of-armapq-models.html"><i class="fa fa-check"></i><b>10.2</b> State-space form of ARMA(p,q) models</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-related-packages.html"><a href="other-related-packages.html"><i class="fa fa-check"></i><b>11</b> Other related packages</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li style="font-weight: normal"><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MARSS Package Manual</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linear-regression-with-ar1-errors" class="section level2">
+<h2><span class="header-section-number">4.3</span> Linear regression with AR(1) errors</h2>
+<p>A simple linear regression of one covariate with AR(1) errors is written:</p>
+<p><span class="math display">\[\begin{gather}
+x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = \beta*d_t + x_{t}
+(\#eq:short.lr.ar1)
+\end{gather}\]</span></p>
+<p>Let’s create some simulated data with this structure:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co">#our covariate</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">wt &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">yt &lt;-<span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>dt <span class="op">+</span><span class="st"> </span>wt</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt)  <span class="co"># not ts object</span></a>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
+<p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>If we looked at an ACF of the residuals of a linear regression, we’d see that the residuals are highly autocorrelated:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">acf</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(yt <span class="op">~</span><span class="st"> </span>dt)))</a></code></pre></div>
+<p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-acf-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>We can fit this model (Equation @ref(eq:short.lr.ar1)) with <code>MARSS()</code>. Please note that there are many better , packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
+<p>To fit this model, we need match our Equation @ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation @ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
+<p><span class="math display">\[\begin{equation}(\#eq:short.lr.ar1.marss)
+\begin{gather}
+\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{D}\mathbf{d}_t
+\end{gather}
+\end{equation}\]</span></p>
+<p>Here is what the model looks like if we write the parameters explicitly in matrix form. The matrices are <span class="math inline">\(1 \times 1\)</span>.
+<span class="math display">\[\begin{gather}
+\begin{bmatrix}x\end{bmatrix}_{t} = \begin{bmatrix}b\end{bmatrix}\begin{bmatrix}x\end{bmatrix}_{t-1} + \begin{bmatrix}0\end{bmatrix} + \begin{bmatrix}w\end{bmatrix}_{t}  \\
+\begin{bmatrix}y\end{bmatrix}_{t} = \begin{bmatrix}x\end{bmatrix}_{t} + \begin{bmatrix}\beta\end{bmatrix}\begin{bmatrix}d\end{bmatrix}_t
+(\#eq:short.lr.ar1.mat)
+\end{gather}\]</span></p>
+<p>To create the model list for <code>MARSS()</code>, we specify the parameter matrices one-to-one like they look in Equation @ref(eq:short.lr.ar1.mat).</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># since arima.sim was used, no u</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
+<p><code>MARSS()</code> requires <span class="math inline">\(\mathbf{d}\)</span> be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.</p>
+<p>How should we treat the <span class="math inline">\(\mathbf{R}\)</span> matrix? It is zero, and we could set <span class="math inline">\(\mathbf{R}\)</span> to zero:</p>
+<pre><code>R &lt;- matrix(0)</code></pre>
+<p>However, the EM algorithm in the <strong>MARSS</strong> package will not perform well at all with <span class="math inline">\(\mathbf{R}\)</span> set to zero and it has to do with how <span class="math inline">\(\mathbf{R}=0\)</span> affects the update equations. You can use the BFGS algorithm or estimate <span class="math inline">\(\mathbf{R}\)</span>.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
+<pre><code>Warning! Abstol convergence only. Maxit (=500) reached before log-log convergence.
+
+MARSS fit is
+Estimation method: kem 
+Convergence test: conv.test.slope.tol = 0.5, abstol = 0.001
+WARNING: Abstol convergence only no log-log convergence.
+ maxit (=500) reached before log-log convergence.
+ The likelihood and params might not be at the ML values.
+ Try setting control$maxit higher.
+Log-likelihood: -25.53381 
+AIC: 61.06762   AICc: 61.70592   
+ 
+       Estimate
+R.r     0.00264
+B.b     0.91256
+Q.Q     0.09294
+x0.x0  -1.07486
+D.beta  1.10169
+Initial states (x0) defined at t=0
+
+Standard errors have not been calculated. 
+Use MARSSparamCIs to compute CIs and bias estimates.
+
+Convergence warnings
+ Warning: the  R.r  parameter value has not converged.
+ Type MARSSinfo(&quot;convergence&quot;) for more info on this warning.</code></pre>
+<p>Or use the BFGS algorithm for fitting:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
+<pre><code>Success! Converged in 122 iterations.
+Function MARSSkfas used for likelihood calculation.
+
+MARSS fit is
+Estimation method: BFGS 
+Estimation converged in 122 iterations. 
+Log-likelihood: -25.48386 
+AIC: 58.96772   AICc: 59.38878   
+ 
+       Estimate
+B.b      0.9090
+Q.Q      0.0975
+x0.x0   -1.0754
+D.beta   1.1017
+Initial states (x0) defined at t=0
+
+Standard errors have not been calculated. 
+Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
+<p>This is the same model you are fitting when you pass in <code>xreg</code> with the <code>arima()</code> function:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">stats<span class="op">::</span><span class="kw">arima</span>(yt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">xreg =</span> dt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
+<pre><code>
+Call:
+stats::arima(x = yt, order = c(1, 0, 0), xreg = dt, include.mean = FALSE, method = &quot;ML&quot;)
+
+Coefficients:
+         ar1      dt
+      0.9143  1.1023
+s.e.  0.0384  0.0266
+
+sigma^2 estimated as 0.09906:  log likelihood = -27.19,  aic = 60.39</code></pre>
+<p>Again the estimates are slightly different due to different treatment of the initial conditons.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ar1-observed-with-error.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-regression-with-ar1-errors-and-independent-errors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/03-1-uniss.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MARSS_Manual.pdf"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Univariate Models | MARSS Package Manual</title>
+  <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Univariate Models | MARSS Package Manual" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Univariate Models | MARSS Package Manual" />
+  
+  <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="E. E. Holmes" />
+
+
+<meta name="date" content="2019-11-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="part2.html"/>
+<link rel="next" href="random-walk-with-drift.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">MARSS Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
+</ul></li>
+<li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
+<li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
+<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
+<li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
+<li class="chapter" data-level="3.1" data-path="univariate-ts-object.html"><a href="univariate-ts-object.html"><i class="fa fa-check"></i><b>3.1</b> Univariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.2" data-path="multivariate-ts-object.html"><a href="multivariate-ts-object.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate <strong>ts</strong> object</a></li>
+</ul></li>
+<li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
+<li class="chapter" data-level="4" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>4</b> Univariate Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>4.1</b> Random walk with drift</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html#output"><i class="fa fa-check"></i><b>4.1.1</b> Output</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>4.2</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="4.3" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>4.3</b> Linear regression with AR(1) errors</a></li>
+<li class="chapter" data-level="4.4" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>4.4</b> Linear regression with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="4.5" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>4.5</b> Linear regression with AR(1) driven by covariate</a></li>
+<li class="chapter" data-level="4.6" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>4.6</b> Flat level model</a></li>
+<li class="chapter" data-level="4.7" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>4.7</b> Linear trend model</a></li>
+<li class="chapter" data-level="4.8" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>4.8</b> Stochastic level model</a></li>
+<li class="chapter" data-level="4.9" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>4.9</b> Stochastic slope model</a></li>
+</ul></li>
+<li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
+<li class="chapter" data-level="5" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>5</b> MARSS outputs</a></li>
+<li class="chapter" data-level="6" data-path="marss-residuals.html"><a href="marss-residuals.html"><i class="fa fa-check"></i><b>6</b> MARSS Residuals</a></li>
+<li class="chapter" data-level="7" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>7</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="8" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>8</b> Predictions</a></li>
+<li><a href="part4.html#part4"><i style="font-size: 110%; color:#990017;">Part 4. Tips and Tricks</i></a></li>
+<li class="chapter" data-level="9" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>9</b> Troubleshooting</a></li>
+<li class="chapter" data-level="10" data-path="em-algorithm.html"><a href="em-algorithm.html"><i class="fa fa-check"></i><b>10</b> EM algorithm</a><ul>
+<li class="chapter" data-level="10.1" data-path="important-notes-about-the-algorithms.html"><a href="important-notes-about-the-algorithms.html"><i class="fa fa-check"></i><b>10.1</b> Important notes about the algorithms</a></li>
+<li class="chapter" data-level="10.2" data-path="state-space-form-of-armapq-models.html"><a href="state-space-form-of-armapq-models.html"><i class="fa fa-check"></i><b>10.2</b> State-space form of ARMA(p,q) models</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="other-related-packages.html"><a href="other-related-packages.html"><i class="fa fa-check"></i><b>11</b> Other related packages</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li style="font-weight: normal"><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MARSS Package Manual</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="univariate-models" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Univariate Models</h1> 
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="part2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-walk-with-drift.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/03-1-uniss.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MARSS_Manual.pdf"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

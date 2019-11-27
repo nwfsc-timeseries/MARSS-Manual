@@ -1,0 +1,482 @@
+```{r examples-uni-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "quick-unis-")
+set.seed(123)
+```
+# Univariate Models
+
+## Random walk with drift
+
+A univariate random walk with drift observed with error is:
+\begin{gather}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
+\end{gather}
+
+To fit this model to a simulated random walk:  \index{functions!MARSS}
+```{r quick-unis-uni1}
+u <- 0.01
+r <- 0.01
+q <- 0.1
+TT <- 100
+yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+fit <- MARSS(yt)
+```
+
+### Output
+
+See the chapter on Outputs. This is a brief introduction to the outputs.
+
+Use the **broom** package to get the model output in **tidy** form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See `?tidy.marssMLE` for information on how to change to a different type of confidence interval.
+
+```{r quick-unis-tidy}
+broom::tidy(fit)
+```
+
+The get the estimated states use:
+```{r quick-unis-augment1}
+head(broom::augment(fit, type="states"))
+```
+Note that generic rownames were given since none were specified for `dat`.
+You can also get all the Kalman filter and smoother estimates for $x$ from `MARSSkf()`. See `?MARSSkf`.
+
+The get the fitted values, the estimated $y$, use:
+```{r quick-unis-augment}
+head(broom::augment(fit, type="observations"))
+```
+There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to $t-1$ and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at `?fitted.marssMLE`.
+
+
+## AR(1) observed with error
+
+With the addition of $b$ in front of $x_{t-1}$ we have an AR(1) process. \begin{gather}
+x_{t} = bx_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \,\text{N}(0,r)
+\end{gather}
+
+To fit this model to a simulated, non-stationary, AR(1) process:  \index{functions!MARSS}
+```{r quick-unis-ar1-sim}
+set.seed(123)
+u <- 0.01
+r <- 0.1
+q <- 0.1
+b <- 0.9
+TT <- 100
+x0 <- 10
+xt.ns <- rep(x0, TT)
+for(i in 2:TT) xt.ns[i] <- b*xt.ns[i-1] + u + rnorm(1,0,sqrt(q))
+yt.ns <- xt.ns + rnorm(TT,0,sqrt(r))
+```
+The process was purposefully made to be non-stationary by setting `x0` well outside the stationary distribution of $x$. The EM algorithm in **MARSS** does not require that the underlying state processes be stationary and it is not necessary to remove the initial non-stationary part of the time-series.
+
+```{r quick-unis-ar1-plot}
+plot(yt.ns, xlab="", ylab="", main="xt and yt", pch=16, col="red")
+lines(xt.ns, lwd=2)
+```
+
+```{r quick-unis-ar1-fit}
+fit <- MARSS(yt.ns, model=list(B=matrix("b")))
+```
+
+We could also simulate AR(1) data with `stats::arima.sim()` however this will produce stationary data:
+```{r quick-unis-sim-arima}
+xt.s <- arima.sim(n=TT, model=list(ar=b), sd=sqrt(q))
+yt.s <- xt.s + rnorm(TT, 0, sqrt(r))
+yt.s <- as.vector(yt.s)
+xt.s <- as.vector(xt.s)
+```
+These stationary data can be fit as before but the data must be a matrix with time across the columns not a **ts** object. If you pass in a vector, `MARSS()` will convert that to a matrix with one row.
+
+
+```{r quick-unis-ar1-plot2}
+plot(yt.s, xlab="", ylab="", main="xt and yt", pch=16, col="red", type="p")
+lines(xt.s, lwd=2)
+```
+
+```{r quick-unis-fit-ar1-stationary}
+fit <- MARSS(yt.s, model=list(B=matrix("b")))
+```
+Note that $u$ is estimated however `arima.sim()` does not include a $u$. We can set $u$ to zero if we happened to know that it was zero.
+
+```{r quick-unis-fit-ar1-stationary-u0}
+fit <- MARSS(yt.s, model=list(B=matrix("b"), U=matrix(0)))
+```
+
+If we know $r$ (or $q$), we could set those too:
+
+```{r quick-unis-fit-ar1-stationary-u0-rfix}
+fit <- MARSS(yt.s, model=list(B=matrix("b"), U=matrix(0), R=matrix(r)))
+```
+
+We can fit to just the $x$ data, an AR(1) with no error, by setting $r$ to zero:
+If we know $r$ (or $q$), we could set those too:
+
+```{r quick-unis-fit-ar1-stationary-xonly}
+fit <- MARSS(xt.s, model=list(B=matrix("b"), U=matrix(0), R=matrix(0)))
+```
+
+We can fit `xt.s` with `arima()` also. The results will be similar but not identical because `arima()`'s algorithm assumes the data come from a stationary process and the initial conditions are treated differently.
+
+```{r quick-unis-fit-ar1-fit-arima}
+arima(xt.s, order=c(1,0,0), include.mean=FALSE, method="ML")
+```
+
+If we try fitting the non-stationary data with `arima()`, the estimates will be poor since `arima()` assumes stationary data:
+
+```{r quick-unis-fit-ar1-arima-bad}
+arima(xt.ns, order=c(1,0,0), include.mean=FALSE, method="ML")
+```
+
+## Linear regression with AR(1) errors
+
+A simple linear regression of one covariate with AR(1) errors is written:
+
+\begin{gather}
+x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = \beta*d_t + x_{t}
+(\#eq:short.lr.ar1)
+\end{gather}
+
+
+Let's create some simulated data with this structure:
+```{r quick-unis-lm-ar1}
+beta <- 1.1
+dt <- rnorm(TT,0,1) #our covariate
+wt <- arima.sim(n=TT, model=list(ar=b), sd=sqrt(q))
+yt <- beta*dt + wt
+yt <- as.vector(yt) # not ts object
+plot(dt, yt)
+```
+
+If we looked at an ACF of the residuals of a linear regression, we'd see that the residuals are highly autocorrelated:
+```{r quick-unis-lm-ar1-acf}
+acf(residuals(lm(yt ~ dt)))
+```
+
+
+We can fit this model (Equation \@ref(eq:short.lr.ar1)) with `MARSS()`. Please note that there are many better \,\textbf{R} packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the **MARSS** package.
+
+To fit this model, we need match our Equation \@ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation \@ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. $\mathbf{Z}_t$ is identity and is also dropped. The $\mathbf{B}$ and $\mathbf{D}$ are time-constant so the $t$ subscript is dropped.  The $\mathbf{x}_t$ are the AR(1) errors and the $\mathbf{y}_t$ is the linear regression with $\mathbf{D}$ being the effect sizes and the $\mathbf{d}$ being the covariate.
+
+\begin{equation}(\#eq:short.lr.ar1.marss)
+\begin{gather}
+\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{D}\mathbf{d}_t
+\end{gather}
+\end{equation} 
+
+Here is what the model looks like if we write the parameters explicitly in matrix form. The matrices are $1 \times 1$.
+\begin{gather}
+\begin{bmatrix}x\end{bmatrix}_{t} = \begin{bmatrix}b\end{bmatrix}\begin{bmatrix}x\end{bmatrix}_{t-1} + \begin{bmatrix}0\end{bmatrix} + \begin{bmatrix}w\end{bmatrix}_{t}  \\
+\begin{bmatrix}y\end{bmatrix}_{t} = \begin{bmatrix}x\end{bmatrix}_{t} + \begin{bmatrix}\beta\end{bmatrix}\begin{bmatrix}d\end{bmatrix}_t
+(\#eq:short.lr.ar1.mat)
+\end{gather}
+
+To create the model list for `MARSS()`, we specify the parameter matrices one-to-one like they look in Equation \@ref(eq:short.lr.ar1.mat).
+```{r quick-unis-lm-ar1-modlist}
+R <- matrix("r") # no v_t
+D <- matrix("beta")
+U <- matrix(0) # since arima.sim was used, no u
+B <- matrix("b")
+d <- matrix(dt, nrow=1)
+A <- matrix(0)
+```
+`MARSS()` requires $\mathbf{d}$ be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.
+
+How should we treat the $\mathbf{R}$ matrix? It is zero, and we could set $\mathbf{R}$ to zero:
+```
+R <- matrix(0)
+```
+However, the EM algorithm in the **MARSS** package will not perform well at all with $\mathbf{R}$ set to zero and it has to do with how $\mathbf{R}=0$ affects the update equations. You can use the BFGS algorithm or estimate $\mathbf{R}$.
+
+```{r quick-unis-lm-ar1-fit}
+R <- matrix("r")
+mod.list <- list(B=B, U=U, R=R, D=D, d=d, A=A)
+fit <- MARSS(yt, model=mod.list)
+```
+Or use the BFGS algorithm for fitting:
+```{r quick-unis-lm-ar1-fit-bfgs}
+R <- matrix(0)
+mod.list <- list(B=B, U=U, R=R, D=D, d=d, A=A)
+fit <- MARSS(yt, model=mod.list, method="BFGS")
+```
+
+This is the same model you are fitting when you pass in `xreg` with the `arima()` function:
+
+```{r quick-unis-lm-ar1-fit-arima}
+stats::arima(yt, order=c(1,0,0), xreg=dt, include.mean=FALSE, method="ML")
+```
+Again the estimates are slightly different due to different treatment of the initial conditons.
+
+## Linear regression with AR(1) errors and independent errors
+
+We can add some independent error to our model:
+
+\begin{gather}
+x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = \beta*d_t + x_{t} + v_t, , \text{ } v_t \sim \,\text{N}(0,r)  
+(\#eq:short.lr.ar1.r)
+\end{gather}
+
+We'll generate this data by adding independent error to `yt` from the previous example.
+```{r quick-unis-lm-ar1-2-dat}
+yt.r <- yt + rnorm(TT, 0, sqrt(r))
+```
+
+We can fit as:
+```{r quick-unis-lm-ar1-2-fit}
+R <- matrix("r")
+mod.list <- list(B=B, U=U, R=R, D=D, d=d, A=A)
+fit <- MARSS(yt.r, model=mod.list)
+```
+
+This is not a model that can be fit with `arima()`.
+
+## Linear regression with AR(1) driven by covariate
+
+We can model a situation where the regression errors are autocorrelated but some of the variance is driven by a covariate.  For example, good and bad 'years' are driven partially by, say, temperature, which we will model by `ct`. We will use an autocorrelated `ct` in the example, but it could be anything. How are autocorrelated errors different? There is memory in the errors. The `ct` in the past still affects the current error ($w_t$ in this model). 
+
+\begin{gather}
+x_{t} = bx_{t-1} + \beta*c_t + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)  
+(\#eq:short.lr.ar1.c)
+\end{gather}
+
+Let's create some simulated data with this structure:
+```{r quick-unis-lm-ar1-3-sim}
+beta <- 1.1
+x0 <- 0
+ct <- arima.sim(n=TT, model=list(ar=0.8), sd=sqrt(1)) # our covariate
+ct <- as.vector(ct)
+xt <- rep(x0, TT)
+for(i in 2:TT) xt[i] <- b*xt[i-1] + beta*ct[i] + rnorm(1,0,sqrt(q))
+yt <- xt + rnorm(TT,0,sqrt(r))
+```
+
+To fit this with `MARSS()`, we match up the model to the full MARSS model form:
+
+\begin{equation}
+\begin{gather}
+\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{C}\mathbf{c}_t + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{v}_t, \text{ where } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)
+\end{gather}
+\end{equation} 
+
+The model list for `MARSS()` is:
+```{r quick-unis-lm-ar1-3-modlist}
+R <- matrix("r") # no v_t
+C <- matrix("beta")
+U <- matrix(0) # no u
+B <- matrix("b")
+c <- matrix(ct, nrow=1)
+A <- matrix(0)
+```
+
+Now fit:
+```{r quick-unis-lm-ar1-3-fit}
+mod.list <- list(B=B, U=U, R=R, C=C, c=c, A=A)
+fit <- MARSS(yt, model=mod.list)
+```
+
+## Flat level model
+
+For the next examples, we will use the Nile river flow from 1871 to 1970, a data set in the **datasets** package.
+
+```{r quick-unis-flat-level}
+nile <- as.vector(datasets::Nile)
+year <- as.vector(time(Nile))
+```
+
+The first model we will fit is a flat level model:
+
+\begin{equation}
+y_t = a+v_t, \text{ } v_t \sim \,\text{N}(0,r)    
+(\#eq:short.flat.level)
+\end{equation}
+where $y_t$ is the river flow volume at year $t$ and $a$ is some constant average flow level (notice it has no $t$ subscript).
+
+To fit this model with MARSS, we explicitly show all the MARSS parameters.
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
+y_t = 0 \times x_t + a + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
+x_0 = 0 
+ \end{gathered}   
+(\#eq:short.flat.level.model1)
+\end{equation}
+
+The model list and fit for this equation is
+```{r quick-unis-flat-level-modlist}
+mod.list1 <- list( 
+Z=matrix(0), A=matrix("a"), R=matrix("r"),
+B=matrix(1), U=matrix(0), Q=matrix(0),
+x0=matrix(0) )
+fit1 <- MARSS(nile, model=mod.list1)
+```
+
+
+MARSS includes the state process $x_t$ but we are setting $\mathbf{Z}$ to zero so that $x_t$ does not appear in our observation model.  We need to fix all the state parameters to zero so that the algorithm doesn't ``chase its tail'' trying to fit $x_t$ to the data.
+
+An equivalent way to write this model is to use $x_t$ as the average flow level and make it be a constant level by setting $q=0$.  The average flow appears as the $x_0$ parameter.  In MARSS form, this model is:
+
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,0) \\
+y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
+x_0 = a 
+ \end{gathered}   
+(\#eq:short.flat.level.model2)
+\end{equation}
+
+The model list and fit for this equation is
+```{r quick-unis-flat-level-modlist2}
+mod.list2 <- list( 
+Z=matrix(1), A=matrix(0), R=matrix("r"),
+B=matrix(1), U=matrix(0), Q=matrix(0),
+x0=matrix("a") )
+fit2 <- MARSS(nile, model=mod.list2)
+```
+The results are the same. We just formatted the model in different ways. We can plot the fitted model against the Nile river flow (blue dots) using `autoplot()`.
+
+```{r quick-unis-flat-level-plot}
+ggplot2::autoplot(fit2, plot.type="observations")
+```
+
+## Linear trend model
+
+Looking at the data, we might expect that a declining average river flow would be better.  In MARSS form, that model would be:
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
+y_t = 0 \times x_t + a + \beta*t + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
+x_0 = 0 
+\end{gathered}   
+(\#eq:short.linear.level.model1)
+\end{equation}
+where $t$ is the year and $u$ is the average per-year decline in river flow volume.  
+
+The model list and fit for this equation is
+```{r quick-unis-linear-trend-modlist1}
+mod.list1 <- list( 
+Z=matrix(0), A=matrix("a"), R=matrix("r"),
+D=matrix("beta"), d=matrix(1:100,nrow=1),
+B=matrix(1), U=matrix(0), Q=matrix(0),
+x0=matrix(0) )
+fit1 <- MARSS(nile, model=mod.list1)
+```
+
+We can also write this model as follows by modeling the trend with $x_t$:
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1} + u + w_t, \text{ } w_t \sim \,\text{N}(0,0) \\
+y_t = 1 \times x_t + 0 + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
+x_0 = a 
+\end{gathered}   
+(\#eq:short.linear.level.model2)
+\end{equation}
+
+The model is specified as a list as follows. To fit, we need to force the algorithm to run a bit longer as it is showing convergence a bit early.
+```{r quick-unis-linear-trend-modlist2}
+mod.list2 = list(
+Z=matrix(1), A=matrix(0), R=matrix("r"),
+B=matrix(1), U=matrix("u"), Q=matrix(0),
+x0=matrix("a") )
+fit2 <- MARSS(nile, model=mod.list2, control=list(minit=30))
+```
+
+The fits are the same with either formulation of the model as long as we force the algorithm to run longer for the second form.
+```{r quick-unis-linear-level-plot}
+ggplot2::autoplot(fit2, plot.type="observations")
+```
+
+## Stochastic level model
+
+We will now model the average river flow at year $t$ as a random walk, specifically an autoregressive process which means that average river flow at year $t$ is a function of average river flow in year $t-1$.  
+
+\begin{equation}
+\begin{gathered}
+x_t = x_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
+y_t = x_t+v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
+x_0 = \pi 
+\end{gathered}   
+(\#eq:short.stoch.level.model)
+\end{equation}
+
+With all the MARSS parameters shown, the model is:
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
+y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
+x_0 = \pi 
+ \end{gathered}   
+(\#eq:short.stoch.level.model2)
+\end{equation}
+
+The model is specified as a list as follows. We can use the BFGS algorithm to 'polish' off the fit and get closer to the MLE. Why not just start with BFGS? First, it happens to take a long long time to fit and more importantly, the BFGS algorith is sensitive to starting conditions and can catostrophically fail. In this case, it is slow but works fine. For some models, it does work better (faster and stable), but using the EM algorithm to get decent starting conditions for the BFGS algorithm is a common fitting strategy.
+```{r quick-unis-stock-level-modlist}
+mod.list = list(
+Z=matrix(1), A=matrix(0), R=matrix("r"),
+B=matrix(1), U=matrix(0), Q=matrix("q"),
+x0=matrix("pi") )
+fit1 <- MARSS(nile, model=mod.list, silent=TRUE)
+fit2 <- MARSS(nile, model=mod.list, inits=fit1, method="BFGS")
+```
+
+```{r quick-unis-stoch-level-plot}
+ggplot2::autoplot(fit2, plot.type="observations")
+```
+
+This is the same model fit in \citet[p. 148]{Koopmanetal1998} except that we estimate $x_1$ as parameter rather than specifying $x_1$ via a diffuse prior\index{prior!diffuse}. As a result, the log-likelihood value and $\mathbf{R}$ and $\mathbf{Q}$ are a little different than in  \citet{Koopmanetal1998}. 
+
+We can fit the Koopman model with `stats::StructTS()`. The estimates are slightly different since the initial conditions are treated differently.
+```{r quick-unis-stoch-level-StructTS}
+fit.ts <- stats::StructTS(nile, type="level")
+fit.ts
+```
+The fitted values returned by `fitted()` applied to a **StructTS** object are different than that returned by `fitted()` applied to a **marssMLE** object. The former returns $\hat{y}$ conditioned on the data up to time $t$, while the latter returns the $\hat{y}$ conditioned on all the data. If you want to compare use:
+
+```{r quick-unis-stoch-level-StructTS-plot}
+plot(nile, type="p", pch=16, col="blue")
+lines(fitted(fit.ts), col="black", lwd=3)
+lines(MARSSkfss(fit2)$xtt[1,], col="red", lwd=1)
+```
+The black line is the `StrucTS()` fit and the red line is the equivalent `MARSS()` fit.
+
+## Stochastic slope model
+
+We can also model the $\beta$ as a random walk:
+
+\begin{equation}
+\begin{gathered}
+\beta_t = \beta_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
+y_t = a + \beta_t*t + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
+x_0 = \pi 
+\end{gathered}   
+(\#eq:short.stoch.levelslope.model)
+\end{equation}
+
+The $\beta_t$ is model with $x_t$. With all the MARSS parameters shown, the model is:
+\begin{equation}
+\begin{gathered}
+x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
+y_t = t \times x_t + a + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
+x_0 = \pi 
+ \end{gathered}   
+(\#eq:short.stoch.slope.model)
+\end{equation}
+The trick here is to recognize that $\mathbf{Z}_t$, the matrix in front of $\mathbf{x}_t$ in the $\mathbf{y}_t$ equation, can be time-varying and can be fixed. In a time-varying matrix in **MARSS**, the time element is in the 3rd dimension. We are going to fix $\mathbf{Z}[1,1,t] = t$, where $t$ is `year-mean(year)`. $\mathbf{Z}$ is a $1 \times 1 \times 100$ array.  Demeaning the covariate stablizes the fitting. Try without demeaning to see the difference.
+
+The model is specified as a list as follows.
+```{r quick-unis-stoch-slope-modlist}
+Z <- array(0,dim=c(1,1,length(nile)))
+Z[1,1,] <- year-mean(year)
+mod.list = list(
+Z=Z, A=matrix("a"), R=matrix("r"),
+B=matrix(1), U=matrix(0), Q=matrix("q"),
+x0=matrix("pi") )
+fit1 <- MARSS(nile, model=mod.list, silent=TRUE)
+fit2 <- MARSS(nile, model=mod.list, inits=fit1, method="BFGS")
+```
+
+```{r quick-unis-stoch-slope-plot}
+ggplot2::autoplot(fit2, plot.type="observations")
+```
