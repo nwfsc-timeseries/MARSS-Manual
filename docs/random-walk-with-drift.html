@@ -195,10 +195,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="random-walk-with-drift" class="section level2">
 <h2><span class="header-section-number">4.1</span> Random walk with drift</h2>
 <p>A univariate random walk with drift observed with error is:
-<span class="math display">\[\begin{gather}
+<span class="math display">\[\begin{equation}
+\begin{gathered}
 x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
-\end{gather}\]</span></p>
+\end{gathered}
+\end{equation}\]</span></p>
 <p>To fit this model to a simulated random walk: </p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">r &lt;-<span class="st"> </span><span class="fl">0.01</span></a>

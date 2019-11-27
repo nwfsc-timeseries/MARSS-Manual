@@ -194,10 +194,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ar1-observed-with-error" class="section level2">
 <h2><span class="header-section-number">4.2</span> AR(1) observed with error</h2>
-<p>With the addition of <span class="math inline">\(b\)</span> in front of <span class="math inline">\(x_{t-1}\)</span> we have an AR(1) process. <span class="math display">\[\begin{gather}
+<p>With the addition of <span class="math inline">\(b\)</span> in front of <span class="math inline">\(x_{t-1}\)</span> we have an AR(1) process. <span class="math display">\[\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \,\text{N}(0,r)
-\end{gather}\]</span></p>
+\end{gathered}
+\end{equation}\]</span></p>
 <p>To fit this model to a simulated, non-stationary, AR(1) process: </p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>

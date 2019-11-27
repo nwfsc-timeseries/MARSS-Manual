@@ -195,22 +195,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="stochastic-level-model" class="section level2">
 <h2><span class="header-section-number">4.8</span> Stochastic level model</h2>
 <p>We will now model the average river flow at year <span class="math inline">\(t\)</span> as a random walk, specifically an autoregressive process which means that average river flow at year <span class="math inline">\(t\)</span> is a function of average river flow in year <span class="math inline">\(t-1\)</span>.</p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:short-stoch-level-model">\[\begin{equation}
 \begin{gathered}
 x_t = x_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = x_t+v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
-(\#eq:short.stoch.level.model)
+\tag{3.11}
 \end{equation}\]</span></p>
 <p>With all the MARSS parameters shown, the model is:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:short-stoch-level-model2">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
-(\#eq:short.stoch.level.model2)
+\tag{3.12}
 \end{equation}\]</span></p>
 <p>The model is specified as a list as follows. We can use the BFGS algorithm to ‘polish’ off the fit and get closer to the MLE. Why not just start with BFGS? First, it happens to take a long long time to fit and more importantly, the BFGS algorith is sensitive to starting conditions and can catostrophically fail. In this case, it is slow but works fine. For some models, it does work better (faster and stable), but using the EM algorithm to get decent starting conditions for the BFGS algorithm is a common fitting strategy.</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">mod.list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>

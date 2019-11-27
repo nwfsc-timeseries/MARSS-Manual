@@ -195,11 +195,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="linear-regression-with-ar1-driven-by-covariate" class="section level2">
 <h2><span class="header-section-number">4.5</span> Linear regression with AR(1) driven by covariate</h2>
 <p>We can model a situation where the regression errors are autocorrelated but some of the variance is driven by a covariate. For example, good and bad ‘years’ are driven partially by, say, temperature, which we will model by <code>ct</code>. We will use an autocorrelated <code>ct</code> in the example, but it could be anything. How are autocorrelated errors different? There is memory in the errors. The <code>ct</code> in the past still affects the current error (<span class="math inline">\(w_t\)</span> in this model).</p>
-<p><span class="math display">\[\begin{gather}
+<p><span class="math display" id="eq:short-lr-ar1-c">\[\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + \beta*c_t + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)  
-(\#eq:short.lr.ar1.c)
-\end{gather}\]</span></p>
+\end{gathered}
+\tag{3.5}
+\end{equation}\]</span></p>
 <p>Let’s create some simulated data with this structure:</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
 <a class="sourceLine" id="cb46-2" data-line-number="2">x0 &lt;-<span class="st"> </span><span class="dv">0</span></a>
@@ -211,10 +213,10 @@ y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)
 <a class="sourceLine" id="cb46-8" data-line-number="8">yt &lt;-<span class="st"> </span>xt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>To fit this with <code>MARSS()</code>, we match up the model to the full MARSS model form:</p>
 <p><span class="math display">\[\begin{equation}
-\begin{gather}
-\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{C}\mathbf{c}_t + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
-\mathbf{y}_t = \mathbf{x}_t + \mathbf{v}_t, \text{ where } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)
-\end{gather}
+\begin{gathered}
+\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{C}\mathbf{c}_t + \mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)
+\end{gathered}
 \end{equation}\]</span></p>
 <p>The model list for <code>MARSS()</code> is:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>

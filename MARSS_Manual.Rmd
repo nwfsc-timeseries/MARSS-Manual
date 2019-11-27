@@ -244,10 +244,12 @@ set.seed(123)
 ## Random walk with drift
 
 A univariate random walk with drift observed with error is:
-\begin{gather}
+\begin{equation}
+\begin{gathered}
 x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
-\end{gather}
+\end{gathered}
+\end{equation}
 
 To fit this model to a simulated random walk:  \index{functions!MARSS}
 ```{r quick-unis-uni1}
@@ -285,10 +287,12 @@ There are two types of fitted values that are used in the state-space literature
 
 ## AR(1) observed with error
 
-With the addition of $b$ in front of $x_{t-1}$ we have an AR(1) process. \begin{gather}
+With the addition of $b$ in front of $x_{t-1}$ we have an AR(1) process. \begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \,\text{N}(0,r)
-\end{gather}
+\end{gathered}
+\end{equation}
 
 To fit this model to a simulated, non-stationary, AR(1) process:  \index{functions!MARSS}
 ```{r quick-unis-ar1-sim}
@@ -367,11 +371,13 @@ arima(xt.ns, order=c(1,0,0), include.mean=FALSE, method="ML")
 
 A simple linear regression of one covariate with AR(1) errors is written:
 
-\begin{gather}
+\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = \beta*d_t + x_{t}
-(\#eq:short.lr.ar1)
-\end{gather}
+\end{gathered}
+(\#eq:short-lr-ar1)
+\end{equation}
 
 
 Let's create some simulated data with this structure:
@@ -394,19 +400,21 @@ We can fit this model (Equation \@ref(eq:short.lr.ar1)) with `MARSS()`. Please n
 
 To fit this model, we need match our Equation \@ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation \@ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. $\mathbf{Z}_t$ is identity and is also dropped. The $\mathbf{B}$ and $\mathbf{D}$ are time-constant so the $t$ subscript is dropped.  The $\mathbf{x}_t$ are the AR(1) errors and the $\mathbf{y}_t$ is the linear regression with $\mathbf{D}$ being the effect sizes and the $\mathbf{d}$ being the covariate.
 
-\begin{equation}(\#eq:short.lr.ar1.marss)
-\begin{gather}
+\begin{equation}(\#eq:short-lr-ar1-marss)
+\begin{gathered}
 \mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
 \mathbf{y}_t = \mathbf{x}_t + \mathbf{D}\mathbf{d}_t
-\end{gather}
+\end{gathered}
 \end{equation} 
 
 Here is what the model looks like if we write the parameters explicitly in matrix form. The matrices are $1 \times 1$.
-\begin{gather}
+\begin{equation}
+\begin{gathered}
 \begin{bmatrix}x\end{bmatrix}_{t} = \begin{bmatrix}b\end{bmatrix}\begin{bmatrix}x\end{bmatrix}_{t-1} + \begin{bmatrix}0\end{bmatrix} + \begin{bmatrix}w\end{bmatrix}_{t}  \\
 \begin{bmatrix}y\end{bmatrix}_{t} = \begin{bmatrix}x\end{bmatrix}_{t} + \begin{bmatrix}\beta\end{bmatrix}\begin{bmatrix}d\end{bmatrix}_t
-(\#eq:short.lr.ar1.mat)
-\end{gather}
+\end{gathered}
+(\#eq:short-lr-ar1-mat)
+\end{equation}
 
 To create the model list for `MARSS()`, we specify the parameter matrices one-to-one like they look in Equation \@ref(eq:short.lr.ar1.mat).
 ```{r quick-unis-lm-ar1-modlist}
@@ -448,11 +456,13 @@ Again the estimates are slightly different due to different treatment of the ini
 
 We can add some independent error to our model:
 
-\begin{gather}
+\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = \beta*d_t + x_{t} + v_t, , \text{ } v_t \sim \,\text{N}(0,r)  
-(\#eq:short.lr.ar1.r)
-\end{gather}
+\end{gathered}
+(\#eq:short-lr-ar1-r)
+\end{equation}
 
 We'll generate this data by adding independent error to `yt` from the previous example.
 ```{r quick-unis-lm-ar1-2-dat}
@@ -472,11 +482,13 @@ This is not a model that can be fit with `arima()`.
 
 We can model a situation where the regression errors are autocorrelated but some of the variance is driven by a covariate.  For example, good and bad 'years' are driven partially by, say, temperature, which we will model by `ct`. We will use an autocorrelated `ct` in the example, but it could be anything. How are autocorrelated errors different? There is memory in the errors. The `ct` in the past still affects the current error ($w_t$ in this model). 
 
-\begin{gather}
+\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + \beta*c_t + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)  
-(\#eq:short.lr.ar1.c)
-\end{gather}
+\end{gathered}
+(\#eq:short-lr-ar1-c)
+\end{equation}
 
 Let's create some simulated data with this structure:
 ```{r quick-unis-lm-ar1-3-sim}
@@ -492,10 +504,10 @@ yt <- xt + rnorm(TT,0,sqrt(r))
 To fit this with `MARSS()`, we match up the model to the full MARSS model form:
 
 \begin{equation}
-\begin{gather}
-\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{C}\mathbf{c}_t + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
-\mathbf{y}_t = \mathbf{x}_t + \mathbf{v}_t, \text{ where } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)
-\end{gather}
+\begin{gathered}
+\mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{C}\mathbf{c}_t + \mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)
+\end{gathered}
 \end{equation} 
 
 The model list for `MARSS()` is:
@@ -527,7 +539,7 @@ The first model we will fit is a flat level model:
 
 \begin{equation}
 y_t = a+v_t, \text{ } v_t \sim \,\text{N}(0,r)    
-(\#eq:short.flat.level)
+(\#eq:short-flat-level)
 \end{equation}
 where $y_t$ is the river flow volume at year $t$ and $a$ is some constant average flow level (notice it has no $t$ subscript).
 
@@ -538,7 +550,7 @@ x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 0 \times x_t + a + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = 0 
  \end{gathered}   
-(\#eq:short.flat.level.model1)
+(\#eq:short-flat-level-model1)
 \end{equation}
 
 The model list and fit for this equation is
@@ -561,7 +573,7 @@ x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,0) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = a 
  \end{gathered}   
-(\#eq:short.flat.level.model2)
+(\#eq:short-flat-level-model2)
 \end{equation}
 
 The model list and fit for this equation is
@@ -587,7 +599,7 @@ x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 0 \times x_t + a + \beta*t + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = 0 
 \end{gathered}   
-(\#eq:short.linear.level.model1)
+(\#eq:short-linear-level-model1)
 \end{equation}
 where $t$ is the year and $u$ is the average per-year decline in river flow volume.  
 
@@ -608,7 +620,7 @@ x_t = 1 \times x_{t-1} + u + w_t, \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 1 \times x_t + 0 + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = a 
 \end{gathered}   
-(\#eq:short.linear.level.model2)
+(\#eq:short-linear-level-model2)
 \end{equation}
 
 The model is specified as a list as follows. To fit, we need to force the algorithm to run a bit longer as it is showing convergence a bit early.
@@ -635,7 +647,7 @@ x_t = x_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = x_t+v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
-(\#eq:short.stoch.level.model)
+(\#eq:short-stoch-level-model)
 \end{equation}
 
 With all the MARSS parameters shown, the model is:
@@ -645,7 +657,7 @@ x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
-(\#eq:short.stoch.level.model2)
+(\#eq:short-stoch-level-model2)
 \end{equation}
 
 The model is specified as a list as follows. We can use the BFGS algorithm to 'polish' off the fit and get closer to the MLE. Why not just start with BFGS? First, it happens to take a long long time to fit and more importantly, the BFGS algorith is sensitive to starting conditions and can catostrophically fail. In this case, it is slow but works fine. For some models, it does work better (faster and stable), but using the EM algorithm to get decent starting conditions for the BFGS algorithm is a common fitting strategy.
@@ -688,7 +700,7 @@ We can also model the $\beta$ as a random walk:
 y_t = a + \beta_t*t + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
-(\#eq:short.stoch.levelslope.model)
+(\#eq:short-stoch-slope-model)
 \end{equation}
 
 The $\beta_t$ is model with $x_t$. With all the MARSS parameters shown, the model is:
@@ -698,7 +710,7 @@ x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = t \times x_t + a + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
-(\#eq:short.stoch.slope.model)
+(\#eq:short-stoch-slope-model2)
 \end{equation}
 The trick here is to recognize that $\mathbf{Z}_t$, the matrix in front of $\mathbf{x}_t$ in the $\mathbf{y}_t$ equation, can be time-varying and can be fixed. In a time-varying matrix in **MARSS**, the time element is in the 3rd dimension. We are going to fix $\mathbf{Z}[1,1,t] = t$, where $t$ is `year-mean(year)`. $\mathbf{Z}$ is a $1 \times 1 \times 100$ array.  Demeaning the covariate stablizes the fitting. Try without demeaning to see the difference.
 

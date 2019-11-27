@@ -195,13 +195,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="linear-trend-model" class="section level2">
 <h2><span class="header-section-number">4.7</span> Linear trend model</h2>
 <p>Looking at the data, we might expect that a declining average river flow would be better. In MARSS form, that model would be:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:short-linear-level-model1">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 0 \times x_t + a + \beta*t + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = 0 
 \end{gathered}   
-(\#eq:short.linear.level.model1)
+\tag{3.9}
 \end{equation}\]</span>
 where <span class="math inline">\(t\)</span> is the year and <span class="math inline">\(u\)</span> is the average per-year decline in river flow volume.</p>
 <p>The model list and fit for this equation is</p>
@@ -229,13 +229,13 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>We can also write this model as follows by modeling the trend with <span class="math inline">\(x_t\)</span>:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:short-linear-level-model2">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1} + u + w_t, \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 1 \times x_t + 0 + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = a 
 \end{gathered}   
-(\#eq:short.linear.level.model2)
+\tag{3.10}
 \end{equation}\]</span></p>
 <p>The model is specified as a list as follows. To fit, we need to force the algorithm to run a bit longer as it is showing convergence a bit early.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">mod.list2 =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>

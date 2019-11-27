@@ -195,22 +195,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="stochastic-slope-model" class="section level2">
 <h2><span class="header-section-number">4.9</span> Stochastic slope model</h2>
 <p>We can also model the <span class="math inline">\(\beta\)</span> as a random walk:</p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:short-stoch-slope-model">\[\begin{equation}
 \begin{gathered}
 \beta_t = \beta_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = a + \beta_t*t + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
-(\#eq:short.stoch.levelslope.model)
+\tag{3.13}
 \end{equation}\]</span></p>
 <p>The <span class="math inline">\(\beta_t\)</span> is model with <span class="math inline">\(x_t\)</span>. With all the MARSS parameters shown, the model is:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:short-stoch-slope-model2">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = t \times x_t + a + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
-(\#eq:short.stoch.slope.model)
+\tag{3.14}
 \end{equation}\]</span>
 The trick here is to recognize that <span class="math inline">\(\mathbf{Z}_t\)</span>, the matrix in front of <span class="math inline">\(\mathbf{x}_t\)</span> in the <span class="math inline">\(\mathbf{y}_t\)</span> equation, can be time-varying and can be fixed. In a time-varying matrix in <strong>MARSS</strong>, the time element is in the 3rd dimension. We are going to fix <span class="math inline">\(\mathbf{Z}[1,1,t] = t\)</span>, where <span class="math inline">\(t\)</span> is <code>year-mean(year)</code>. <span class="math inline">\(\mathbf{Z}\)</span> is a <span class="math inline">\(1 \times 1 \times 100\)</span> array. Demeaning the covariate stablizes the fitting. Try without demeaning to see the difference.</p>
 <p>The model is specified as a list as follows.</p>

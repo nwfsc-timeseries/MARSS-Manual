@@ -195,11 +195,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="linear-regression-with-ar1-errors" class="section level2">
 <h2><span class="header-section-number">4.3</span> Linear regression with AR(1) errors</h2>
 <p>A simple linear regression of one covariate with AR(1) errors is written:</p>
-<p><span class="math display">\[\begin{gather}
+<p><span class="math display" id="eq:short-lr-ar1">\[\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = \beta*d_t + x_{t}
-(\#eq:short.lr.ar1)
-\end{gather}\]</span></p>
+\end{gathered}
+\tag{3.1}
+\end{equation}\]</span></p>
 <p>Let’s create some simulated data with this structure:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
 <a class="sourceLine" id="cb33-2" data-line-number="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co">#our covariate</span></a>
@@ -213,18 +215,20 @@ y_{t} = \beta*d_t + x_{t}
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-acf-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>We can fit this model (Equation @ref(eq:short.lr.ar1)) with <code>MARSS()</code>. Please note that there are many better , packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
 <p>To fit this model, we need match our Equation @ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation @ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
-<p><span class="math display">\[\begin{equation}(\#eq:short.lr.ar1.marss)
-\begin{gather}
+<p><span class="math display" id="eq:short-lr-ar\tag{3.2}on}(#eq:short-lr-ar1-marss)
+\begin{gathered}
 \mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
 \mathbf{y}_t = \mathbf{x}_t + \mathbf{D}\mathbf{d}_t
-\end{gather}
+\end{gathered}
 \end{equation}\]</span></p>
 <p>Here is what the model looks like if we write the parameters explicitly in matrix form. The matrices are <span class="math inline">\(1 \times 1\)</span>.
-<span class="math display">\[\begin{gather}
+<span class="math display" id="eq:short-lr-ar1-mat">\[\begin{equation}
+\begin{gathered}
 \begin{bmatrix}x\end{bmatrix}_{t} = \begin{bmatrix}b\end{bmatrix}\begin{bmatrix}x\end{bmatrix}_{t-1} + \begin{bmatrix}0\end{bmatrix} + \begin{bmatrix}w\end{bmatrix}_{t}  \\
 \begin{bmatrix}y\end{bmatrix}_{t} = \begin{bmatrix}x\end{bmatrix}_{t} + \begin{bmatrix}\beta\end{bmatrix}\begin{bmatrix}d\end{bmatrix}_t
-(\#eq:short.lr.ar1.mat)
-\end{gather}\]</span></p>
+\end{gathered}
+\tag{3.3}
+\end{equation}\]</span></p>
 <p>To create the model list for <code>MARSS()</code>, we specify the parameter matrices one-to-one like they look in Equation @ref(eq:short.lr.ar1.mat).</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
 <a class="sourceLine" id="cb35-2" data-line-number="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>

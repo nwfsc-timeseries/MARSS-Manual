@@ -198,19 +198,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">nile &lt;-<span class="st"> </span><span class="kw">as.vector</span>(datasets<span class="op">::</span>Nile)</a>
 <a class="sourceLine" id="cb50-2" data-line-number="2">year &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">time</span>(Nile))</a></code></pre></div>
 <p>The first model we will fit is a flat level model:</p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:short-flat-level">\[\begin{equation}
 y_t = a+v_t, \text{ } v_t \sim \,\text{N}(0,r)    
-(\#eq:short.flat.level)
+\tag{3.6}
 \end{equation}\]</span>
 where <span class="math inline">\(y_t\)</span> is the river flow volume at year <span class="math inline">\(t\)</span> and <span class="math inline">\(a\)</span> is some constant average flow level (notice it has no <span class="math inline">\(t\)</span> subscript).</p>
 <p>To fit this model with MARSS, we explicitly show all the MARSS parameters.
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:short-flat-level-model1">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 0 \times x_t + a + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = 0 
  \end{gathered}   
-(\#eq:short.flat.level.model1)
+\tag{3.7}
 \end{equation}\]</span></p>
 <p>The model list and fit for this equation is</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">mod.list1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
@@ -236,13 +236,13 @@ Standard errors have not been calculated.
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>MARSS includes the state process <span class="math inline">\(x_t\)</span> but we are setting <span class="math inline">\(\mathbf{Z}\)</span> to zero so that <span class="math inline">\(x_t\)</span> does not appear in our observation model. We need to fix all the state parameters to zero so that the algorithm doesn’t ``chase its tail’’ trying to fit <span class="math inline">\(x_t\)</span> to the data.</p>
 <p>An equivalent way to write this model is to use <span class="math inline">\(x_t\)</span> as the average flow level and make it be a constant level by setting <span class="math inline">\(q=0\)</span>. The average flow appears as the <span class="math inline">\(x_0\)</span> parameter. In MARSS form, this model is:</p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:short-flat-level-model2">\[\begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,0) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = a 
  \end{gathered}   
-(\#eq:short.flat.level.model2)
+\tag{3.8}
 \end{equation}\]</span></p>
 <p>The model list and fit for this equation is</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">mod.list2 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>

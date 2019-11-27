@@ -195,11 +195,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="linear-regression-with-ar1-errors-and-independent-errors" class="section level2">
 <h2><span class="header-section-number">4.4</span> Linear regression with AR(1) errors and independent errors</h2>
 <p>We can add some independent error to our model:</p>
-<p><span class="math display">\[\begin{gather}
+<p><span class="math display" id="eq:short-lr-ar1-r">\[\begin{equation}
+\begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = \beta*d_t + x_{t} + v_t, , \text{ } v_t \sim \,\text{N}(0,r)  
-(\#eq:short.lr.ar1.r)
-\end{gather}\]</span></p>
+\end{gathered}
+\tag{3.4}
+\end{equation}\]</span></p>
 <p>We’ll generate this data by adding independent error to <code>yt</code> from the previous example.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">yt.r &lt;-<span class="st"> </span>yt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>We can fit as:</p>
