@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.5.23)  27 NOV 2019 15:51
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017) (preloaded format=xelatex 2017.5.23)  27 NOV 2019 15:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -902,21 +902,57 @@ LaTeX Warning: Reference `chap-SSreferences' on page 9 undefined on input line
 217.
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[9]
+
+LaTeX Warning: Reference `chap:ARMA' on page 10 undefined on input line 248.
+
+
+LaTeX Warning: Reference `chap-SSreferences' on page 10 undefined on input line
+ 248.
+
+[10]
+Overfull \hbox (31.9998pt too wide) in paragraph at lines 289--289
+[] 
+ []
+
+[11] [12]
+Chapter 2.
+
+LaTeX Warning: Reference `eqn:marss' on page 13 undefined on input line 295.
+
+
+LaTeX Warning: Reference `chap:Examples' on page 13 undefined on input line 295
+.
+
+
+LaTeX Warning: Reference `chap:modelspec' on page 13 undefined on input line 29
+5.
+
+[13
+
+] [14
+
+]
+Chapter 3.
+[15] [16]
+
 ! Package amsmath Error: \begin{gather} allowed only in paragraph mode.
 
 See the amsmath package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.223 \begin{gather}
+l.346 \begin{gather}
                      
 Here is how much of TeX's memory you used:
- 21350 strings out of 493005
- 391251 string characters out of 6134596
- 501939 words of memory out of 5000000
- 25118 multiletter control sequences out of 15000+600000
- 16340 words of font info for 41 fonts, out of 8000000 for 9000
+ 21393 strings out of 493005
+ 392059 string characters out of 6134596
+ 514939 words of memory out of 5000000
+ 25148 multiletter control sequences out of 15000+600000
+ 27174 words of font info for 54 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 41i,6n,54p,10410b,369s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,20n,54p,10410b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on MARSS_Manual.pdf (8 pages).
+Output written on MARSS_Manual.pdf (16 pages).

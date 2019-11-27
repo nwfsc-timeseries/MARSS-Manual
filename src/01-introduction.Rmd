@@ -9,12 +9,12 @@ MARSS stands for Multivariate Auto-Regressive(1) State-Space. The **MARSS** pack
 **MARSS**, `MARSS()` and MARSS. MARSS model refers to the class of models which the **MARSS** package fits using, primarily, an EM algorithm. In the text, **MARSS** refers to the \R package. Within the package, the main fitting function is `MARSS()`. When the class of model is being discussed, rather than the package or the function, "MARSS" is used.
 
 A full MARSS model, with Gaussian errors, takes the form:
-\begin{equation}\label{eqn:marss}
-\begin{gather}
-\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ where } \ww_t \sim \MVN(0,\QQ_t) \label{eqn:marssx}\\
-\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ where } \vv_t \sim \MVN(0,\RR_t) \label{eqn:marssy}\\
-\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)\label{eqn:marssx1}
-\end{gather}
+\begin{equation}(\#eq:marss)
+\begin{gathered}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ } \ww_t \sim \MVN(0,\QQ_t) \\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ } \vv_t \sim \MVN(0,\RR_t) \\
+\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)
+\end{gathered}
 \end{equation}
 The $\xx$ equation is termed the state process and the $\yy$ equation is termed the observation process.  Data enter the model as the $\yy$; that is the $\yy$ is treated as the data although there may be missing data.  The $\cc_t$ and $\dd_t$ are inputs (aka, exogenous variables, covariates or indicator variables).  The $\GG_t$ and $\HH_t$ are also typically inputs (fixed values with no missing values).
 

@@ -9,12 +9,12 @@ MARSS stands for Multivariate Auto-Regressive(1) State-Space. The **MARSS** pack
 **MARSS**, `MARSS()` and MARSS. MARSS model refers to the class of models which the **MARSS** package fits using, primarily, an EM algorithm. In the text, **MARSS** refers to the \,\textbf{R} package. Within the package, the main fitting function is `MARSS()`. When the class of model is being discussed, rather than the package or the function, "MARSS" is used.
 
 A full MARSS model, with Gaussian errors, takes the form:
-\begin{equation}\label{eqn:marss}
-\begin{gather}
-\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t) \label{eqn:marssx}\\
-\mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ where } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t) \label{eqn:marssy}\\
-\mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})\label{eqn:marssx1}
-\end{gather}
+\begin{equation}(\#eq:marss)
+\begin{gathered}
+\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t) \\
+\mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t) \\
+\mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})
+\end{gathered}
 \end{equation}
 The $\mathbf{x}$ equation is termed the state process and the $\mathbf{y}$ equation is termed the observation process.  Data enter the model as the $\mathbf{y}$; that is the $\mathbf{y}$ is treated as the data although there may be missing data.  The $\mathbf{c}_t$ and $\mathbf{d}_t$ are inputs (aka, exogenous variables, covariates or indicator variables).  The $\mathbf{G}_t$ and $\mathbf{H}_t$ are also typically inputs (fixed values with no missing values).
 
