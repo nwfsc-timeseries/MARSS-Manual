@@ -1,0 +1,3 @@
+# <i style="font-size: 110%; color:#990017;">Part 1. Overview</i> {- #part1}
+
+Here the **MARSS** package and MARSS models are briefly introduced. Part 2 shows a series of short examples and Part 3 goes into output from **MARSS** fitted objects and MARSS models in general.

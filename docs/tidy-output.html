@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.6 Tidy output | MARSS Package Manual</title>
+  <title>4.6 Tidy output | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.6 Tidy output | MARSS Package Manual" />
+  <meta property="og:title" content="4.6 Tidy output | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.6 Tidy output | MARSS Package Manual" />
+  <meta name="twitter:title" content="4.6 Tidy output | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -69,7 +69,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -137,6 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="preface-1.html"><a href="preface-1.html"><i class="fa fa-check"></i>Preface</a></li>
+<li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
 <li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
 </ul></li>
@@ -149,47 +150,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="state-space-form-of-armapq-models.html"><a href="state-space-form-of-armapq-models.html"><i class="fa fa-check"></i><b>2.3</b> State-space form of ARMA(p,q) models</a></li>
 <li class="chapter" data-level="2.4" data-path="troubleshooting.html"><a href="troubleshooting.html"><i class="fa fa-check"></i><b>2.4</b> Troubleshooting</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="short-examples.html"><a href="short-examples.html"><i class="fa fa-check"></i><b>3</b> Short Examples</a><ul>
-<li class="chapter" data-level="3.1" data-path="fixed-and-estimated-elements-in-parameter-matrices.html"><a href="fixed-and-estimated-elements-in-parameter-matrices.html"><i class="fa fa-check"></i><b>3.1</b> Fixed and estimated elements in parameter matrices</a></li>
-<li class="chapter" data-level="3.2" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html"><i class="fa fa-check"></i><b>3.2</b> Different numbers of state processes</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-process-for-each-observation-time-series"><i class="fa fa-check"></i><b>3.2.1</b> One hidden state process for each observation time series</a></li>
-<li class="chapter" data-level="3.2.2" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-correlated-hidden-state-processes"><i class="fa fa-check"></i><b>3.2.2</b> Five correlated hidden state processes</a></li>
-<li class="chapter" data-level="3.2.3" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-equally-correlated-hidden-state-processes"><i class="fa fa-check"></i><b>3.2.3</b> Five equally correlated hidden state processes</a></li>
-<li class="chapter" data-level="3.2.4" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-hidden-state-processes-with-a-north-and-asouth-mathbfu-and-mathbfq-elements"><i class="fa fa-check"></i><b>3.2.4</b> Five hidden state processes with a <code>north'' and a</code>south’’ <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{Q}\)</span> elements</a></li>
-<li class="chapter" data-level="3.2.5" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#fixed-observation-error-variance"><i class="fa fa-check"></i><b>3.2.5</b> Fixed observation error variance</a></li>
-<li class="chapter" data-level="3.2.6" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-and-five-i.i.d.-observation-time-series"><i class="fa fa-check"></i><b>3.2.6</b> One hidden state and five i.i.d. observation time series</a></li>
-<li class="chapter" data-level="3.2.7" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-and-five-independent-observation-time-series-with-different-variances"><i class="fa fa-check"></i><b>3.2.7</b> One hidden state and five independent observation time series with different variances</a></li>
-<li class="chapter" data-level="3.2.8" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#two-hidden-state-processes"><i class="fa fa-check"></i><b>3.2.8</b> Two hidden state processes</a></li>
+<li class="chapter" data-level="3" data-path="getting-your-data-in-right-format-1.html"><a href="getting-your-data-in-right-format-1.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
+<li class="chapter" data-level="3.1" data-path="univariate-example-1.html"><a href="univariate-example-1.html"><i class="fa fa-check"></i><b>3.1</b> Univariate example</a></li>
+<li class="chapter" data-level="3.2" data-path="multivariate-example-1.html"><a href="multivariate-example-1.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate example</a></li>
+<li class="chapter" data-level="3.3" data-path="important-notes-about-the-algorithms-1.html"><a href="important-notes-about-the-algorithms-1.html"><i class="fa fa-check"></i><b>3.3</b> Important notes about the algorithms</a></li>
+<li class="chapter" data-level="3.4" data-path="state-space-form-of-armapq-models-1.html"><a href="state-space-form-of-armapq-models-1.html"><i class="fa fa-check"></i><b>3.4</b> State-space form of ARMA(p,q) models</a></li>
+<li class="chapter" data-level="3.5" data-path="troubleshooting-1.html"><a href="troubleshooting-1.html"><i class="fa fa-check"></i><b>3.5</b> Troubleshooting</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="time-varying-parameters.html"><a href="time-varying-parameters.html"><i class="fa fa-check"></i><b>3.3</b> Time-varying parameters</a></li>
-<li class="chapter" data-level="3.4" data-path="including-inputs-or-covariates.html"><a href="including-inputs-or-covariates.html"><i class="fa fa-check"></i><b>3.4</b> Including inputs (or covariates)</a></li>
-<li class="chapter" data-level="3.5" data-path="printing-and-summarizing-models-and-model-fits.html"><a href="printing-and-summarizing-models-and-model-fits.html"><i class="fa fa-check"></i><b>3.5</b> Printing and summarizing models and model fits</a></li>
-<li class="chapter" data-level="3.6" data-path="tidy-output.html"><a href="tidy-output.html"><i class="fa fa-check"></i><b>3.6</b> Tidy output</a></li>
-<li class="chapter" data-level="3.7" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html"><i class="fa fa-check"></i><b>3.7</b> Confidence intervals on a fitted model</a><ul>
-<li class="chapter" data-level="3.7.1" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html#approximate-confidence-intervals-from-a-hessian-matrix"><i class="fa fa-check"></i><b>3.7.1</b> Approximate confidence intervals from a Hessian matrix</a></li>
-<li class="chapter" data-level="3.7.2" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html#confidence-intervals-from-a-parametric-bootstrap"><i class="fa fa-check"></i><b>3.7.2</b> Confidence intervals from a parametric bootstrap</a></li>
+<li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
+<li class="chapter" data-level="4" data-path="short-examples.html"><a href="short-examples.html"><i class="fa fa-check"></i><b>4</b> Short Examples</a><ul>
+<li class="chapter" data-level="4.1" data-path="fixed-and-estimated-elements-in-parameter-matrices.html"><a href="fixed-and-estimated-elements-in-parameter-matrices.html"><i class="fa fa-check"></i><b>4.1</b> Fixed and estimated elements in parameter matrices</a></li>
+<li class="chapter" data-level="4.2" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html"><i class="fa fa-check"></i><b>4.2</b> Different numbers of state processes</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-process-for-each-observation-time-series"><i class="fa fa-check"></i><b>4.2.1</b> One hidden state process for each observation time series</a></li>
+<li class="chapter" data-level="4.2.2" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-correlated-hidden-state-processes"><i class="fa fa-check"></i><b>4.2.2</b> Five correlated hidden state processes</a></li>
+<li class="chapter" data-level="4.2.3" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-equally-correlated-hidden-state-processes"><i class="fa fa-check"></i><b>4.2.3</b> Five equally correlated hidden state processes</a></li>
+<li class="chapter" data-level="4.2.4" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#five-hidden-state-processes-with-a-north-and-asouth-mathbfu-and-mathbfq-elements"><i class="fa fa-check"></i><b>4.2.4</b> Five hidden state processes with a <code>north'' and a</code>south’’ <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{Q}\)</span> elements</a></li>
+<li class="chapter" data-level="4.2.5" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#fixed-observation-error-variance"><i class="fa fa-check"></i><b>4.2.5</b> Fixed observation error variance</a></li>
+<li class="chapter" data-level="4.2.6" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-and-five-i.i.d.-observation-time-series"><i class="fa fa-check"></i><b>4.2.6</b> One hidden state and five i.i.d. observation time series</a></li>
+<li class="chapter" data-level="4.2.7" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#one-hidden-state-and-five-independent-observation-time-series-with-different-variances"><i class="fa fa-check"></i><b>4.2.7</b> One hidden state and five independent observation time series with different variances</a></li>
+<li class="chapter" data-level="4.2.8" data-path="different-numbers-of-state-processes.html"><a href="different-numbers-of-state-processes.html#two-hidden-state-processes"><i class="fa fa-check"></i><b>4.2.8</b> Two hidden state processes</a></li>
 </ul></li>
-<li class="chapter" data-level="3.8" data-path="vectors-of-just-the-estimated-parameters.html"><a href="vectors-of-just-the-estimated-parameters.html"><i class="fa fa-check"></i><b>3.8</b> Vectors of just the estimated parameters</a></li>
-<li class="chapter" data-level="3.9" data-path="kalman-filter-and-smoother-output.html"><a href="kalman-filter-and-smoother-output.html"><i class="fa fa-check"></i><b>3.9</b> Kalman filter and smoother output</a></li>
-<li class="chapter" data-level="3.10" data-path="degenerate-variance-estimates.html"><a href="degenerate-variance-estimates.html"><i class="fa fa-check"></i><b>3.10</b> Degenerate variance estimates</a></li>
-<li class="chapter" data-level="3.11" data-path="bootstrap-parameter-estimates.html"><a href="bootstrap-parameter-estimates.html"><i class="fa fa-check"></i><b>3.11</b> Bootstrap parameter estimates</a></li>
-<li class="chapter" data-level="3.12" data-path="data-simulation.html"><a href="data-simulation.html"><i class="fa fa-check"></i><b>3.12</b> Data simulation</a><ul>
-<li class="chapter" data-level="3.12.1" data-path="data-simulation.html"><a href="data-simulation.html#simulated-data-from-a-fitted-marss-model"><i class="fa fa-check"></i><b>3.12.1</b> Simulated data from a fitted MARSS model</a></li>
+<li class="chapter" data-level="4.3" data-path="time-varying-parameters.html"><a href="time-varying-parameters.html"><i class="fa fa-check"></i><b>4.3</b> Time-varying parameters</a></li>
+<li class="chapter" data-level="4.4" data-path="including-inputs-or-covariates.html"><a href="including-inputs-or-covariates.html"><i class="fa fa-check"></i><b>4.4</b> Including inputs (or covariates)</a></li>
+<li class="chapter" data-level="4.5" data-path="printing-and-summarizing-models-and-model-fits.html"><a href="printing-and-summarizing-models-and-model-fits.html"><i class="fa fa-check"></i><b>4.5</b> Printing and summarizing models and model fits</a></li>
+<li class="chapter" data-level="4.6" data-path="tidy-output.html"><a href="tidy-output.html"><i class="fa fa-check"></i><b>4.6</b> Tidy output</a></li>
+<li class="chapter" data-level="4.7" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html"><i class="fa fa-check"></i><b>4.7</b> Confidence intervals on a fitted model</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html#approximate-confidence-intervals-from-a-hessian-matrix"><i class="fa fa-check"></i><b>4.7.1</b> Approximate confidence intervals from a Hessian matrix</a></li>
+<li class="chapter" data-level="4.7.2" data-path="confidence-intervals-on-a-fitted-model.html"><a href="confidence-intervals-on-a-fitted-model.html#confidence-intervals-from-a-parametric-bootstrap"><i class="fa fa-check"></i><b>4.7.2</b> Confidence intervals from a parametric bootstrap</a></li>
 </ul></li>
-<li class="chapter" data-level="3.13" data-path="bootstrap-aic.html"><a href="bootstrap-aic.html"><i class="fa fa-check"></i><b>3.13</b> Bootstrap AIC</a></li>
-<li class="chapter" data-level="3.14" data-path="convergence.html"><a href="convergence.html"><i class="fa fa-check"></i><b>3.14</b> Convergence</a></li>
+<li class="chapter" data-level="4.8" data-path="vectors-of-just-the-estimated-parameters.html"><a href="vectors-of-just-the-estimated-parameters.html"><i class="fa fa-check"></i><b>4.8</b> Vectors of just the estimated parameters</a></li>
+<li class="chapter" data-level="4.9" data-path="kalman-filter-and-smoother-output.html"><a href="kalman-filter-and-smoother-output.html"><i class="fa fa-check"></i><b>4.9</b> Kalman filter and smoother output</a></li>
+<li class="chapter" data-level="4.10" data-path="degenerate-variance-estimates.html"><a href="degenerate-variance-estimates.html"><i class="fa fa-check"></i><b>4.10</b> Degenerate variance estimates</a></li>
+<li class="chapter" data-level="4.11" data-path="bootstrap-parameter-estimates.html"><a href="bootstrap-parameter-estimates.html"><i class="fa fa-check"></i><b>4.11</b> Bootstrap parameter estimates</a></li>
+<li class="chapter" data-level="4.12" data-path="data-simulation.html"><a href="data-simulation.html"><i class="fa fa-check"></i><b>4.12</b> Data simulation</a><ul>
+<li class="chapter" data-level="4.12.1" data-path="data-simulation.html"><a href="data-simulation.html#simulated-data-from-a-fitted-marss-model"><i class="fa fa-check"></i><b>4.12.1</b> Simulated data from a fitted MARSS model</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="getting-your-data-in-right-format-1.html"><a href="getting-your-data-in-right-format-1.html"><i class="fa fa-check"></i><b>4</b> Getting your data in right format</a><ul>
-<li class="chapter" data-level="4.1" data-path="univariate-example-1.html"><a href="univariate-example-1.html"><i class="fa fa-check"></i><b>4.1</b> Univariate example</a></li>
-<li class="chapter" data-level="4.2" data-path="multivariate-example-1.html"><a href="multivariate-example-1.html"><i class="fa fa-check"></i><b>4.2</b> Multivariate example</a></li>
-<li class="chapter" data-level="4.3" data-path="important-notes-about-the-algorithms-1.html"><a href="important-notes-about-the-algorithms-1.html"><i class="fa fa-check"></i><b>4.3</b> Important notes about the algorithms</a></li>
-<li class="chapter" data-level="4.4" data-path="state-space-form-of-armapq-models-1.html"><a href="state-space-form-of-armapq-models-1.html"><i class="fa fa-check"></i><b>4.4</b> State-space form of ARMA(p,q) models</a></li>
-<li class="chapter" data-level="4.5" data-path="troubleshooting-1.html"><a href="troubleshooting-1.html"><i class="fa fa-check"></i><b>4.5</b> Troubleshooting</a></li>
+<li class="chapter" data-level="4.13" data-path="bootstrap-aic.html"><a href="bootstrap-aic.html"><i class="fa fa-check"></i><b>4.13</b> Bootstrap AIC</a></li>
+<li class="chapter" data-level="4.14" data-path="convergence.html"><a href="convergence.html"><i class="fa fa-check"></i><b>4.14</b> Convergence</a></li>
 </ul></li>
+<li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
 <li class="chapter" data-level="5" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>5</b> MARSS outputs</a></li>
 <li class="chapter" data-level="6" data-path="marss-residuals.html"><a href="marss-residuals.html"><i class="fa fa-check"></i><b>6</b> MARSS Residuals</a></li>
 <li class="chapter" data-level="7" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>7</b> Confidence Intervals</a></li>
 <li class="chapter" data-level="8" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>8</b> Predictions</a></li>
+<li><a href="part4.html#part4"><i style="font-size: 110%; color:#990017;">Part 4. Tips and Tricks</i></a></li>
 <li class="chapter" data-level="9" data-path="troubleshooting-2.html"><a href="troubleshooting-2.html"><i class="fa fa-check"></i><b>9</b> Troubleshooting</a></li>
 <li class="chapter" data-level="10" data-path="em-algorithm.html"><a href="em-algorithm.html"><i class="fa fa-check"></i><b>10</b> EM algorithm</a><ul>
 <li class="chapter" data-level="10.1" data-path="important-notes-about-the-algorithms-2.html"><a href="important-notes-about-the-algorithms-2.html"><i class="fa fa-check"></i><b>10.1</b> Important notes about the algorithms</a></li>
@@ -218,12 +222,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="tidy-output" class="section level2">
-<h2><span class="header-section-number">3.6</span> Tidy output</h2>
+<h2><span class="header-section-number">4.6</span> Tidy output</h2>
 <p>The <code>augment</code>, <code>tidy</code> and <code>glance</code> functions from the broom package will provide summaries as a data.frame for use in further analyses and for passing to <code>ggplot()</code>. See <code>?augment.marssMLE</code> for examples.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">require</span>(broom)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">require</span>(broom)</a></code></pre></div>
 <pre><code>Loading required package: broom</code></pre>
-<pre><code>Warning: package &#39;broom&#39; was built under R version 3.5.2</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">augment</span>(kemfit))</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">head</span>(<span class="kw">augment</span>(kemfit))</a></code></pre></div>
 <pre><code>  .rownames t        y  .fitted   .se.fit      .resids .std.resid
 1       SJF 1 6.033086 6.215483 0.1729465 -0.182397213 -1.0724758
 2       SJF 2       NA 6.329702 0.2079884  0.000000000         NA
@@ -231,7 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 4       SJF 4       NA 6.558140 0.2148820  0.000000000         NA
 5       SJF 5       NA 6.672359 0.2098656  0.000000000         NA
 6       SJF 6 6.783325 6.786578 0.1691246 -0.003253081  0.4048375</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">tidy</span>(kemfit)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">tidy</span>(kemfit)</a></code></pre></div>
 <pre><code>     term     estimate   std.error     conf.low  conf.high
 1   A.SJI  0.797864531 0.061519575  0.677288381 0.91844068
 2 A.EBays  0.277434738 0.062534476  0.154869417 0.40000006
@@ -241,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 6  Q.diag  0.007669608 0.004603993 -0.001354052 0.01669327
 7    x0.N  6.172047633 0.137758419  5.902046093 6.44204917
 8    x0.S  6.206154697 0.157084082  5.898275554 6.51403384</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">glance</span>(kemfit)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">glance</span>(kemfit)</a></code></pre></div>
 <pre><code>   coef.det      sigma df   logLik       AIC     AICc convergence errors
 1 0.9186375 0.03013659  8 7.949236 0.1015284 2.424109           0      0</code></pre>
 </div>
@@ -267,7 +270,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
 "facebook": true,
 "twitter": true,
 "linkedin": false,
@@ -286,10 +288,6 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
-"link": null,
-"text": null
-},
-"view": {
 "link": null,
 "text": null
 },

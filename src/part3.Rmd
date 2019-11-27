@@ -1,0 +1,11 @@
+# <i style="font-size: 110%; color:#990017;">Part 3. Outputs</i> {- #part3}
+
+Part 3 discusses how to get outputs from **MARSS** fitted objects. Specifically:
+
+- Estimated states
+- Kalman filter and smoother output
+- Residuals
+- Confidence intervals
+- Predictions
+- Bootstrap resamples: parametric and innovations
+- Simulated data

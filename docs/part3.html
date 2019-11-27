@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.4 Including inputs (or covariates) | MARSS Package Manual</title>
+  <title>Part 3. Outputs | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.4 Including inputs (or covariates) | MARSS Package Manual" />
+  <meta property="og:title" content="Part 3. Outputs | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.4 Including inputs (or covariates) | MARSS Package Manual" />
+  <meta name="twitter:title" content="Part 3. Outputs | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="time-varying-parameters.html"/>
-<link rel="next" href="printing-and-summarizing-models-and-model-fits.html"/>
+<link rel="prev" href="convergence.html"/>
+<link rel="next" href="marss-outputs.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -221,21 +221,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="including-inputs-or-covariates" class="section level2">
-<h2><span class="header-section-number">4.4</span> Including inputs (or covariates)</h2>
-<p>
-In MARSS models with covariates, the covariates are often treated as inputs and appear as either the <span class="math inline">\(\mathbf{c}\)</span> or <span class="math inline">\(\mathbf{d}\)</span> in Equation @ref(eq:marss.qe), depending on the application. However, more generally, <span class="math inline">\(\mathbf{c}\)</span> and <span class="math inline">\(\mathbf{d}\)</span> are simply inputs that are fully-known (no missing values). <span class="math inline">\(\mathbf{c}_t\)</span> is the <span class="math inline">\(p \times 1\)</span> vector of inputs at time <span class="math inline">\(t\)</span> which affect the states and <span class="math inline">\(\mathbf{d}_t\)</span> is a <span class="math inline">\(q \times 1\)</span> vector of inputs (potentially the same as <span class="math inline">\(\mathbf{c}_t\)</span>), which affect the observations.</p>
-<p><span class="math inline">\(\mathbf{C}_t\)</span> is an <span class="math inline">\(m \times p\)</span> matrix of coefficients relating the effects of <span class="math inline">\(\mathbf{c}_t\)</span> to the <span class="math inline">\(m \times 1\)</span> state vector <span class="math inline">\(\mathbf{x}_t\)</span>, and <span class="math inline">\(\mathbf{D}_t\)</span> is an <span class="math inline">\(n \times q\)</span> matrix of coefficients relating the effects of <span class="math inline">\(\mathbf{d}_t\)</span> to the <span class="math inline">\(n \times 1\)</span> observation vector <span class="math inline">\(\mathbf{y}_t\)</span>. The elements of <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> can be estimated, and their form is specified much like the other matrices.</p>
-<p>With the <code>MARSS()</code> function, one can fit a model with inputs by simply passing in <code>model$c</code> and/or <code>model$d</code> in the MARSS() call as a <span class="math inline">\(p \times T\)</span> or <span class="math inline">\(q \times T\)</span> matrix, respectively. The form for <span class="math inline">\(\mathbf{C}_t\)</span> and <span class="math inline">\(\mathbf{D}_t\)</span> is similarly specified by passing in <code>model$C</code> and/or <code>model$D</code>. If <span class="math inline">\(\mathbf{C}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are not time-varying, they are passed in as a 2-dimensional matrix. If they are time-varying, they must be passed in as an 3-dimensional array with the 3rd dimension equal to the number of time steps if they are time-varying.</p>
-<p>See Chapter <a href="#chap:covariates"><strong>??</strong></a> for extended examples of including covariates as inputs in a MARSS model. Also note that it is not necessary to have your covariates appear in <span class="math inline">\(\mathbf{c}\)</span> and/or <span class="math inline">\(\mathbf{d}\)</span>. That is a common form, however in some MARSS models, covariates will appear in one of the parameter matrices as fixed values.</p>
+<div id="part3" class="section level1 unnumbered">
+<h1><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></h1>
+<p>Part 3 discusses how to get outputs from <strong>MARSS</strong> fitted objects. Specifically:</p>
+<ul>
+<li>Estimated states</li>
+<li>Kalman filter and smoother output</li>
+<li>Residuals</li>
+<li>Confidence intervals</li>
+<li>Predictions</li>
+<li>Bootstrap resamples: parametric and innovations</li>
+<li>Simulated data</li>
+</ul>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="time-varying-parameters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="printing-and-summarizing-models-and-model-fits.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="convergence.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="marss-outputs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +271,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/03-short-examples.Rmd",
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/src/part3.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -73,6 +73,4 @@ knitr::write_bib(c(
 ), 'tex/packages.bib')
 ```
 
-# Preface {-}
-
 
