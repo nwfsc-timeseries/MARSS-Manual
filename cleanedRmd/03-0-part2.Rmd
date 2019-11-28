@@ -13,3 +13,34 @@ In these examples, we will use the default `form="marxss"` argument for a `MARSS
 
 The $\mathbf{x}$ on the left are the hidden states. The $\mathbf{y}$ on the left are the observed data. Missing values are allowed in $\mathbf{y}$. The $\mathbf{c}$ and $\mathbf{d}$ are inputs (not estimated).  Bolded capitalized values on the right are parameters and 2D (or 3D if time-varying) matrices. Parameters can be estimated, constrained or fixed at a specific value. Within a parameter matrix, you can have a combination of estimated, constrained (shared), or fixed values. The $\mathbf{u}$ and $\mathbf{a}$ are parameter column-matrices and can be similarly estimated, constrained or fixed. $\mathbf{w}$ and $\mathbf{v}$ are the errors and are computed values, after parameters are estimated.
 
+# Output
+
+See the chapter on Outputs. This is a brief summary. The output are shown with the following simple fit:
+```{r quick-unis-output-dat, results="hide"}
+dat <- cumsum(rnorm(100,0,0.5)) + rnorm(100,0,0.5)
+fit <- MARSS(dat)
+```
+
+Use the **broom** package to get the model output in **tidy** form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See `?tidy.marssMLE` for information on how to change to a different type of confidence interval.
+
+```{r quick-tidy}
+broom::tidy(fit)
+```
+
+The get the estimated states use:
+```{r quick-augment1}
+head(broom::augment(fit, type="states"))
+```
+Note that generic rownames were given since none were specified for `dat`.
+You can also get all the Kalman filter and smoother estimates for $x$ from `MARSSkf()`. See `?MARSSkf`.
+
+The get the fitted values, the estimated $y$, use:
+```{r quick-augment}
+head(broom::augment(fit, type="observations"))
+```
+There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to $t-1$ and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at `?fitted.marssMLE`.
+
+To make some generic plots and diagnostic plots, you can use `autoplot()` in the **ggplot2** package:
+```{r quick-autoplot}
+ggplot2::autoplot(fit, plot.type="observation")
+```

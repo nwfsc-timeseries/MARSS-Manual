@@ -4,6 +4,16 @@ set.seed(123)
 ```
 # Univariate Models
 
+These models can be written in the form:
+\begin{equation}
+\begin{gathered}
+x_{t} = b_t x_{t-1} + u_t + \beta_t c_t + w_{t}, \text{ } w_t \sim \N(0,q_t)  \\
+y_{t} = z_t x_{t} + a_t + \psi_t d_t + v_{t}, \text{ } v_t \sim \N(0,r_t)
+\end{gathered}
+(\#eq:short-uni)
+\end{equation}
+where $c_t$ and $d_t$ are inputs (no missing values) and $y_t$ are observations (missing values allowed). $x_t$ are the states. Everything else is an estimated parameter. Parameters can be time-varying. If time-varying, then specified as a 3D array with time in the 3rd dimension.
+
 ## Random walk with drift
 
 A univariate random walk with drift observed with error is:
@@ -15,38 +25,35 @@ y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \N(0,r)
 (\#eq:short-rw)
 \end{equation}
 
-To fit this model to a simulated random walk:  \index{functions!MARSS}
+Create some data from this equation:  \index{functions!MARSS}
 ```{r quick-unis-uni1}
 u <- 0.01
 r <- 0.01
 q <- 0.1
 TT <- 100
 yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+```
+
+Fit with `MARSS()`:
+```{r short-uni-rw-fit}
 fit <- MARSS(yt)
 ```
 
-### Output
-
-See the chapter on Outputs. This is a brief introduction to the outputs.
-
-Use the **broom** package to get the model output in **tidy** form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See `?tidy.marssMLE` for information on how to change to a different type of confidence interval.
-
-```{r quick-unis-tidy}
+Get confidence intervals with `tidy()`:
+```{r quick-unis-rw-tidy}
 broom::tidy(fit)
 ```
 
-The get the estimated states use:
-```{r quick-unis-augment1}
+The get the estimated states:
+```{r quick-rw-augment1}
 head(broom::augment(fit, type="states"))
 ```
-Note that generic rownames were given since none were specified for `dat`.
-You can also get all the Kalman filter and smoother estimates for $x$ from `MARSSkf()`. See `?MARSSkf`.
 
-The get the fitted values, the estimated $y$, use:
-```{r quick-unis-augment}
+The get the fitted values (note these are the smoothed fitted values conditioned on all the data):
+```{r quick-rw-augment}
 head(broom::augment(fit, type="observations"))
 ```
-There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to $t-1$ and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at `?fitted.marssMLE`.
+Read up on fitted values for MARSS models at `?fitted.marssMLE`.
 
 
 ## AR(1) observed with error
@@ -59,7 +66,7 @@ y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \N(0,r)
 (\#eq:short-ar1)
 \end{equation}
 
-To fit this model to a simulated, non-stationary, AR(1) process:  \index{functions!MARSS}
+Create some simulated, non-stationary, AR(1) data:  \index{functions!MARSS}
 ```{r quick-unis-ar1-sim}
 set.seed(123)
 u <- 0.01
@@ -72,7 +79,8 @@ xt.ns <- rep(x0, TT)
 for(i in 2:TT) xt.ns[i] <- b*xt.ns[i-1] + u + rnorm(1,0,sqrt(q))
 yt.ns <- xt.ns + rnorm(TT,0,sqrt(r))
 ```
-The process was purposefully made to be non-stationary by setting `x0` well outside the stationary distribution of $x$. The EM algorithm in **MARSS** does not require that the underlying state processes be stationary and it is not necessary to remove the initial non-stationary part of the time-series.
+
+The data were purposefully made to be non-stationary by setting `x0` well outside the stationary distribution of $x$. The EM algorithm in **MARSS** does not require that the underlying state processes be stationary and it is not necessary to remove the initial non-stationary part of the time-series.
 
 ```{r quick-unis-ar1-plot}
 plot(yt.ns, xlab="", ylab="", main="xt and yt", pch=16, col="red")

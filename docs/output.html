@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 12 Other related packages | MARSS Package Manual</title>
+  <title>Chapter 4 Output | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 12 Other related packages | MARSS Package Manual" />
+  <meta property="og:title" content="Chapter 4 Output | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 12 Other related packages | MARSS Package Manual" />
+  <meta name="twitter:title" content="Chapter 4 Output | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="state-space-form-of-armapq-models.html"/>
-<link rel="next" href="references.html"/>
+<link rel="prev" href="part2.html"/>
+<link rel="next" href="univariate-models.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -195,10 +195,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="other-related-packages" class="section level1">
-<h1><span class="header-section-number">Chapter 12</span> Other related packages</h1>
-<p>Packages that will do Kalman filtering and smoothing are many, but packages that estimate the parameters in a MARSS model, especially constrained MARSS models, are much less common. The following are those with which we are familiar, however there are certainly more packages for estimating MARSS models in engineering and economics of which we are unfamiliar. The <strong>MARSS</strong> package is unusual in that it uses an EM algorithm for maximizing the likelihood as opposed to a Newton-esque method (e.g. BFGS). The package is also unusual in that it allows you to specify the initial conditions at <span class="math inline">\(t=0\)</span> or <span class="math inline">\(t=1\)</span>, allows degenerate models (with some of the diagonal elements of <span class="math inline">\(\mathbf{R}\)</span> or <span class="math inline">\(\mathbf{Q}\)</span> equal to zero). Lastly, model specification in the <strong>MARSS</strong> package has a one-to-one relationship between the model list in <code>MARSS()</code> and the model as you would write it on paper as a matrix equation. This makes the learning curve a bit less steep. However, the <strong>MARSS</strong> package has not been optimized for speed and probably will be really slow if you have time-series data with a lot of time points.</p>
-
+<div id="output" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Output</h1>
+<p>See the chapter on Outputs. This is a brief summary. The output are shown with the following simple fit:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(dat)</a></code></pre></div>
+<p>Use the <strong>broom</strong> package to get the model output in <strong>tidy</strong> form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See <code>?tidy.marssMLE</code> for information on how to change to a different type of confidence interval.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
+<pre><code>   term    estimate  std.error    conf.low conf.high
+1   R.R  0.27253759 0.06057961  0.15380373 0.3912715
+2   U.U  0.04668126 0.03688896 -0.02561978 0.1189823
+3   Q.Q  0.13193426 0.04964374  0.03463431 0.2292342
+4 x0.x0 -0.39344502 0.52183869 -1.41623005 0.6293400</code></pre>
+<p>The get the estimated states use:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;states&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t         xtT    .fitted   .se.fit   .resids .std.resid
+1      X.Y1 1 -0.34607651 -0.3467638        NA        NA         NA
+2      X.Y1 2 -0.15862788 -0.2993953 0.2212354 0.1407674  0.6736776
+3      X.Y1 3  0.08122742 -0.1119466 0.2116100 0.1931740  1.0223742
+4      X.Y1 4  0.23420972  0.1279087 0.2090805 0.1063010  0.5813757
+5      X.Y1 5  0.38172136  0.2808910 0.2084296 0.1008304  0.5564444
+6      X.Y1 6  0.71009354  0.4284026 0.2082630 0.2816909  1.5581929</code></pre>
+<p>Note that generic rownames were given since none were specified for <code>dat</code>.
+You can also get all the Kalman filter and smoother estimates for <span class="math inline">\(x\)</span> from <code>MARSSkf()</code>. See <code>?MARSSkf</code>.</p>
+<p>The get the fitted values, the estimated <span class="math inline">\(y\)</span>, use:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;observations&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t            y     .fitted   .se.fit     .resids  .std.resid
+1        Y1 1 -0.635441105 -0.34607651 0.4537190 -0.28936459 -0.52983579
+2        Y1 2 -0.266884713 -0.15862788 0.4345472 -0.10825684 -0.02496066
+3        Y1 3  0.260681650  0.08122742 0.4295135  0.17945423  0.55506528
+4        Y1 4  0.245510485  0.23420972 0.4282183  0.01130077  0.16022453
+5        Y1 5  0.008116369  0.38172136 0.4278869 -0.37360499 -0.49659259
+6        Y1 6  1.318944283  0.71009354 0.4278022  0.60885074  1.40572879</code></pre>
+<p>There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to <span class="math inline">\(t-1\)</span> and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at <code>?fitted.marssMLE</code>.</p>
+<p>To make some generic plots and diagnostic plots, you can use <code>autoplot()</code> in the <strong>ggplot2</strong> package:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit, <span class="dt">plot.type =</span> <span class="st">&quot;observation&quot;</span>)</a></code></pre></div>
+<p><img src="MARSS_Manual_files/figure-html/quick-autoplot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 
 </div>
             </section>
@@ -206,8 +238,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="state-space-form-of-armapq-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="part2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="univariate-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -238,7 +270,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/11-other-packages.Rmd",
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/03-0-part2.Rmd",
 "text": "Edit"
 },
 "history": {
