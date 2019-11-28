@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -206,14 +207,14 @@ y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)
 \tag{3.7}
 \end{equation}\]</span></p>
 <p>Let’s create some simulated data with this structure:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
-<a class="sourceLine" id="cb62-2" data-line-number="2">x0 &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb62-3" data-line-number="3">ct &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> <span class="fl">0.8</span>), <span class="dt">sd =</span> <span class="kw">sqrt</span>(<span class="dv">1</span>))  <span class="co"># our covariate</span></a>
-<a class="sourceLine" id="cb62-4" data-line-number="4">ct &lt;-<span class="st"> </span><span class="kw">as.vector</span>(ct)</a>
-<a class="sourceLine" id="cb62-5" data-line-number="5">xt &lt;-<span class="st"> </span><span class="kw">rep</span>(x0, TT)</a>
-<a class="sourceLine" id="cb62-6" data-line-number="6"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>TT) xt[i] &lt;-<span class="st"> </span>b <span class="op">*</span><span class="st"> </span>xt[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>ct[i] <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb62-7" data-line-number="7">    <span class="dv">0</span>, <span class="kw">sqrt</span>(q))</a>
-<a class="sourceLine" id="cb62-8" data-line-number="8">yt &lt;-<span class="st"> </span>xt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">x0 &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">ct &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> <span class="fl">0.8</span>), <span class="dt">sd =</span> <span class="kw">sqrt</span>(<span class="dv">1</span>))  <span class="co"># our covariate</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">ct &lt;-<span class="st"> </span><span class="kw">as.vector</span>(ct)</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">xt &lt;-<span class="st"> </span><span class="kw">rep</span>(x0, TT)</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>TT) xt[i] &lt;-<span class="st"> </span>b <span class="op">*</span><span class="st"> </span>xt[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>ct[i] <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb47-7" data-line-number="7">    <span class="dv">0</span>, <span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb47-8" data-line-number="8">yt &lt;-<span class="st"> </span>xt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>To fit this with <code>MARSS()</code>, we match up the model to the full MARSS model form:</p>
 <p><span class="math display">\[\begin{equation}
 \begin{gathered}
@@ -222,15 +223,15 @@ y_{t} = x_{t} + v_t, \text{ } v_t \sim \,\text{N}(0,r)
 \end{gathered}
 \end{equation}\]</span></p>
 <p>The model list for <code>MARSS()</code> is:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">C &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># no u</span></a>
-<a class="sourceLine" id="cb63-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
-<a class="sourceLine" id="cb63-5" data-line-number="5">c &lt;-<span class="st"> </span><span class="kw">matrix</span>(ct, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb63-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">C &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># no u</span></a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">c &lt;-<span class="st"> </span><span class="kw">matrix</span>(ct, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
 <p>Now fit:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">C =</span> C, <span class="dt">c =</span> c, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb64-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">C =</span> C, <span class="dt">c =</span> c, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 18 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.

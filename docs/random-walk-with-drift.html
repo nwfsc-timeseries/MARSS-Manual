@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -206,12 +207,12 @@ y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
 \tag{3.2}
 \end{equation}\]</span></p>
 <p>To fit this model to a simulated random walk: </p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">r &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(TT, u, <span class="kw">sqrt</span>(q))) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">r &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(TT, u, <span class="kw">sqrt</span>(q))) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt)</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 35 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -236,14 +237,14 @@ Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <h3><span class="header-section-number">4.1.1</span> Output</h3>
 <p>See the chapter on Outputs. This is a brief introduction to the outputs.</p>
 <p>Use the <strong>broom</strong> package to get the model output in <strong>tidy</strong> form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See <code>?tidy.marssMLE</code> for information on how to change to a different type of confidence interval.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
 <pre><code>   term    estimate   std.error      conf.low  conf.high
 1   R.R  0.01843982 0.009894122 -0.0009523011 0.03783194
 2   U.U  0.04083656 0.025345531 -0.0088397685 0.09051289
 3   Q.Q  0.06328006 0.017784821  0.0284224487 0.09813767
 4 x0.x0 -0.26534896 0.281394026 -0.8168711121 0.28617320</code></pre>
 <p>The get the estimated states use:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;states&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;states&quot;</span>))</a></code></pre></div>
 <pre><code>  .rownames t        xtT     .fitted   .se.fit    .resids .std.resid
 1      X.Y1 1 -0.2246253 -0.22451240        NA         NA         NA
 2      X.Y1 2 -0.1370475 -0.18378875 0.2080856 0.04674122  0.2778325
@@ -254,7 +255,7 @@ Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>Note that generic rownames were given since none were specified for <code>dat</code>.
 You can also get all the Kalman filter and smoother estimates for <span class="math inline">\(x\)</span> from <code>MARSSkf()</code>. See <code>?MARSSkf</code>.</p>
 <p>The get the fitted values, the estimated <span class="math inline">\(y\)</span>, use:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;observations&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;observations&quot;</span>))</a></code></pre></div>
 <pre><code>  .rownames t          y    .fitted    .se.fit      .resids .std.resid
 1        Y1 1 -0.2382786 -0.2246253 0.07978438 -0.013653305  0.2553149
 2        Y1 2 -0.2043381 -0.1370475 0.07698023 -0.067290571  2.0850049

@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -206,18 +207,18 @@ y_{t} = \beta*d_t + x_{t}
 \tag{3.3}
 \end{equation}\]</span></p>
 <p>Let’s create some simulated data with this structure:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co">#our covariate</span></a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">wt &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4">yt &lt;-<span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>dt <span class="op">+</span><span class="st"> </span>wt</a>
-<a class="sourceLine" id="cb49-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt)  <span class="co"># not ts object</span></a>
-<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co">#our covariate</span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">wt &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">yt &lt;-<span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>dt <span class="op">+</span><span class="st"> </span>wt</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt)  <span class="co"># not ts object</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>If we looked at an ACF of the residuals of a linear regression, we’d see that the residuals are highly autocorrelated:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">acf</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(yt <span class="op">~</span><span class="st"> </span>dt)))</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">acf</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(yt <span class="op">~</span><span class="st"> </span>dt)))</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-acf-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>We can fit this model (Equation @ref(eq:short.lr.ar1)) with <code>MARSS()</code>. Please note that there are many better , packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
-<p>To fit this model, we need match our Equation @ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation @ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
+<p>We can fit this model (Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(3.3)</a>) with <code>MARSS()</code>. Please note that there are many better R packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
+<p>To fit this model, we need match our Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(3.3)</a> with the full MARSS model written in matrix form (Equation <a href="#eq:marss-part2">(3.1)</a>). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
 <p><span class="math display" id="eq:short-lr-ar\tag{3.4}on}(#eq:short-lr-ar1-marss)
 \begin{gathered}
 \mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
@@ -233,19 +234,19 @@ y_{t} = \beta*d_t + x_{t}
 \tag{3.5}
 \end{equation}\]</span></p>
 <p>To create the model list for <code>MARSS()</code>, we specify the parameter matrices one-to-one like they look in Equation @ref(eq:short.lr.ar1.mat).</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># since arima.sim was used, no u</span></a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb51-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># since arima.sim was used, no u</span></a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
 <p><code>MARSS()</code> requires <span class="math inline">\(\mathbf{d}\)</span> be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.</p>
 <p>How should we treat the <span class="math inline">\(\mathbf{R}\)</span> matrix? It is zero, and we could set <span class="math inline">\(\mathbf{R}\)</span> to zero:</p>
 <pre><code>R &lt;- matrix(0)</code></pre>
 <p>However, the EM algorithm in the <strong>MARSS</strong> package will not perform well at all with <span class="math inline">\(\mathbf{R}\)</span> set to zero and it has to do with how <span class="math inline">\(\mathbf{R}=0\)</span> affects the update equations. You can use the BFGS algorithm or estimate <span class="math inline">\(\mathbf{R}\)</span>.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
 <pre><code>Warning! Abstol convergence only. Maxit (=500) reached before log-log convergence.
 
 MARSS fit is
@@ -273,9 +274,9 @@ Convergence warnings
  Warning: the  R.r  parameter value has not converged.
  Type MARSSinfo(&quot;convergence&quot;) for more info on this warning.</code></pre>
 <p>Or use the BFGS algorithm for fitting:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
 <pre><code>Success! Converged in 122 iterations.
 Function MARSSkfas used for likelihood calculation.
 
@@ -295,8 +296,8 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>This is the same model you are fitting when you pass in <code>xreg</code> with the <code>arima()</code> function:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">stats<span class="op">::</span><span class="kw">arima</span>(yt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">xreg =</span> dt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb57-2" data-line-number="2">    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">stats<span class="op">::</span><span class="kw">arima</span>(yt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">xreg =</span> dt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
 <pre><code>
 Call:
 stats::arima(x = yt, order = c(1, 0, 0), xreg = dt, include.mean = FALSE, method = &quot;ML&quot;)

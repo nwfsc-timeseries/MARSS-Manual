@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -206,11 +207,11 @@ y_{t} = \beta*d_t + x_{t} + v_t, , \text{ } v_t \sim \,\text{N}(0,r)
 \tag{3.6}
 \end{equation}\]</span></p>
 <p>We’ll generate this data by adding independent error to <code>yt</code> from the previous example.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">yt.r &lt;-<span class="st"> </span>yt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">yt.r &lt;-<span class="st"> </span>yt <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>We can fit as:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
-<a class="sourceLine" id="cb60-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb60-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.r, <span class="dt">model =</span> mod.list)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.r, <span class="dt">model =</span> mod.list)</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 30 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.

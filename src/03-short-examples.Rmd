@@ -48,7 +48,7 @@ x0=matrix(c("pi1","pi2"),2,1)
 V0=diag(1,2)
 model.gen=list(Z=Z,A=A,R=R,B=B,U=U,Q=Q,x0=x0,V0=V0,tinitx=0)
 ```
-Notice that there is a one-to-one correspondence between the model list in \R and the model on paper.  Fitting the model is then just a matter of passing the data and model list to the MARSS function:
+Notice that there is a one-to-one correspondence between the model list in R and the model on paper.  Fitting the model is then just a matter of passing the data and model list to the MARSS function:
 ```{r model-general, eval=FALSE}
 kemfit = MARSS(dat, model=model.gen)
 ```

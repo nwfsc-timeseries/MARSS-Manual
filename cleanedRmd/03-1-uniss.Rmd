@@ -161,9 +161,9 @@ acf(residuals(lm(yt ~ dt)))
 ```
 
 
-We can fit this model (Equation \@ref(eq:short.lr.ar1)) with `MARSS()`. Please note that there are many better \,\textbf{R} packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the **MARSS** package.
+We can fit this model (Equation \@ref(eq:short-lr-ar1)) with `MARSS()`. Please note that there are many better R packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the **MARSS** package.
 
-To fit this model, we need match our Equation \@ref(eq:short.lr.ar1) with the full MARSS model written in matrix form (Equation \@ref(eq:marss.part2)). Here it is with the parameters that are zero dropped. $\mathbf{Z}_t$ is identity and is also dropped. The $\mathbf{B}$ and $\mathbf{D}$ are time-constant so the $t$ subscript is dropped.  The $\mathbf{x}_t$ are the AR(1) errors and the $\mathbf{y}_t$ is the linear regression with $\mathbf{D}$ being the effect sizes and the $\mathbf{d}$ being the covariate.
+To fit this model, we need match our Equation \@ref(eq:short-lr-ar1) with the full MARSS model written in matrix form (Equation \@ref(eq:marss-part2)). Here it is with the parameters that are zero dropped. $\mathbf{Z}_t$ is identity and is also dropped. The $\mathbf{B}$ and $\mathbf{D}$ are time-constant so the $t$ subscript is dropped.  The $\mathbf{x}_t$ are the AR(1) errors and the $\mathbf{y}_t$ is the linear regression with $\mathbf{D}$ being the effect sizes and the $\mathbf{d}$ being the covariate.
 
 \begin{equation}(\#eq:short-lr-ar1-marss)
 \begin{gathered}

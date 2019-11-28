@@ -12,3 +12,4 @@ In these examples, we will use the default `form="marxss"` argument for a `MARSS
 \end{equation} 
 
 The $\xx$ on the left are the hidden states. The $\yy$ on the left are the observed data. Missing values are allowed in $\yy$. The $\cc$ and $\dd$ are inputs (not estimated).  Bolded capitalized values on the right are parameters and 2D (or 3D if time-varying) matrices. Parameters can be estimated, constrained or fixed at a specific value. Within a parameter matrix, you can have a combination of estimated, constrained (shared), or fixed values. The $\uu$ and $\aa$ are parameter column-matrices and can be similarly estimated, constrained or fixed. $\ww$ and $\vv$ are the errors and are computed values, after parameters are estimated.
+

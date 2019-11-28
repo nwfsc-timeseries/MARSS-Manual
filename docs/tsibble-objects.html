@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -198,31 +199,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="tsibble-objects" class="section level2">
 <h2><span class="header-section-number">3.2</span> <strong>tsibble</strong> objects</h2>
 <p>There are many ways that you can transform a <strong>tsibble</strong> object into a matrix with each row being an observed time series.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
-<pre><code>── Attaching packages ───────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>✔ ggplot2 3.2.1     ✔ purrr   0.3.2
-✔ tibble  2.1.3     ✔ dplyr   0.8.3
-✔ tidyr   0.8.3     ✔ stringr 1.4.0
-✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;tidyr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
-<pre><code>── Conflicts ──────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">library</span>(tsibble)</a></code></pre></div>
-<pre><code>Warning: package &#39;tsibble&#39; was built under R version 3.5.2</code></pre>
-<pre><code>
-Attaching package: &#39;tsibble&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:dplyr&#39;:
-
-    id</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">dat &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span><span class="st"> </span>as_tibble <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">spread</span>(Quarter, Trips)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">dat.matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dat[, <span class="dv">-1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)])</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">library</span>(tsibble)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">dat &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span><span class="st"> </span>as_tibble <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">spread</span>(Quarter, Trips)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">dat.matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dat[, <span class="dv">-1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)])</a></code></pre></div>
 
 </div>
 <!-- </div> -->

@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -199,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> MARSS outputs</h1>
 <p>MARSS models are used in many different ways and different users will want different types of output. Some users will want the parameter estimates while others want the smoothed states and others want to use MARSS models to interpolate missing values and want the expected values of missing data.</p>
 <p>The best way to find out how to get output is to type <code>?print.MARSS</code> at the command line after installing the <strong>MARSS</strong> package. The print help page discusses how to get parameter estimates in different forms, the smoothed and filtered states, all the Kalman filter and smoother output, all the expectations of y (missing data), confidence intervals and bias estimates for the parameters,
-and standard errors of the states. If you are looking only for Kalman filter and smoother output, see the relevant section in Chapter  and see the help page for the <code>MARSSkf()</code> function (type <code>?MARSSkf</code> at the , command line).</p>
+and standard errors of the states. If you are looking only for Kalman filter and smoother output, see the relevant section in Chapter  and see the help page for the <code>MARSSkf()</code> function (type <code>?MARSSkf</code> at the R command line).</p>
 <p>You might also want to look at the <code>augment()</code>, <code>tidy()</code> and <code>glance()</code> functions which will summarize commonly needed output from a MARSS model fit. Type <code>?augment.marssMLE</code> at the command line to see examples. These functions work as they do in the <strong>broom</strong> R package.</p>
 
 </div>

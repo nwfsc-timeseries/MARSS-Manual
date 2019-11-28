@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -205,23 +206,23 @@ y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \,\text{N}(0,r)
 (\#eq:short-ar1)
 \end{equation}\]</span></p>
 <p>To fit this model to a simulated, non-stationary, AR(1) process: </p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
-<a class="sourceLine" id="cb31-4" data-line-number="4">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
-<a class="sourceLine" id="cb31-5" data-line-number="5">b &lt;-<span class="st"> </span><span class="fl">0.9</span></a>
-<a class="sourceLine" id="cb31-6" data-line-number="6">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">x0 &lt;-<span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb31-8" data-line-number="8">xt.ns &lt;-<span class="st"> </span><span class="kw">rep</span>(x0, TT)</a>
-<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>TT) xt.ns[i] &lt;-<span class="st"> </span>b <span class="op">*</span><span class="st"> </span>xt.ns[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>u <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb31-10" data-line-number="10">    <span class="kw">sqrt</span>(q))</a>
-<a class="sourceLine" id="cb31-11" data-line-number="11">yt.ns &lt;-<span class="st"> </span>xt.ns <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">r &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">b &lt;-<span class="st"> </span><span class="fl">0.9</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">x0 &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">xt.ns &lt;-<span class="st"> </span><span class="kw">rep</span>(x0, TT)</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>TT) xt.ns[i] &lt;-<span class="st"> </span>b <span class="op">*</span><span class="st"> </span>xt.ns[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>u <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">    <span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">yt.ns &lt;-<span class="st"> </span>xt.ns <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>The process was purposefully made to be non-stationary by setting <code>x0</code> well outside the stationary distribution of <span class="math inline">\(x\)</span>. The EM algorithm in <strong>MARSS</strong> does not require that the underlying state processes be stationary and it is not necessary to remove the initial non-stationary part of the time-series.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">plot</span>(yt.ns, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;xt and yt&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, </a>
-<a class="sourceLine" id="cb32-2" data-line-number="2">    <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">lines</span>(xt.ns, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">plot</span>(yt.ns, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;xt and yt&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, </a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">    <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw">lines</span>(xt.ns, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-ar1-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.ns, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.ns, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)))</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 24 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -244,16 +245,16 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>We could also simulate AR(1) data with <code>stats::arima.sim()</code> however this will produce stationary data:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">xt.s &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">yt.s &lt;-<span class="st"> </span>xt.s <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">yt.s &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt.s)</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">xt.s &lt;-<span class="st"> </span><span class="kw">as.vector</span>(xt.s)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">xt.s &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">yt.s &lt;-<span class="st"> </span>xt.s <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">yt.s &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt.s)</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">xt.s &lt;-<span class="st"> </span><span class="kw">as.vector</span>(xt.s)</a></code></pre></div>
 <p>These stationary data can be fit as before but the data must be a matrix with time across the columns not a <strong>ts</strong> object. If you pass in a vector, <code>MARSS()</code> will convert that to a matrix with one row.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">plot</span>(yt.s, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;xt and yt&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, </a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">    <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="kw">lines</span>(xt.s, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot</span>(yt.s, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;xt and yt&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, </a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">    <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">lines</span>(xt.s, <span class="dt">lwd =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-ar1-plot2-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)))</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 27 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -276,7 +277,7 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>Note that <span class="math inline">\(u\)</span> is estimated however <code>arima.sim()</code> does not include a <span class="math inline">\(u\)</span>. We can set <span class="math inline">\(u\)</span> to zero if we happened to know that it was zero.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>)))</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 16 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -298,8 +299,8 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>If we know <span class="math inline">\(r\)</span> (or <span class="math inline">\(q\)</span>), we could set those too:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), </a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">    <span class="dt">R =</span> <span class="kw">matrix</span>(r)))</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">    <span class="dt">R =</span> <span class="kw">matrix</span>(r)))</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 18 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -321,8 +322,8 @@ Standard errors have not been calculated.
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>We can fit to just the <span class="math inline">\(x\)</span> data, an AR(1) with no error, by setting <span class="math inline">\(r\)</span> to zero:
 If we know <span class="math inline">\(r\)</span> (or <span class="math inline">\(q\)</span>), we could set those too:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(xt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), </a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">    <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="dv">0</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(xt.s, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">B =</span> <span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">    <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="dv">0</span>)))</a></code></pre></div>
 <pre><code>Success! algorithm run for 15 iterations. abstol and log-log tests passed.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -343,7 +344,7 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>We can fit <code>xt.s</code> with <code>arima()</code> also. The results will be similar but not identical because <code>arima()</code>’s algorithm assumes the data come from a stationary process and the initial conditions are treated differently.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">arima</span>(xt.s, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">arima</span>(xt.s, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = xt.s, order = c(1, 0, 0), include.mean = FALSE, method = &quot;ML&quot;)
@@ -355,7 +356,7 @@ s.e.  0.0454
 
 sigma^2 estimated as 0.1009:  log likelihood = -27.98,  aic = 59.96</code></pre>
 <p>If we try fitting the non-stationary data with <code>arima()</code>, the estimates will be poor since <code>arima()</code> assumes stationary data:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">arima</span>(xt.ns, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">arima</span>(xt.ns, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = xt.ns, order = c(1, 0, 0), include.mean = FALSE, method = &quot;ML&quot;)

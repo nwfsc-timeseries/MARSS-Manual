@@ -8,7 +8,7 @@ Your data need to be a matrix (not data frame nor a **ts** object) with time acr
 
 ## **ts** objects
 
-A \,\textbf{R} **ts** object (time series object) stores information about the time steps of the data and often seasonal information (the quarter or month).  **MARSS** needs this information in matrix form.  If you have your data in **ts** form, then you may be using year and season (quarter, month) as covariates to estimate trend and seasonality.  The next sections give examples of converting your data from **ts** form to matrix form.
+A R **ts** object (time series object) stores information about the time steps of the data and often seasonal information (the quarter or month).  **MARSS** needs this information in matrix form.  If you have your data in **ts** form, then you may be using year and season (quarter, month) as covariates to estimate trend and seasonality.  The next sections give examples of converting your data from **ts** form to matrix form.
 
 ### Univariate **ts** object
 
@@ -43,7 +43,7 @@ See the *MARMES* chapters that discuss seasonality for examples of how to model 
 
 There are many ways that you can transform a **tsibble** object into a matrix with each row being an observed time series.
 
-```{r}
+```{r input-tsibble, message=FALSE}
 library(tidyverse)
 library(tsibble)
 dat <- tourism %>% as_tibble %>% tidyr::spread(Quarter, Trips)

@@ -32,7 +32,7 @@
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="part1.html"/>
-<link rel="next" href="examples-of-marss-models.html"/>
+<link rel="next" href="marss-model-form.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -197,20 +198,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chap-overview" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Overview</h1>
-<p>MARSS stands for Multivariate Auto-Regressive(1) State-Space. The <strong>MARSS</strong> package is an , package for estimating the parameters of linear MARSS models with Gaussian errors. This class of model is extremely important in the study of linear stochastic dynamical systems, and these models are important in many different fields, including economics, engineering, genetics, physics and ecology (Appendix <a href="#chap-SSreferences"><strong>??</strong></a> ). The model class has different names in different fields, for example in some fields they are termed dynamic linear models (DLMs) or vector autoregressive (VAR) state-space models. The <strong>MARSS</strong> package allows you to easily fit time-varying constrained and unconstrained MARSS models with or without covariates to multivariate time-series data via maximum-likelihood using primarily an EM algorithm. The EM algorithm in the <strong>MARSS</strong> package allows you to apply linear constraints on all the parameters within the model matrices. Fitting via the BFGS algorithm is also provided in the package using ,’s <code>optim</code> function, but this is not the focus of the <strong>MARSS</strong> package.</p>
-<p><strong>MARSS</strong>, <code>MARSS()</code> and MARSS. MARSS model refers to the class of models which the <strong>MARSS</strong> package fits using, primarily, an EM algorithm. In the text, <strong>MARSS</strong> refers to the , package. Within the package, the main fitting function is <code>MARSS()</code>. When the class of model is being discussed, rather than the package or the function, “MARSS” is used.</p>
-<p>A full MARSS model, with Gaussian errors, takes the form:
-<span class="math display" id="eq:marss">\[\b\tag{1.1}on}(#eq:marss)
-\begin{gathered}
-\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t) \\
-\mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t) \\
-\mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})
-\end{gathered}
-\end{equation}\]</span>
-The <span class="math inline">\(\mathbf{x}\)</span> equation is termed the state process and the <span class="math inline">\(\mathbf{y}\)</span> equation is termed the observation process. Data enter the model as the <span class="math inline">\(\mathbf{y}\)</span>; that is the <span class="math inline">\(\mathbf{y}\)</span> is treated as the data although there may be missing data. The <span class="math inline">\(\mathbf{c}_t\)</span> and <span class="math inline">\(\mathbf{d}_t\)</span> are inputs (aka, exogenous variables, covariates or indicator variables). The <span class="math inline">\(\mathbf{G}_t\)</span> and <span class="math inline">\(\mathbf{H}_t\)</span> are also typically inputs (fixed values with no missing values).</p>
-The bolded terms are matrices with the following definitions:
-
-<p>AR(p) models can be written in the above form by properly defining the <span class="math inline">\(\mathbf{x}\)</span> vector and setting some of the <span class="math inline">\(\mathbf{R}\)</span> variances to zero; see Chapter . Although the model appears to only include i.i.d. errors (<span class="math inline">\(\mathbf{v}_t\)</span> and <span class="math inline">\(\mathbf{w}_t\)</span>), in practice, AR(p) errors can be included by moving the error terms into the state model. Similarly, the model appears to have independent process (<span class="math inline">\(\mathbf{v}_t\)</span>) and observation (<span class="math inline">\(\mathbf{w}_t\)</span>) errors, however, in practice, these can be modeled as identical or correlated by using one of the state processes to model the errors with the <span class="math inline">\(\mathbf{B}\)</span> matrix set appropriately for AR or white noise—although one may have to fix many of the parameters associated with the errors to have an identifiable model. Study the application chapters and textbooks on MARSS models (Appendix <a href="#chap-SSreferences"><strong>??</strong></a>) for examples of how a wide variety of autoregressive models can be written in MARSS form.</p> 
+<p>MARSS stands for Multivariate Auto-Regressive(1) State-Space. The <strong>MARSS</strong> package is an R package for estimating the parameters of linear MARSS models with Gaussian errors. This class of model is extremely important in the study of linear stochastic dynamical systems, and these models are important in many different fields, including economics, engineering, genetics, physics and ecology (Appendix <a href="#chap-SSreferences"><strong>??</strong></a> ). The model class has different names in different fields, for example in some fields they are termed dynamic linear models (DLMs) or vector autoregressive (VAR) state-space models. The <strong>MARSS</strong> package allows you to easily fit time-varying constrained and unconstrained MARSS models with or without covariates to multivariate time-series data via maximum-likelihood using primarily an EM algorithm. The EM algorithm in the <strong>MARSS</strong> package allows you to apply linear constraints on all the parameters within the model matrices. Fitting via the BFGS algorithm is also provided in the package using ,’s <code>optim</code> function, but this is not the focus of the <strong>MARSS</strong> package.</p>
+<p><strong>MARSS</strong>, <code>MARSS()</code> and MARSS. MARSS model refers to the class of models which the <strong>MARSS</strong> package fits using, primarily, an EM algorithm. In the text, <strong>MARSS</strong> refers to the R package. Within the package, the main fitting function is <code>MARSS()</code>. When the class of model is being discussed, rather than the package or the function, “MARSS” is used.</p> 
 </div>
             </section>
 
@@ -218,7 +207,7 @@ The bolded terms are matrices with the following definitions:
         </div>
       </div>
 <a href="part1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="examples-of-marss-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="marss-model-form.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

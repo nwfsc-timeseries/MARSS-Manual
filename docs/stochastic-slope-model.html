@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -217,12 +218,12 @@ x_0 = \pi
 \end{equation}\]</span>
 The trick here is to recognize that <span class="math inline">\(\mathbf{Z}_t\)</span>, the matrix in front of <span class="math inline">\(\mathbf{x}_t\)</span> in the <span class="math inline">\(\mathbf{y}_t\)</span> equation, can be time-varying and can be fixed. In a time-varying matrix in <strong>MARSS</strong>, the time element is in the 3rd dimension. We are going to fix <span class="math inline">\(\mathbf{Z}[1,1,t] = t\)</span>, where <span class="math inline">\(t\)</span> is <code>year-mean(year)</code>. <span class="math inline">\(\mathbf{Z}\)</span> is a <span class="math inline">\(1 \times 1 \times 100\)</span> array. Demeaning the covariate stablizes the fitting. Try without demeaning to see the difference.</p>
 <p>The model is specified as a list as follows.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">Z &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="kw">length</span>(nile)))</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2">Z[<span class="dv">1</span>, <span class="dv">1</span>, ] &lt;-<span class="st"> </span>year <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(year)</a>
-<a class="sourceLine" id="cb83-3" data-line-number="3">mod.list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> Z, <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb83-4" data-line-number="4">    <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="st">&quot;q&quot;</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;pi&quot;</span>))</a>
-<a class="sourceLine" id="cb83-5" data-line-number="5">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb83-6" data-line-number="6">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">inits =</span> fit1, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">Z &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="dt">dim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="kw">length</span>(nile)))</a>
+<a class="sourceLine" id="cb68-2" data-line-number="2">Z[<span class="dv">1</span>, <span class="dv">1</span>, ] &lt;-<span class="st"> </span>year <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(year)</a>
+<a class="sourceLine" id="cb68-3" data-line-number="3">mod.list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> Z, <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb68-4" data-line-number="4">    <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="st">&quot;q&quot;</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;pi&quot;</span>))</a>
+<a class="sourceLine" id="cb68-5" data-line-number="5">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb68-6" data-line-number="6">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">inits =</span> fit1, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
 <pre><code>Success! Converged in 13 iterations.
 Function MARSSkfas used for likelihood calculation.
 
@@ -241,7 +242,7 @@ Initial states (x0) defined at t=0
 
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-stoch-slope-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 
 </div>

@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -208,10 +209,10 @@ x_0 = 0
 \end{equation}\]</span>
 where <span class="math inline">\(t\)</span> is the year and <span class="math inline">\(u\)</span> is the average per-year decline in river flow volume.</p>
 <p>The model list and fit for this equation is</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">mod.list1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
-<a class="sourceLine" id="cb72-2" data-line-number="2">    <span class="dt">D =</span> <span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>), <span class="dt">d =</span> <span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="dt">nrow =</span> <span class="dv">1</span>), <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb72-3" data-line-number="3">    <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb72-4" data-line-number="4">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list1)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">mod.list1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">    <span class="dt">D =</span> <span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>), <span class="dt">d =</span> <span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="dt">nrow =</span> <span class="dv">1</span>), <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">    <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list1)</a></code></pre></div>
 <pre><code>Success! algorithm run for 15 iterations. abstol and log-log tests passed.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -241,9 +242,9 @@ x_0 = a
 \tag{3.12}
 \end{equation}\]</span></p>
 <p>The model is specified as a list as follows. To fit, we need to force the algorithm to run a bit longer as it is showing convergence a bit early.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">mod.list2 =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
-<a class="sourceLine" id="cb74-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="st">&quot;u&quot;</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>))</a>
-<a class="sourceLine" id="cb74-3" data-line-number="3">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list2, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">minit =</span> <span class="dv">30</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">mod.list2 =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="st">&quot;u&quot;</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>))</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list2, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">minit =</span> <span class="dv">30</span>))</a></code></pre></div>
 <pre><code>Success! algorithm run for 30 iterations. abstol and log-log tests passed.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -264,7 +265,7 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>The fits are the same with either formulation of the model as long as we force the algorithm to run longer for the second form.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-linear-level-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
             </section>

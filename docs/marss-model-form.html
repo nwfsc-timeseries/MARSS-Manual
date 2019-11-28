@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Getting your data in right format | MARSS Package Manual</title>
+  <title>1.1 MARSS model form | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Getting your data in right format | MARSS Package Manual" />
+  <meta property="og:title" content="1.1 MARSS model form | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Getting your data in right format | MARSS Package Manual" />
+  <meta name="twitter:title" content="1.1 MARSS model form | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="how-to-get-started-quickly.html"/>
-<link rel="next" href="ts-objects.html"/>
+<link rel="prev" href="chap-overview.html"/>
+<link rel="next" href="examples-of-marss-models.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -196,17 +196,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="getting-your-data-in-right-format" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> Getting your data in right format</h1>
-<p>Your data need to be a matrix (not data frame nor a <strong>ts</strong> object) with time across the columns (<span class="math inline">\(n \times T\)</span> matrix). The <strong>MARSS</strong> functions assume discrete time steps and you will need a column for each time step. Replace any missing time steps with NA. Why does <strong>MARSS</strong> require your data in matrix form? Because <strong>MARSS</strong> will not make any guesses about your intentions. You must be 100% explicit in terms of what model you trying to fit and what you consider to be <code>data</code>. MARSS models are used in many different fields in different ways. There is no ‘guess’ that would work for all models. Instead <strong>MARSS</strong> requires that you write your model in matrix form, and then pass everything in in a format that is one-to-one with that mathematical model. That way <strong>MARSS</strong> knows exactly what you are trying to fit.</p> 
+<div id="marss-model-form" class="section level2">
+<h2><span class="header-section-number">1.1</span> MARSS model form</h2>
+<p>A full MARSS model, with Gaussian errors, takes the form:
+<span class="math display" id="eq:marss">\[\begin{equation}
+\begin{gathered}
+\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t) \\
+\mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t) \\
+\mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})
+\end{gathered}
+\tag{1.1}
+\end{equation}\]</span>
+The <span class="math inline">\(\mathbf{x}\)</span> equation is termed the state process and the <span class="math inline">\(\mathbf{y}\)</span> equation is termed the observation process. Data enter the model as the <span class="math inline">\(\mathbf{y}\)</span>; that is the <span class="math inline">\(\mathbf{y}\)</span> is treated as the data although there may be missing data. The <span class="math inline">\(\mathbf{c}_t\)</span> and <span class="math inline">\(\mathbf{d}_t\)</span> are inputs (aka, exogenous variables, covariates or indicator variables). The <span class="math inline">\(\mathbf{G}_t\)</span> and <span class="math inline">\(\mathbf{H}_t\)</span> are also typically inputs (fixed values with no missing values).</p>
+<p>The bolded terms are matrices with the following definitions:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{x}\)</span> is a <span class="math inline">\(m \times T\)</span> matrix of states. Each <span class="math inline">\(\mathbf{x}_t\)</span> is a realization of the random variable <span class="math inline">\(\mathbf{X}_t\)</span> at time <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\mathbf{w}\)</span> is a <span class="math inline">\(m \times T\)</span> matrix of the process errors. The process errors at time <span class="math inline">\(t\)</span> are multivariate normal with mean 0 and covariance matrix <span class="math inline">\(\mathbf{Q}_t\)</span>.</li>
+<li><span class="math inline">\(\mathbf{y}\)</span> is a <span class="math inline">\(n \times T\)</span> matrix of the observations. Some observations may be missing.</li>
+<li><span class="math inline">\(\mathbf{v}\)</span> is a <span class="math inline">\(n \times T\)</span> column vector of the non-process errors. The observation erros at time <span class="math inline">\(t\)</span> are multivariate normal with mean 0 and covariance matrix <span class="math inline">\(\mathbf{R}_t\)</span>.</li>
+<li><span class="math inline">\(\mathbf{B}_t\)</span> and <span class="math inline">\(\mathbf{Z}_t\)</span> are parameters and are <span class="math inline">\(m \times m\)</span> and <span class="math inline">\(n \times m\)</span> matrices.</li>
+<li><span class="math inline">\(\mathbf{u}_t\)</span> and <span class="math inline">\(\mathbf{a}_t\)</span> are parameters and are <span class="math inline">\(m \times 1\)</span> and <span class="math inline">\(n \times 1\)</span> column vectors.</li>
+<li><span class="math inline">\(\mathbf{Q}_t\)</span> and <span class="math inline">\(\mathbf{R}_t\)</span> are parameters and are <span class="math inline">\(g \times g\)</span> (typically <span class="math inline">\(m \times m\)</span>) and <span class="math inline">\(h \times h\)</span> (typically <span class="math inline">\(n \times n\)</span>) variance-covariance matrices.</li>
+<li><span class="math inline">\(\boldsymbol{\pi}\)</span> is either a parameter or a fixed prior. It is a <span class="math inline">\(m \times 1\)</span> matrix.</li>
+<li><span class="math inline">\(\boldsymbol{\Lambda}\)</span> is either a parameter or a fixed prior. It is a <span class="math inline">\(m \times m\)</span> variance-covariance matrix.</li>
+<li><span class="math inline">\(\mathbf{C}_t\)</span> and <span class="math inline">\(\mathbf{D}_t\)</span> are parameters and are <span class="math inline">\(m \times p\)</span> and <span class="math inline">\(n \times q\)</span> matrices.</li>
+<li><span class="math inline">\(\mathbf{c}\)</span> and <span class="math inline">\(\mathbf{d}\)</span> are inputs (no missing values) and are <span class="math inline">\(p \times T\)</span> and <span class="math inline">\(q \times T\)</span> matrices.</li>
+<li><span class="math inline">\(\mathbf{G}_t\)</span> and <span class="math inline">\(\mathbf{H}_t\)</span> are inputs (no missing values) and are <span class="math inline">\(m \times g\)</span> and <span class="math inline">\(n \times h\)</span> matrices.</li>
+</ul>
+<p>AR(p) models can be written in the above form by properly defining the <span class="math inline">\(\mathbf{x}\)</span> vector and setting some of the <span class="math inline">\(\mathbf{R}\)</span> variances to zero; see Chapter . Although the model appears to only include i.i.d. errors (<span class="math inline">\(\mathbf{v}_t\)</span> and <span class="math inline">\(\mathbf{w}_t\)</span>), in practice, AR(p) errors can be included by moving the error terms into the state model. Similarly, the model appears to have independent process (<span class="math inline">\(\mathbf{v}_t\)</span>) and observation (<span class="math inline">\(\mathbf{w}_t\)</span>) errors, however, in practice, these can be modeled as identical or correlated by using one of the state processes to model the errors with the <span class="math inline">\(\mathbf{B}\)</span> matrix set appropriately for AR or white noise—although one may have to fix many of the parameters associated with the errors to have an identifiable model. Study the application chapters and textbooks on MARSS models (Appendix <a href="#chap-SSreferences"><strong>??</strong></a>) for examples of how a wide variety of autoregressive models can be written in MARSS form.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="how-to-get-started-quickly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ts-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chap-overview.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="examples-of-marss-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -237,7 +262,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/04-input.Rmd",
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/01-introduction.Rmd",
 "text": "Edit"
 },
 "history": {

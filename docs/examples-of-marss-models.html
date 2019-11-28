@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.1 Examples of MARSS models | MARSS Package Manual</title>
+  <title>1.2 Examples of MARSS models | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.1 Examples of MARSS models | MARSS Package Manual" />
+  <meta property="og:title" content="1.2 Examples of MARSS models | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.1 Examples of MARSS models | MARSS Package Manual" />
+  <meta name="twitter:title" content="1.2 Examples of MARSS models | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="chap-overview.html"/>
+<link rel="prev" href="marss-model-form.html"/>
 <link rel="next" href="how-to-get-started-quickly.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -138,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
-<li class="chapter" data-level="1.1" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.1</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
+<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
@@ -196,9 +197,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="examples-of-marss-models" class="section level2">
-<h2><span class="header-section-number">1.1</span> Examples of MARSS models</h2>
-<p>Written in an unconstrained form, meaning all the elements in a parameter matrices are allowed to be different and none constrained to be equal or related, a MARSS model can be written out as follows. Two state processes (<span class="math inline">\(\mathbf{x}\)</span>) and three observation processes (<span class="math inline">\(\mathbf{y}\)</span>) are used here as an example.
-<span class="math display">\[\begin{gather*}
+<h2><span class="header-section-number">1.2</span> Examples of MARSS models</h2>
+<p>An unconstrained MARSS model, meaning all the elements in a parameter matrices are allowed to be different and none constrained to be equal or related.</p>
+<p><span class="math display" id="eq:marss1">\[\begin{equation}
+\begin{gathered}
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
 = \begin{bmatrix}b_{11}&amp;b_{12}\\b_{21}&amp;b_{22}\end{bmatrix}
 \begin{bmatrix}x_1\\x_2\end{bmatrix}_{t-1}
@@ -215,9 +217,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}\pi_1\\ \pi_2\end{bmatrix},\begin{bmatrix}\nu_{11}&amp;\nu_{12}\\ \nu_{21}&amp;\nu_{22}\end{bmatrix} \end{pmatrix} \quad 
 or\quad 
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_1 \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}\pi_1\\ \pi_2\end{bmatrix},\begin{bmatrix}\nu_{11}&amp;\nu_{12}\\ \nu_{21}&amp;\nu_{22}\end{bmatrix} \end{pmatrix} 
-\end{gather*}\]</span></p>
-<p>However not all parameter elements can be estimated simultaneously. Constraints are required in order to specify a model with a unique solution. The MARSS package allows you to specify constraints by fixing elements in a parameter matrix or specifying that some elements are estimated—and have a linear relationship to other elements. Here is an example of a MARSS model with fixed and estimated parameter elements:
-<span class="math display">\[\begin{gather*}
+\end{gathered}
+\tag{1.2}
+\end{equation}\]</span></p>
+<p>A constrianed MARSS model. The MARSS package allows you to specify constraints by fixing elements in a parameter matrix or specifying that some elements are estimated—or have a linear relationship to other elements. Here is an example:</p>
+<p><span class="math display" id="eq:marss2">\[\begin{equation}
+\begin{gathered}
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
 = \begin{bmatrix}a&amp;0\\0&amp;a\end{bmatrix}
 \begin{bmatrix}x_1\\x_2\end{bmatrix}_{t-1}
@@ -232,8 +237,10 @@ or\quad
  \begin{bmatrix}r&amp;0&amp;0\\0&amp;r&amp;0\\0&amp;0&amp;r\end{bmatrix} \end{pmatrix}  \\
 \\
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}\pi\\ \pi\end{bmatrix},\begin{bmatrix}1&amp;0\\ 0&amp;1\end{bmatrix} \end{pmatrix}
-\end{gather*}\]</span>
-Notice that some elements are fixed (in this case to 0, but could be any fixed number), some elements are shared (have the same value), and some elements are linear combinations of other estimated values (<span class="math inline">\(c\)</span>, <span class="math inline">\(1+2d+3c\)</span> and <span class="math inline">\(2+3d\)</span> are linear combinations of <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>).</p>
+\end{gathered}
+\tag{1.3}
+\end{equation}\]</span></p>
+<p>Notice that some elements are fixed (in this case to 0, but could be any fixed number), some elements are shared (have the same value), and some elements are linear combinations of other estimated values (<span class="math inline">\(c\)</span>, <span class="math inline">\(1+2d+3c\)</span> and <span class="math inline">\(2+3d\)</span> are linear combinations of <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>).</p>
 
 </div>
 <!-- </div> -->
@@ -242,7 +249,7 @@ Notice that some elements are fixed (in this case to 0, but could be any fixed n
           </div>
         </div>
       </div>
-<a href="chap-overview.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="marss-model-form.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="how-to-get-started-quickly.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
