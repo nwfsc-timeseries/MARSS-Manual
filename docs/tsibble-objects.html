@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Troubleshooting | MARSS Package Manual</title>
+  <title>3.2 tsibble objects | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Troubleshooting | MARSS Package Manual" />
+  <meta property="og:title" content="3.2 tsibble objects | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Troubleshooting | MARSS Package Manual" />
+  <meta name="twitter:title" content="3.2 tsibble objects | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="part4.html"/>
-<link rel="next" href="em-algorithm.html"/>
+<link rel="prev" href="ts-objects.html"/>
+<link rel="next" href="part2.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -195,21 +195,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="troubleshooting" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> Troubleshooting</h1>
-<p>Numerical errors due to ill-conditioned matrices are not uncommon when fitting MARSS models. The Kalman and EM algorithms need inverses of matrices. If those matrices become ill-conditioned, for example all elements are close to the same value, then the algorithm becomes unstable. Warning messages will be printed if the algorithms are becoming unstable and you can set <code>control$trace=1</code>, to see details of where the algorithm is becoming unstable. Whenever possible, you should avoid using shared <span class="math inline">\(\boldsymbol{\pi}\)</span> values in your model. The way our algorithm deals with <span class="math inline">\(\boldsymbol{\Lambda}\)</span> tends to make this case unstable, especially if <span class="math inline">\(\mathbf{R}\)</span> is not diagonal. In general, estimation of a non-diagonal <span class="math inline">\(\mathbf{R}\)</span> is more difficult, more prone to ill-conditioning, and more data-hungry.</p>
-<p>You may also see non-convergence warnings, especially if your MLE model turns out to be degenerate. This means that one of the elements on the diagonal of your <span class="math inline">\(\mathbf{Q}\)</span> or <span class="math inline">\(\mathbf{R}\)</span> matrix are going to zero (are degenerate). It will take the EM algorithm forever to get to zero. BFGS will have the same problem, although it will often get a bit closer to the degenerate solution. If you are using <code>method=&quot;kem&quot;</code>, MARSS will warn you if it looks like the solution is degenerate. If you use <code>control=list(allow.degen=TRUE)</code>, the EM algorithm will attempt to set the degenerate variances to zero (instead of trying to get to zero using an infinite number of iterations). However, if one of the variances is going to zero, first think about why this is happening. This is typically caused by one of three problems: 1) you made a mistake in inputting your data, e.g. used -99 as the missing value in your data but did not replace these with NAs before passing to MARSS, 2) your data are not sufficient to estimate multiple variances or 3) your data are inconsistent with the model you are trying fit.</p>
-<p>The algorithms in the <strong>MARSS</strong> package are designed for cases where the <span class="math inline">\(\mathbf{Q}\)</span> and <span class="math inline">\(\mathbf{R}\)</span> diagonals are all non-minuscule. For example, the EM update equation for <span class="math inline">\(\mathbf{u}\)</span> will grind to a halt (not update <span class="math inline">\(\mathbf{u}\)</span>) if <span class="math inline">\(\mathbf{Q}\)</span> is tiny (like 1E-7). Conversely, the BFGS equations are likely to miss the maximum-likelihood when <span class="math inline">\(\mathbf{R}\)</span> is tiny because then the likelihood surface becomes hyper-sensitive to <span class="math inline">\(\boldsymbol{\pi}\)</span>. The solution is to use the degenerate likelihood function for the likelihood calculation and the EM update equations. <strong>MARSS</strong> will implement this automatically when <span class="math inline">\(\mathbf{Q}\)</span> or <span class="math inline">\(\mathbf{R}\)</span> diagonal elements are set to zero and will try setting <span class="math inline">\(\mathbf{Q}\)</span> and <span class="math inline">\(\mathbf{R}\)</span> terms to zero automatically if <code>control$allow.degen=TRUE</code>.</p>
-<p>One odd case can occur when <span class="math inline">\(\mathbf{R}\)</span> goes to zero (a matrix of zeros), but you are estimating <span class="math inline">\(\boldsymbol{\pi}\)</span>. If <code>model$tinitx=1</code>, then <span class="math inline">\(\boldsymbol{\pi}=\mathbf{x}_1^0\)</span> and <span class="math inline">\(\mathbf{y}_1-\mathbf{Z}\mathbf{x}_1^0\)</span> can go to 0 as well as <span class="math inline">\(\,\text{var}(\mathbf{y}_1-\mathbf{Z}\mathbf{x}_1^0)\)</span> by driving <span class="math inline">\(\mathbf{R}\)</span> to zero. But as this happens, the log-likelihood associated with <span class="math inline">\(\mathbf{y}_1\)</span> will go (correctly) to infinity and thus the log-likelihood goes to infinity. But if you set <span class="math inline">\(\mathbf{R}=0\)</span>, the log-likelihood will be finite. The reason is that <span class="math inline">\(\mathbf{R} \approx 0\)</span> and <span class="math inline">\(\mathbf{R}=0\)</span> specify different likelihoods associated with <span class="math inline">\(\mathbf{y}_1-\mathbf{Z}\mathbf{x}_1^0\)</span>. With <span class="math inline">\(\mathbf{R}=0\)</span>, <span class="math inline">\(\mathbf{y}_1-\mathbf{Z}\mathbf{x}_1^0\)</span> does not have a distribution; it is just a fixed value. So there is no likelihood to go to infinity. If some elements of the diagonal of <span class="math inline">\(\mathbf{R}\)</span> are going to zero, you should be suspect of the parameter estimates. Sometimes the structure of your data, e.g. one data value followed by a long string of missing values, is causing an odd spike in the likelihood at <span class="math inline">\(\mathbf{R} \approx 0\)</span>. Try manually setting <span class="math inline">\(\mathbf{R}\)</span> equal to zero to get the correct log-likelihood.</p>
+<div id="tsibble-objects" class="section level2">
+<h2><span class="header-section-number">3.2</span> <strong>tsibble</strong> objects</h2>
+<p>There are many ways that you can transform a <strong>tsibble</strong> object into a matrix with each row being an observed time series.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<pre><code>── Attaching packages ───────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>✔ ggplot2 3.2.1     ✔ purrr   0.3.2
+✔ tibble  2.1.3     ✔ dplyr   0.8.3
+✔ tidyr   0.8.3     ✔ stringr 1.4.0
+✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
+<pre><code>Warning: package &#39;ggplot2&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;tidyr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
+<pre><code>── Conflicts ──────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">library</span>(tsibble)</a></code></pre></div>
+<pre><code>Warning: package &#39;tsibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>
+Attaching package: &#39;tsibble&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    id</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">dat &lt;-<span class="st"> </span>tourism <span class="op">%&gt;%</span><span class="st"> </span>as_tibble <span class="op">%&gt;%</span><span class="st"> </span>tidyr<span class="op">::</span><span class="kw">spread</span>(Quarter, Trips)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">dat.matrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dat[, <span class="dv">-1</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)])</a></code></pre></div>
 
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="part4.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="em-algorithm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-objects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -240,7 +263,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/09-troubleshooting.Rmd",
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/04-input.Rmd",
 "text": "Edit"
 },
 "history": {

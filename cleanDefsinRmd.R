@@ -21,6 +21,7 @@ replace.defs = function(defsfile, inputfile, outputfile){
 basefiles=c(
   "src/01-introduction",
   "src/02-quick-start",
+  "src/03-0-part2",
   "src/03-1-uniss",
   "src/04-input",
   "src/05-output",

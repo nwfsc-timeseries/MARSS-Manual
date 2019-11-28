@@ -3,11 +3,12 @@
 Here a series of short examples are shown for different types of models specified in MARSS structure. Output is shown briefly. See the chapters on different types of output from **MARSS** model objects and MARSS models in general.
 
 In these examples, we will use the default `form="marxss"` argument for a `MARSS()` call.  This specifies a MARSS model of the form:
-\begin{equation}(\#eq:marss.part2)
-\begin{gather}
+\begin{equation}(\#eq:marss-part2)
+\begin{gathered}
 \xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ where } \ww_t \sim \MVN(0,\QQ_t)\\
 \yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ where } \vv_t \sim \MVN(0,\RR_t)\\
 \xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)
-\end{gather}
+\end{gathered}
 \end{equation} 
+
 The $\xx$ on the left are the hidden states. The $\yy$ on the left are the observed data. Missing values are allowed in $\yy$. The $\cc$ and $\dd$ are inputs (not estimated).  Bolded capitalized values on the right are parameters and 2D (or 3D if time-varying) matrices. Parameters can be estimated, constrained or fixed at a specific value. Within a parameter matrix, you can have a combination of estimated, constrained (shared), or fixed values. The $\uu$ and $\aa$ are parameter column-matrices and can be similarly estimated, constrained or fixed. $\ww$ and $\vv$ are the errors and are computed values, after parameters are estimated.

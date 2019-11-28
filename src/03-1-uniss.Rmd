@@ -12,6 +12,7 @@ A univariate random walk with drift observed with error is:
 x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \N(0,r)
 \end{gathered}
+(\#eq:short-rw)
 \end{equation}
 
 To fit this model to a simulated random walk:  \index{functions!MARSS}
@@ -55,6 +56,7 @@ With the addition of $b$ in front of $x_{t-1}$ we have an AR(1) process. \begin{
 x_{t} = bx_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \N(0,r)
 \end{gathered}
+(\#eq:short-ar1)
 \end{equation}
 
 To fit this model to a simulated, non-stationary, AR(1) process:  \index{functions!MARSS}

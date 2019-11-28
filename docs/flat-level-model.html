@@ -142,8 +142,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
-<li class="chapter" data-level="3.1" data-path="univariate-ts-object.html"><a href="univariate-ts-object.html"><i class="fa fa-check"></i><b>3.1</b> Univariate <strong>ts</strong> object</a></li>
-<li class="chapter" data-level="3.2" data-path="multivariate-ts-object.html"><a href="multivariate-ts-object.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1" data-path="ts-objects.html"><a href="ts-objects.html"><i class="fa fa-check"></i><b>3.1</b> <strong>ts</strong> objects</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ts-objects.html"><a href="ts-objects.html#univariate-ts-object"><i class="fa fa-check"></i><b>3.1.1</b> Univariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1.2" data-path="ts-objects.html"><a href="ts-objects.html#multivariate-ts-object"><i class="fa fa-check"></i><b>3.1.2</b> Multivariate <strong>ts</strong> object</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tsibble-objects.html"><a href="tsibble-objects.html"><i class="fa fa-check"></i><b>3.2</b> <strong>tsibble</strong> objects</a></li>
 </ul></li>
 <li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
 <li class="chapter" data-level="4" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>4</b> Univariate Models</a><ul>
@@ -195,12 +198,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="flat-level-model" class="section level2">
 <h2><span class="header-section-number">4.6</span> Flat level model</h2>
 <p>For the next examples, we will use the Nile river flow from 1871 to 1970, a data set in the <strong>datasets</strong> package.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">nile &lt;-<span class="st"> </span><span class="kw">as.vector</span>(datasets<span class="op">::</span>Nile)</a>
-<a class="sourceLine" id="cb50-2" data-line-number="2">year &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">time</span>(Nile))</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">nile &lt;-<span class="st"> </span><span class="kw">as.vector</span>(datasets<span class="op">::</span>Nile)</a>
+<a class="sourceLine" id="cb66-2" data-line-number="2">year &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">time</span>(Nile))</a></code></pre></div>
 <p>The first model we will fit is a flat level model:</p>
 <p><span class="math display" id="eq:short-flat-level">\[\begin{equation}
 y_t = a+v_t, \text{ } v_t \sim \,\text{N}(0,r)    
-\tag{3.6}
+\tag{3.8}
 \end{equation}\]</span>
 where <span class="math inline">\(y_t\)</span> is the river flow volume at year <span class="math inline">\(t\)</span> and <span class="math inline">\(a\)</span> is some constant average flow level (notice it has no <span class="math inline">\(t\)</span> subscript).</p>
 <p>To fit this model with MARSS, we explicitly show all the MARSS parameters.
@@ -210,12 +213,12 @@ x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \,\text{N}(0,0) \\
 y_t = 0 \times x_t + a + v_t, \text{ } v_t \sim \,\text{N}(0,r)  \\
 x_0 = 0 
  \end{gathered}   
-\tag{3.7}
+\tag{3.9}
 \end{equation}\]</span></p>
 <p>The model list and fit for this equation is</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">mod.list1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list1)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">mod.list1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
+<a class="sourceLine" id="cb67-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list1)</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 16 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -242,12 +245,12 @@ x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,0) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = a 
  \end{gathered}   
-\tag{3.8}
+\tag{3.10}
 \end{equation}\]</span></p>
 <p>The model list and fit for this equation is</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">mod.list2 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>))</a>
-<a class="sourceLine" id="cb53-3" data-line-number="3">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list2)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">mod.list2 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;a&quot;</span>))</a>
+<a class="sourceLine" id="cb69-3" data-line-number="3">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list2)</a></code></pre></div>
 <pre><code>Success! algorithm run for 15 iterations. abstol and log-log tests passed.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -267,7 +270,7 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>The results are the same. We just formatted the model in different ways. We can plot the fitted model against the Nile river flow (blue dots) using <code>autoplot()</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-flat-level-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
             </section>

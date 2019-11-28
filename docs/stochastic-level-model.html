@@ -142,8 +142,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
-<li class="chapter" data-level="3.1" data-path="univariate-ts-object.html"><a href="univariate-ts-object.html"><i class="fa fa-check"></i><b>3.1</b> Univariate <strong>ts</strong> object</a></li>
-<li class="chapter" data-level="3.2" data-path="multivariate-ts-object.html"><a href="multivariate-ts-object.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1" data-path="ts-objects.html"><a href="ts-objects.html"><i class="fa fa-check"></i><b>3.1</b> <strong>ts</strong> objects</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ts-objects.html"><a href="ts-objects.html#univariate-ts-object"><i class="fa fa-check"></i><b>3.1.1</b> Univariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1.2" data-path="ts-objects.html"><a href="ts-objects.html#multivariate-ts-object"><i class="fa fa-check"></i><b>3.1.2</b> Multivariate <strong>ts</strong> object</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tsibble-objects.html"><a href="tsibble-objects.html"><i class="fa fa-check"></i><b>3.2</b> <strong>tsibble</strong> objects</a></li>
 </ul></li>
 <li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
 <li class="chapter" data-level="4" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>4</b> Univariate Models</a><ul>
@@ -201,7 +204,7 @@ x_t = x_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = x_t+v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
-\tag{3.11}
+\tag{3.13}
 \end{equation}\]</span></p>
 <p>With all the MARSS parameters shown, the model is:
 <span class="math display" id="eq:short-stoch-level-model2">\[\begin{equation}
@@ -210,13 +213,13 @@ x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
 y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
-\tag{3.12}
+\tag{3.14}
 \end{equation}\]</span></p>
 <p>The model is specified as a list as follows. We can use the BFGS algorithm to ‘polish’ off the fit and get closer to the MLE. Why not just start with BFGS? First, it happens to take a long long time to fit and more importantly, the BFGS algorith is sensitive to starting conditions and can catostrophically fail. In this case, it is slow but works fine. For some models, it does work better (faster and stable), but using the EM algorithm to get decent starting conditions for the BFGS algorithm is a common fitting strategy.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">mod.list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
-<a class="sourceLine" id="cb61-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="st">&quot;q&quot;</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;pi&quot;</span>))</a>
-<a class="sourceLine" id="cb61-3" data-line-number="3">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb61-4" data-line-number="4">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">inits =</span> fit1, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">mod.list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">Z =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R =</span> <span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>), </a>
+<a class="sourceLine" id="cb77-2" data-line-number="2">    <span class="dt">B =</span> <span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U =</span> <span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q =</span> <span class="kw">matrix</span>(<span class="st">&quot;q&quot;</span>), <span class="dt">x0 =</span> <span class="kw">matrix</span>(<span class="st">&quot;pi&quot;</span>))</a>
+<a class="sourceLine" id="cb77-3" data-line-number="3">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb77-4" data-line-number="4">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model =</span> mod.list, <span class="dt">inits =</span> fit1, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
 <pre><code>Success! Converged in 12 iterations.
 Function MARSSkfas used for likelihood calculation.
 
@@ -234,12 +237,12 @@ Initial states (x0) defined at t=0
 
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type =</span> <span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-stoch-level-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>This is the same model fit in  except that we estimate <span class="math inline">\(x_1\)</span> as parameter rather than specifying <span class="math inline">\(x_1\)</span> via a diffuse prior. As a result, the log-likelihood value and <span class="math inline">\(\mathbf{R}\)</span> and <span class="math inline">\(\mathbf{Q}\)</span> are a little different than in .</p>
 <p>We can fit the Koopman model with <code>stats::StructTS()</code>. The estimates are slightly different since the initial conditions are treated differently.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">fit.ts &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw">StructTS</span>(nile, <span class="dt">type =</span> <span class="st">&quot;level&quot;</span>)</a>
-<a class="sourceLine" id="cb64-2" data-line-number="2">fit.ts</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">fit.ts &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw">StructTS</span>(nile, <span class="dt">type =</span> <span class="st">&quot;level&quot;</span>)</a>
+<a class="sourceLine" id="cb80-2" data-line-number="2">fit.ts</a></code></pre></div>
 <pre><code>
 Call:
 stats::StructTS(x = nile, type = &quot;level&quot;)
@@ -248,9 +251,9 @@ Variances:
   level  epsilon  
    1469    15099  </code></pre>
 <p>The fitted values returned by <code>fitted()</code> applied to a <strong>StructTS</strong> object are different than that returned by <code>fitted()</code> applied to a <strong>marssMLE</strong> object. The former returns <span class="math inline">\(\hat{y}\)</span> conditioned on the data up to time <span class="math inline">\(t\)</span>, while the latter returns the <span class="math inline">\(\hat{y}\)</span> conditioned on all the data. If you want to compare use:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">plot</span>(nile, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2"><span class="kw">lines</span>(<span class="kw">fitted</span>(fit.ts), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">MARSSkfss</span>(fit2)<span class="op">$</span>xtt[<span class="dv">1</span>, ], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">plot</span>(nile, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</a>
+<a class="sourceLine" id="cb82-2" data-line-number="2"><span class="kw">lines</span>(<span class="kw">fitted</span>(fit.ts), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb82-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">MARSSkfss</span>(fit2)<span class="op">$</span>xtt[<span class="dv">1</span>, ], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-stoch-level-StructTS-plot-1.png" width="80%" style="display: block; margin: auto;" />
 The black line is the <code>StrucTS()</code> fit and the red line is the equivalent <code>MARSS()</code> fit.</p>
 </div>

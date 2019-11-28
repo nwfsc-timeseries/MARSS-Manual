@@ -6,7 +6,7 @@ rmd_files:
   - "cleanedRmd/01-introduction.Rmd"
   - "cleanedRmd/02-quick-start.Rmd"
   - "cleanedRmd/04-input.Rmd"
-  - "src/03-0-part2.Rmd"
+  - "cleanedRmd/03-0-part2.Rmd"
   - "cleanedRmd/03-1-uniss.Rmd"
   - "src/part3.Rmd"
   - "cleanedRmd/05-output.Rmd"

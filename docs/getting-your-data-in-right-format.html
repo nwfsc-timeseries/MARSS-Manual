@@ -32,7 +32,7 @@
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="how-to-get-started-quickly.html"/>
-<link rel="next" href="univariate-ts-object.html"/>
+<link rel="next" href="ts-objects.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -142,8 +142,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="how-to-get-started-quickly.html"><a href="how-to-get-started-quickly.html"><i class="fa fa-check"></i><b>2</b> How to get started (quickly)</a></li>
 <li class="chapter" data-level="3" data-path="getting-your-data-in-right-format.html"><a href="getting-your-data-in-right-format.html"><i class="fa fa-check"></i><b>3</b> Getting your data in right format</a><ul>
-<li class="chapter" data-level="3.1" data-path="univariate-ts-object.html"><a href="univariate-ts-object.html"><i class="fa fa-check"></i><b>3.1</b> Univariate <strong>ts</strong> object</a></li>
-<li class="chapter" data-level="3.2" data-path="multivariate-ts-object.html"><a href="multivariate-ts-object.html"><i class="fa fa-check"></i><b>3.2</b> Multivariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1" data-path="ts-objects.html"><a href="ts-objects.html"><i class="fa fa-check"></i><b>3.1</b> <strong>ts</strong> objects</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ts-objects.html"><a href="ts-objects.html#univariate-ts-object"><i class="fa fa-check"></i><b>3.1.1</b> Univariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1.2" data-path="ts-objects.html"><a href="ts-objects.html#multivariate-ts-object"><i class="fa fa-check"></i><b>3.1.2</b> Multivariate <strong>ts</strong> object</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tsibble-objects.html"><a href="tsibble-objects.html"><i class="fa fa-check"></i><b>3.2</b> <strong>tsibble</strong> objects</a></li>
 </ul></li>
 <li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a></li>
 <li class="chapter" data-level="4" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>4</b> Univariate Models</a><ul>
@@ -194,9 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="getting-your-data-in-right-format" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Getting your data in right format</h1>
-<p>Your data need to be a matrix (not dataframe nor a <strong>ts</strong> object) with time across the columns (<span class="math inline">\(n \times T\)</span> matrix). The <strong>MARSS</strong> functions assume discrete time steps and you will need a column for each time step. Replace any missing time steps with NA.</p>
-<p>A , <strong>ts</strong> object (time series object) stores information about the time steps of the data and often seasonal information (the quarter or month). <strong>MARSS</strong> needs this information in matrix form. If you have your data in <strong>ts</strong> form, then you may be using year and season (quarter, month) as covariates to estimate trend and seasonality. Here is how to get your <strong>ts</strong> into the form that MARSS wants.</p>
-<p>Here is how to get your <strong>ts</strong> object into the form that MARSS wants.</p> 
+<p>Your data need to be a matrix (not data frame nor a <strong>ts</strong> object) with time across the columns (<span class="math inline">\(n \times T\)</span> matrix). The <strong>MARSS</strong> functions assume discrete time steps and you will need a column for each time step. Replace any missing time steps with NA. Why does <strong>MARSS</strong> require your data in matrix form? Because <strong>MARSS</strong> will not make any guesses about your intentions. You must be 100% explicit in terms of what model you trying to fit and what you consider to be <code>data</code>. MARSS models are used in many different fields in different ways. There is no ‘guess’ that would work for all models. Instead <strong>MARSS</strong> requires that you write your model in matrix form, and then pass everything in in a format that is one-to-one with that mathematical model. That way <strong>MARSS</strong> knows exactly what you are trying to fit.</p> 
 </div>
             </section>
 
@@ -204,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="how-to-get-started-quickly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="univariate-ts-object.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
