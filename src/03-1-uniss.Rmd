@@ -55,6 +55,61 @@ head(broom::augment(fit, type="observations"))
 ```
 Read up on fitted values for MARSS models at `?fitted.marssMLE`.
 
+## Random walk with time-varying parameters
+
+Let's fit a random walk where the first 50 time steps have one process variance and the rest of the time series has a different process variance. The model is
+\begin{equation}
+\begin{gathered}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q_t)  \\
+y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \N(0,r)
+\end{gathered}
+(\#eq:short-rw-tv1)
+\end{equation}
+
+Create some data:  \index{functions!MARSS}
+```{r quick-unis-rw-tv-dat}
+set.seed(123)
+TT <- 100
+sT <- 50
+u <- 0.01
+r <- 0.01
+q <- c(rep(0.1,sT), rep(0.2, TT-sT))
+yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+```
+
+Fit with MARSS:
+```{r quick-unis-rw-tv-fit}
+Q <- array(0, dim=c(1,1,TT))
+Q[1,1,] <- c(rep("q1", sT),rep("q2",TT-sT))
+fit <- MARSS(yt, model=list(Q=Q), silent=TRUE)
+broom::tidy(fit)
+```
+
+We can do the same with the drift term, $u$. We have one $u$ for the first 50 time steps and another for the last 50.
+Let's fit a random walk where the first 50 time steps have one process variance and the rest of the time series has a different process variance. The model is
+\begin{equation}
+\begin{gathered}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q_t)  \\
+y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \N(0,r)
+\end{gathered}
+(\#eq:short-rw-tv1)
+\end{equation}
+
+Create some data:  \index{functions!MARSS}
+```{r quick-unis-rw-tv-dat}
+set.seed(123)
+q <- 0.1
+u <- c(rep(0.1,sT), rep(-0.1, TT-sT))
+yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+```
+
+Fit with MARSS:
+```{r quick-unis-rw-tv-fit}
+U <- array(0, dim=c(1,1,TT))
+U[1,1,] <- c(rep("u1", sT),rep("u2",TT-sT))
+fit <- MARSS(yt, model=list(U=U), silent=TRUE)
+broom::tidy(fit)
+```
 
 ## AR(1) observed with error
 
