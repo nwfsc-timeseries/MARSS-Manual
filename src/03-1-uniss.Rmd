@@ -195,6 +195,55 @@ If we try fitting the non-stationary data with `arima()`, the estimates will be 
 arima(xt.ns, order=c(1,0,0), include.mean=FALSE, method="ML")
 ```
 
+## Linear regression
+
+A simple linear regression of one covariate is written:
+
+\begin{equation}
+y_{t} = \alpha + \beta*d_t + v_{t}, \text{ } w_t \sim \N(0,q)
+(\#eq:short-lr)
+\end{equation}
+
+Let's create some simulated data with this structure:
+```{r quick-unis-lm-ar1}
+beta <- 1.1
+alpha <- 1
+r <- 1
+dt <- rnorm(TT,0,1) #our covariate
+vt <- rnorm(TT,0,r)
+yt <- alpha + beta*dt + vt
+plot(dt, yt)
+```
+
+To fit this model, we need to write it in MARSS form. Here's the parts we need with the parameters, we don't need removed.
+\begin{equation}(\#eq:short-lr-ar1-marss)
+\begin{gathered}
+\xx_t = \xx_{t-1} + \ww_t, \text{ } \ww_t \sim \MVN(0,0)\\
+\yy_t = 0 \times \xx_t + \DD\dd_t + \vv_t, \text{ } \vv_t \sim \MVN(0,\RR)
+\end{gathered}
+\end{equation} 
+
+We write out our parameters in matrix form. We want to set most of the $\xx$ parameters to 0 so the algorithm doesn't try to estimate them.
+```{r quick-unis-lm-modlist}
+R <- matrix("r") # no v_t
+D <- matrix("beta")
+d <- matrix(dt, nrow=1)
+Z <- matrix(0)
+A <- matrix("alpha")
+Q <- U <- x0 <- matrix(0)
+```
+`MARSS()` requires $\dd$ be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.
+
+```{r quick-unis-lm-ar1-fit}
+mod.list <- list(U=U, Q=Q, x0=x0, Z=Z, A=A, D=D, d=d, R=R)
+fit <- MARSS(yt, model=mod.list)
+```
+
+The estimates are the same as with `lm()`:
+```{r quick-lm-lm}
+lm(yt~dt)
+```
+
 ## Linear regression with AR(1) errors
 
 A simple linear regression of one covariate with AR(1) errors is written:
