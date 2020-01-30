@@ -204,38 +204,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb8-2" title="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(dat)</a></code></pre></div>
 <p>Use the <strong>broom</strong> package to get the model output in <strong>tidy</strong> form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See <code>?tidy.marssMLE</code> for information on how to change to a different type of confidence interval.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
-<pre><code>   term    estimate  std.error    conf.low conf.high
-1   R.R  0.31058422 0.06819897  0.17691669 0.4442517
-2   U.U  0.01424236 0.03775311 -0.05975238 0.0882371
-3   Q.Q  0.13787730 0.05354426  0.03293248 0.2428221
-4 x0.x0 -0.39108553 0.54150585 -1.45241750 0.6702464</code></pre>
+<pre><code>   term     estimate  std.error    conf.low  conf.high
+1   R.R  0.223903134 0.06693408  0.09271475 0.35509152
+2   U.U  0.008892986 0.05199789 -0.09302101 0.11080698
+3   Q.Q  0.264706523 0.08459986  0.09889385 0.43051919
+4 x0.x0 -1.241821978 0.64495962 -2.50591961 0.02227565</code></pre>
 <p>The get the estimated states use:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;xtT&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t   estimate std.error   conf.low   conf.high
-1      X.Y1 1 -0.3780298 0.2676802 -0.9026734  0.14661377
-2      X.Y1 2 -0.4374489 0.3016688 -1.0287090  0.15381113
-3      X.Y1 3 -0.6262374 0.3102102 -1.2342382 -0.01823661
-4      X.Y1 4 -0.9408802 0.3124769 -1.5533237 -0.32843673
-5      X.Y1 5 -1.0439863 0.3130863 -1.6576242 -0.43034847
-6      X.Y1 6 -1.3250214 0.3132507 -1.9389814 -0.71106141</code></pre>
+<pre><code>  .rownames t  estimate std.error  conf.low  conf.high
+1      X.Y1 1 -1.231030 0.3059055 -1.830594 -0.6314663
+2      X.Y1 2 -1.881667 0.3244581 -2.517593 -1.2457410
+3      X.Y1 3 -2.245693 0.3267026 -2.886018 -1.6053672
+4      X.Y1 4 -2.560529 0.3269821 -3.201402 -1.9196556
+5      X.Y1 5 -2.561158 0.3270170 -3.202099 -1.9202166
+6      X.Y1 6 -2.719246 0.3270213 -3.360196 -2.0782964</code></pre>
 <p>Note that generic rownames were given since none were specified for <code>dat</code>.
 You can also get all the Kalman filter and smoother estimates for <span class="math inline">\(x\)</span> from <code>MARSSkf()</code>. See <code>?MARSSkf</code>.</p>
 <p>The get the fitted values, the estimated <span class="math inline">\(y\)</span>, use:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;fitted.ytT&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t          y   estimate std.error   std.dev   conf.low   conf.high
-1        Y1 1 -0.2147721 -0.3780298 0.2676802 0.6182531 -0.9026734  0.14661377
-2        Y1 2 -0.1460298 -0.4374489 0.3016688 0.6337100 -1.0287090  0.15381113
-3        Y1 3 -0.3427362 -0.6262374 0.3102102 0.6378202 -1.2342382 -0.01823661
-4        Y1 4 -1.4173907 -0.9408802 0.3124769 0.6389257 -1.5533237 -0.32843673
-5        Y1 5 -0.6431811 -1.0439863 0.3130863 0.6392239 -1.6576242 -0.43034847
-6        Y1 6 -0.6516485 -1.3250214 0.3132507 0.6393045 -1.9389814 -0.71106141
-   pred.low   pred.high
-1 -1.589784  0.83372403
-2 -1.679498  0.80459976
-3 -1.876342  0.62386718
-4 -2.193152  0.31139112
-5 -2.296842  0.20886958
-6 -2.578035 -0.07200769</code></pre>
+<pre><code>  .rownames t          y  estimate std.error   std.dev  conf.low  conf.high
+1        Y1 1 -0.6715577 -1.231030 0.3059055 0.5634548 -1.830594 -0.6314663
+2        Y1 2 -2.1240988 -1.881667 0.3244581 0.5737388 -2.517593 -1.2457410
+3        Y1 3 -2.2872995 -2.245693 0.3267026 0.5750111 -2.886018 -1.6053672
+4        Y1 4 -2.8263018 -2.560529 0.3269821 0.5751699 -3.201402 -1.9196556
+5        Y1 5 -2.4279706 -2.561158 0.3270170 0.5751897 -3.202099 -1.9202166
+6        Y1 6 -3.1595041 -2.719246 0.3270213 0.5751922 -3.360196 -2.0782964
+   pred.low  pred.high
+1 -2.335381 -0.1266790
+2 -3.006174 -0.7571598
+3 -3.372694 -1.1186916
+4 -3.687841 -1.4332164
+5 -3.688509 -1.4338069
+6 -3.846602 -1.5918904</code></pre>
 <p>There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to <span class="math inline">\(t-1\)</span> and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at <code>?fitted.marssMLE</code>.</p>
 <p>To make some generic plots and diagnostic plots, you can use <code>autoplot()</code> in the <strong>ggplot2</strong> package:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit, <span class="dt">plot.type=</span><span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
