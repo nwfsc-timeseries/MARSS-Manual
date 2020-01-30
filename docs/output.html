@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Output | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Output | MARSS Package Manual" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="E. E. Holmes" />
 
 
-<meta name="date" content="2019-11-27" />
+<meta name="date" content="2020-01-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -69,7 +69,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -153,14 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="output.html"><a href="output.html"><i class="fa fa-check"></i><b>4</b> Output</a></li>
 <li class="chapter" data-level="5" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>5</b> Univariate Models</a><ul>
 <li class="chapter" data-level="5.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>5.1</b> Random walk with drift</a></li>
-<li class="chapter" data-level="5.2" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.2</b> AR(1) observed with error</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.3</b> Linear regression with AR(1) errors</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression with AR(1) errors and independent errors</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) driven by covariate</a></li>
-<li class="chapter" data-level="5.6" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.6</b> Flat level model</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.7</b> Linear trend model</a></li>
-<li class="chapter" data-level="5.8" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Stochastic level model</a></li>
-<li class="chapter" data-level="5.9" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.9</b> Stochastic slope model</a></li>
+<li class="chapter" data-level="5.2" data-path="random-walk-with-time-varying-parameters.html"><a href="random-walk-with-time-varying-parameters.html"><i class="fa fa-check"></i><b>5.2</b> Random walk with time-varying parameters</a></li>
+<li class="chapter" data-level="5.3" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.3</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) errors</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.6</b> Linear regression with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.7</b> Linear regression with AR(1) driven by covariate</a></li>
+<li class="chapter" data-level="5.8" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Flat level model</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.9</b> Linear trend model</a></li>
+<li class="chapter" data-level="5.10" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.10</b> Stochastic level model</a></li>
+<li class="chapter" data-level="5.11" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.11</b> Stochastic slope model</a></li>
 </ul></li>
 <li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
 <li class="chapter" data-level="6" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>6</b> MARSS outputs</a></li>
@@ -198,38 +200,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="output" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Output</h1>
 <p>See the chapter on Outputs. This is a brief summary. The output are shown with the following simple fit:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(dat)</a></code></pre></div>
 <p>Use the <strong>broom</strong> package to get the model output in <strong>tidy</strong> form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See <code>?tidy.marssMLE</code> for information on how to change to a different type of confidence interval.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
 <pre><code>   term    estimate  std.error    conf.low conf.high
-1   R.R  0.27253759 0.06057961  0.15380373 0.3912715
-2   U.U  0.04668126 0.03688896 -0.02561978 0.1189823
-3   Q.Q  0.13193426 0.04964374  0.03463431 0.2292342
-4 x0.x0 -0.39344502 0.52183869 -1.41623005 0.6293400</code></pre>
+1   R.R  0.31058422 0.06819897  0.17691669 0.4442517
+2   U.U  0.01424236 0.03775311 -0.05975238 0.0882371
+3   Q.Q  0.13787730 0.05354426  0.03293248 0.2428221
+4 x0.x0 -0.39108553 0.54150585 -1.45241750 0.6702464</code></pre>
 <p>The get the estimated states use:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;states&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t         xtT    .fitted   .se.fit   .resids .std.resid
-1      X.Y1 1 -0.34607651 -0.3467638        NA        NA         NA
-2      X.Y1 2 -0.15862788 -0.2993953 0.2212354 0.1407674  0.6736776
-3      X.Y1 3  0.08122742 -0.1119466 0.2116100 0.1931740  1.0223742
-4      X.Y1 4  0.23420972  0.1279087 0.2090805 0.1063010  0.5813757
-5      X.Y1 5  0.38172136  0.2808910 0.2084296 0.1008304  0.5564444
-6      X.Y1 6  0.71009354  0.4284026 0.2082630 0.2816909  1.5581929</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;xtT&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t   estimate std.error   conf.low   conf.high
+1      X.Y1 1 -0.3780298 0.2676802 -0.9026734  0.14661377
+2      X.Y1 2 -0.4374489 0.3016688 -1.0287090  0.15381113
+3      X.Y1 3 -0.6262374 0.3102102 -1.2342382 -0.01823661
+4      X.Y1 4 -0.9408802 0.3124769 -1.5533237 -0.32843673
+5      X.Y1 5 -1.0439863 0.3130863 -1.6576242 -0.43034847
+6      X.Y1 6 -1.3250214 0.3132507 -1.9389814 -0.71106141</code></pre>
 <p>Note that generic rownames were given since none were specified for <code>dat</code>.
 You can also get all the Kalman filter and smoother estimates for <span class="math inline">\(x\)</span> from <code>MARSSkf()</code>. See <code>?MARSSkf</code>.</p>
 <p>The get the fitted values, the estimated <span class="math inline">\(y\)</span>, use:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;observations&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t            y     .fitted   .se.fit     .resids  .std.resid
-1        Y1 1 -0.635441105 -0.34607651 0.4537190 -0.28936459 -0.52983579
-2        Y1 2 -0.266884713 -0.15862788 0.4345472 -0.10825684 -0.02496066
-3        Y1 3  0.260681650  0.08122742 0.4295135  0.17945423  0.55506528
-4        Y1 4  0.245510485  0.23420972 0.4282183  0.01130077  0.16022453
-5        Y1 5  0.008116369  0.38172136 0.4278869 -0.37360499 -0.49659259
-6        Y1 6  1.318944283  0.71009354 0.4278022  0.60885074  1.40572879</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;fitted.ytT&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t          y   estimate std.error   std.dev   conf.low   conf.high
+1        Y1 1 -0.2147721 -0.3780298 0.2676802 0.6182531 -0.9026734  0.14661377
+2        Y1 2 -0.1460298 -0.4374489 0.3016688 0.6337100 -1.0287090  0.15381113
+3        Y1 3 -0.3427362 -0.6262374 0.3102102 0.6378202 -1.2342382 -0.01823661
+4        Y1 4 -1.4173907 -0.9408802 0.3124769 0.6389257 -1.5533237 -0.32843673
+5        Y1 5 -0.6431811 -1.0439863 0.3130863 0.6392239 -1.6576242 -0.43034847
+6        Y1 6 -0.6516485 -1.3250214 0.3132507 0.6393045 -1.9389814 -0.71106141
+   pred.low   pred.high
+1 -1.589784  0.83372403
+2 -1.679498  0.80459976
+3 -1.876342  0.62386718
+4 -2.193152  0.31139112
+5 -2.296842  0.20886958
+6 -2.578035 -0.07200769</code></pre>
 <p>There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to <span class="math inline">\(t-1\)</span> and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at <code>?fitted.marssMLE</code>.</p>
 <p>To make some generic plots and diagnostic plots, you can use <code>autoplot()</code> in the <strong>ggplot2</strong> package:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit, <span class="dt">plot.type =</span> <span class="st">&quot;observation&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit, <span class="dt">plot.type=</span><span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-autoplot-1.png" width="80%" style="display: block; margin: auto;" /></p>
 
 </div>

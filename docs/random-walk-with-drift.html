@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5.1 Random walk with drift | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5.1 Random walk with drift | MARSS Package Manual" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="E. E. Holmes" />
 
 
-<meta name="date" content="2019-11-27" />
+<meta name="date" content="2020-01-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="univariate-models.html"/>
-<link rel="next" href="ar1-observed-with-error.html"/>
+<link rel="next" href="random-walk-with-time-varying-parameters.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -69,7 +69,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -153,14 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="output.html"><a href="output.html"><i class="fa fa-check"></i><b>4</b> Output</a></li>
 <li class="chapter" data-level="5" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>5</b> Univariate Models</a><ul>
 <li class="chapter" data-level="5.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>5.1</b> Random walk with drift</a></li>
-<li class="chapter" data-level="5.2" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.2</b> AR(1) observed with error</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.3</b> Linear regression with AR(1) errors</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression with AR(1) errors and independent errors</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) driven by covariate</a></li>
-<li class="chapter" data-level="5.6" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.6</b> Flat level model</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.7</b> Linear trend model</a></li>
-<li class="chapter" data-level="5.8" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Stochastic level model</a></li>
-<li class="chapter" data-level="5.9" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.9</b> Stochastic slope model</a></li>
+<li class="chapter" data-level="5.2" data-path="random-walk-with-time-varying-parameters.html"><a href="random-walk-with-time-varying-parameters.html"><i class="fa fa-check"></i><b>5.2</b> Random walk with time-varying parameters</a></li>
+<li class="chapter" data-level="5.3" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.3</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) errors</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.6</b> Linear regression with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.7</b> Linear regression with AR(1) driven by covariate</a></li>
+<li class="chapter" data-level="5.8" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Flat level model</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.9</b> Linear trend model</a></li>
+<li class="chapter" data-level="5.10" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.10</b> Stochastic level model</a></li>
+<li class="chapter" data-level="5.11" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.11</b> Stochastic slope model</a></li>
 </ul></li>
 <li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
 <li class="chapter" data-level="6" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>6</b> MARSS outputs</a></li>
@@ -206,13 +208,13 @@ y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
 \tag{5.2}
 \end{equation}\]</span></p>
 <p>Create some data from this equation: </p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">r &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(TT, u, <span class="kw">sqrt</span>(q))) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="kw">sqrt</span>(r))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">u &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb16-2" title="2">r &lt;-<span class="st"> </span><span class="fl">0.01</span></a>
+<a class="sourceLine" id="cb16-3" title="3">q &lt;-<span class="st"> </span><span class="fl">0.1</span></a>
+<a class="sourceLine" id="cb16-4" title="4">TT &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb16-5" title="5">yt &lt;-<span class="st"> </span><span class="kw">cumsum</span>(<span class="kw">rnorm</span>(TT, u, <span class="kw">sqrt</span>(q))) <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(TT,<span class="dv">0</span>,<span class="kw">sqrt</span>(r))</a></code></pre></div>
 <p>Fit with <code>MARSS()</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt)</a></code></pre></div>
 <pre><code>Success! abstol and log-log tests passed at 35 iterations.
 Alert: conv.test.slope.tol is 0.5.
 Test with smaller values (&lt;0.1) to ensure convergence.
@@ -234,30 +236,37 @@ Initial states (x0) defined at t=0
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>Get confidence intervals with <code>tidy()</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">broom<span class="op">::</span><span class="kw">tidy</span>(fit)</a></code></pre></div>
 <pre><code>   term    estimate   std.error      conf.low  conf.high
 1   R.R  0.01843982 0.009894122 -0.0009523011 0.03783194
 2   U.U  0.04083656 0.025345531 -0.0088397685 0.09051289
 3   Q.Q  0.06328006 0.017784821  0.0284224487 0.09813767
 4 x0.x0 -0.26534896 0.281394026 -0.8168711121 0.28617320</code></pre>
 <p>The get the estimated states:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;states&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t        xtT     .fitted   .se.fit    .resids .std.resid
-1      X.Y1 1 -0.2246253 -0.22451240        NA         NA         NA
-2      X.Y1 2 -0.1370475 -0.18378875 0.2080856 0.04674122  0.2778325
-3      X.Y1 3  0.1814517 -0.09621097 0.2073928 0.27766272  1.7317264
-4      X.Y1 4  0.2708522  0.22228831 0.2073676 0.04856391  0.3034844
-5      X.Y1 5  0.3617262  0.31168877 0.2073666 0.05003744  0.3127155
-6      X.Y1 6  0.7986076  0.40256277 0.2073666 0.39604480  2.4751399</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;xtT&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t   estimate std.error    conf.low    conf.high
+1      X.Y1 1 -0.2246253 0.1098830 -0.43999204 -0.009258591
+2      X.Y1 2 -0.1370475 0.1118654 -0.35629967  0.082204600
+3      X.Y1 3  0.1814517 0.1119369 -0.03794055  0.400844038
+4      X.Y1 4  0.2708522 0.1119395  0.05145482  0.490249606
+5      X.Y1 5  0.3617262 0.1119396  0.14232863  0.581123792
+6      X.Y1 6  0.7986076 0.1119396  0.57920998  1.018005157</code></pre>
 <p>The get the fitted values (note these are the smoothed fitted values conditioned on all the data):</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">augment</span>(fit, <span class="dt">type =</span> <span class="st">&quot;observations&quot;</span>))</a></code></pre></div>
-<pre><code>  .rownames t          y    .fitted    .se.fit      .resids .std.resid
-1        Y1 1 -0.2382786 -0.2246253 0.07978438 -0.013653305  0.2553149
-2        Y1 2 -0.2043381 -0.1370475 0.07698023 -0.067290571  2.0850049
-3        Y1 3  0.2482112  0.1814517 0.07687621  0.066759440  1.3890582
-4        Y1 4  0.2704228  0.2708522 0.07687242 -0.000429388  0.5309852
-5        Y1 5  0.2608996  0.3617262 0.07687228 -0.100826613  2.9353642
-6        Y1 6  0.9039099  0.7986076 0.07687228  0.105302282  1.7417058</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">head</span>(broom<span class="op">::</span><span class="kw">tidy</span>(fit, <span class="dt">type=</span><span class="st">&quot;fitted.ytT&quot;</span>))</a></code></pre></div>
+<pre><code>  .rownames t          y   estimate std.error   std.dev    conf.low
+1        Y1 1 -0.2382786 -0.2246253 0.1098830 0.1746828 -0.43999204
+2        Y1 2 -0.2043381 -0.1370475 0.1118654 0.1759366 -0.35629967
+3        Y1 3  0.2482112  0.1814517 0.1119369 0.1759821 -0.03794055
+4        Y1 4  0.2704228  0.2708522 0.1119395 0.1759837  0.05145482
+5        Y1 5  0.2608996  0.3617262 0.1119396 0.1759838  0.14232863
+6        Y1 6  0.9039099  0.7986076 0.1119396 0.1759838  0.57920998
+     conf.high    pred.low pred.high
+1 -0.009258591 -0.56699739 0.1177468
+2  0.082204600 -0.48187693 0.2077819
+3  0.400844038 -0.16346678 0.5263703
+4  0.490249606 -0.07406956 0.6157740
+5  0.581123792  0.01680432 0.7066481
+6  1.018005157  0.45368567 1.1435295</code></pre>
 <p>Read up on fitted values for MARSS models at <code>?fitted.marssMLE</code>.</p>
 </div>
             </section>
@@ -266,7 +275,7 @@ Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
         </div>
       </div>
 <a href="univariate-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ar1-observed-with-error.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="random-walk-with-time-varying-parameters.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

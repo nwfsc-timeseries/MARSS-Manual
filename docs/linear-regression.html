@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.10 Stochastic level model | MARSS Package Manual</title>
+  <title>5.4 Linear regression | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.10 Stochastic level model | MARSS Package Manual" />
+  <meta property="og:title" content="5.4 Linear regression | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.10 Stochastic level model | MARSS Package Manual" />
+  <meta name="twitter:title" content="5.4 Linear regression | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="linear-trend-model.html"/>
-<link rel="next" href="stochastic-slope-model.html"/>
+<link rel="prev" href="ar1-observed-with-error.html"/>
+<link rel="next" href="linear-regression-with-ar1-errors.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -197,77 +197,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="stochastic-level-model" class="section level2">
-<h2><span class="header-section-number">5.10</span> Stochastic level model</h2>
-<p>We will now model the average river flow at year <span class="math inline">\(t\)</span> as a random walk, specifically an autoregressive process which means that average river flow at year <span class="math inline">\(t\)</span> is a function of average river flow in year <span class="math inline">\(t-1\)</span>.</p>
-<p><span class="math display" id="eq:short-stoch-level-model">\[\begin{equation}
-\begin{gathered}
-x_t = x_{t-1}+w_t \text{ where } w_t \sim \,\text{N}(0,q) \\
-y_t = x_t+v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
-x_0 = \pi 
-\end{gathered}   
-\tag{5.15}
+<div id="linear-regression" class="section level2">
+<h2><span class="header-section-number">5.4</span> Linear regression</h2>
+<p>A simple linear regression of one covariate is written:</p>
+<p><span class="math display" id="eq:short-lr">\[\begin{equation}
+y_{t} = \alpha + \beta*d_t + v_{t}, \text{ } w_t \sim \,\text{N}(0,q)
+\tag{5.4}
 \end{equation}\]</span></p>
-<p>With all the MARSS parameters shown, the model is:
-<span class="math display" id="eq:short-stoch-level-model2">\[\begin{equation}
+<p>Let’s create some simulated data with this structure:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb49-2" title="2">alpha &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb49-3" title="3">r &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb49-4" title="4">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT,<span class="dv">0</span>,<span class="dv">1</span>) <span class="co">#our covariate</span></a>
+<a class="sourceLine" id="cb49-5" title="5">vt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT,<span class="dv">0</span>,r)</a>
+<a class="sourceLine" id="cb49-6" title="6">yt &lt;-<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>beta<span class="op">*</span>dt <span class="op">+</span><span class="st"> </span>vt</a>
+<a class="sourceLine" id="cb49-7" title="7"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
+<p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-0-dat-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>To fit this model, we need to write it in MARSS form. Here’s the parts we need with the parameters, we don’t need removed.
+<span class="math display" id="eq:short-lr-ar\tag{5.5}on}(#eq:short-lr-ar1-marss)
 \begin{gathered}
-x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \,\text{N}(0,q) \\
-y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \,\text{N}(0,r)  \\
-x_0 = \pi 
- \end{gathered}   
-\tag{5.16}
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,0)\\
+\mathbf{y}_t = 0 \times \mathbf{x}_t + \mathbf{D}\mathbf{d}_t + \mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R})
+\end{gathered}
 \end{equation}\]</span></p>
-<p>The model is specified as a list as follows. We can use the BFGS algorithm to ‘polish’ off the fit and get closer to the MLE. Why not just start with BFGS? First, it happens to take a long long time to fit and more importantly, the BFGS algorith is sensitive to starting conditions and can catostrophically fail. In this case, it is slow but works fine. For some models, it does work better (faster and stable), but using the EM algorithm to get decent starting conditions for the BFGS algorithm is a common fitting strategy.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1">mod.list =<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb83-2" title="2"><span class="dt">Z=</span><span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">A=</span><span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">R=</span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>),</a>
-<a class="sourceLine" id="cb83-3" title="3"><span class="dt">B=</span><span class="kw">matrix</span>(<span class="dv">1</span>), <span class="dt">U=</span><span class="kw">matrix</span>(<span class="dv">0</span>), <span class="dt">Q=</span><span class="kw">matrix</span>(<span class="st">&quot;q&quot;</span>),</a>
-<a class="sourceLine" id="cb83-4" title="4"><span class="dt">x0=</span><span class="kw">matrix</span>(<span class="st">&quot;pi&quot;</span>) )</a>
-<a class="sourceLine" id="cb83-5" title="5">fit1 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model=</span>mod.list, <span class="dt">silent=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb83-6" title="6">fit2 &lt;-<span class="st"> </span><span class="kw">MARSS</span>(nile, <span class="dt">model=</span>mod.list, <span class="dt">inits=</span>fit1, <span class="dt">method=</span><span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
-<pre><code>Success! Converged in 12 iterations.
-Function MARSSkfas used for likelihood calculation.
+<p>We write out our parameters in matrix form. We want to set most of the <span class="math inline">\(\mathbf{x}\)</span> parameters to 0 so the algorithm doesn’t try to estimate them.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>) <span class="co"># no v_t</span></a>
+<a class="sourceLine" id="cb50-2" title="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb50-3" title="3">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb50-4" title="4">Z &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb50-5" title="5">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;alpha&quot;</span>)</a>
+<a class="sourceLine" id="cb50-6" title="6">Q &lt;-<span class="st"> </span>U &lt;-<span class="st"> </span>x0 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
+<p><code>MARSS()</code> requires <span class="math inline">\(\mathbf{d}\)</span> be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">U=</span>U, <span class="dt">Q=</span>Q, <span class="dt">x0=</span>x0, <span class="dt">Z=</span>Z, <span class="dt">A=</span>A, <span class="dt">D=</span>D, <span class="dt">d=</span>d, <span class="dt">R=</span>R)</a>
+<a class="sourceLine" id="cb51-2" title="2">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model=</span>mod.list)</a></code></pre></div>
+<pre><code>Success! algorithm run for 15 iterations. abstol and log-log tests passed.
+Alert: conv.test.slope.tol is 0.5.
+Test with smaller values (&lt;0.1) to ensure convergence.
 
 MARSS fit is
-Estimation method: BFGS 
-Estimation converged in 12 iterations. 
-Log-likelihood: -637.7451 
-AIC: 1281.49   AICc: 1281.74   
+Estimation method: kem 
+Convergence test: conv.test.slope.tol = 0.5, abstol = 0.001
+Algorithm ran 15 (=minit) iterations and convergence was reached. 
+Log-likelihood: -140.495 
+AIC: 286.9899   AICc: 287.2399   
  
-      Estimate
-R.r      15337
-Q.q       1218
-x0.pi     1112
+        Estimate
+A.alpha    0.810
+R.r        0.972
+D.beta     1.227
 Initial states (x0) defined at t=0
 
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">ggplot2<span class="op">::</span><span class="kw">autoplot</span>(fit2, <span class="dt">plot.type=</span><span class="st">&quot;observations&quot;</span>)</a></code></pre></div>
-<p><img src="MARSS_Manual_files/figure-html/quick-unis-stoch-level-plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>This is the same model fit in  except that we estimate <span class="math inline">\(x_1\)</span> as parameter rather than specifying <span class="math inline">\(x_1\)</span> via a diffuse prior. As a result, the log-likelihood value and <span class="math inline">\(\mathbf{R}\)</span> and <span class="math inline">\(\mathbf{Q}\)</span> are a little different than in .</p>
-<p>We can fit the Koopman model with <code>stats::StructTS()</code>. The estimates are slightly different since the initial conditions are treated differently.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">fit.ts &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw">StructTS</span>(nile, <span class="dt">type=</span><span class="st">&quot;level&quot;</span>)</a>
-<a class="sourceLine" id="cb86-2" title="2">fit.ts</a></code></pre></div>
+<p>The estimates are the same as with <code>lm()</code>:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">lm</span>(yt<span class="op">~</span>dt)</a></code></pre></div>
 <pre><code>
 Call:
-stats::StructTS(x = nile, type = &quot;level&quot;)
+lm(formula = yt ~ dt)
 
-Variances:
-  level  epsilon  
-   1469    15099  </code></pre>
-<p>The fitted values returned by <code>fitted()</code> applied to a <strong>StructTS</strong> object are different than that returned by <code>fitted()</code> applied to a <strong>marssMLE</strong> object. The former returns <span class="math inline">\(\hat{y}\)</span> conditioned on the data up to time <span class="math inline">\(t\)</span>, while the latter returns the <span class="math inline">\(\hat{y}\)</span> conditioned on all the data. If you want to compare use:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1"><span class="kw">plot</span>(nile, <span class="dt">type=</span><span class="st">&quot;p&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb88-2" title="2"><span class="kw">lines</span>(<span class="kw">fitted</span>(fit.ts), <span class="dt">col=</span><span class="st">&quot;black&quot;</span>, <span class="dt">lwd=</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb88-3" title="3"><span class="kw">lines</span>(<span class="kw">MARSSkfss</span>(fit2)<span class="op">$</span>xtt[<span class="dv">1</span>,], <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>)</a></code></pre></div>
-<p><img src="MARSS_Manual_files/figure-html/quick-unis-stoch-level-StructTS-plot-1.png" width="80%" style="display: block; margin: auto;" />
-The black line is the <code>StrucTS()</code> fit and the red line is the equivalent <code>MARSS()</code> fit.</p>
+Coefficients:
+(Intercept)           dt  
+     0.8096       1.2273  </code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="linear-trend-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="stochastic-slope-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ar1-observed-with-error.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-regression-with-ar1-errors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

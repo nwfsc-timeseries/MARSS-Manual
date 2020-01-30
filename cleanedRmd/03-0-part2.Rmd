@@ -29,18 +29,18 @@ broom::tidy(fit)
 
 The get the estimated states use:
 ```{r quick-augment1}
-head(broom::augment(fit, type="states"))
+head(broom::tidy(fit, type="xtT"))
 ```
 Note that generic rownames were given since none were specified for `dat`.
 You can also get all the Kalman filter and smoother estimates for $x$ from `MARSSkf()`. See `?MARSSkf`.
 
 The get the fitted values, the estimated $y$, use:
 ```{r quick-augment}
-head(broom::augment(fit, type="observations"))
+head(broom::tidy(fit, type="fitted.ytT"))
 ```
 There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to $t-1$ and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at `?fitted.marssMLE`.
 
 To make some generic plots and diagnostic plots, you can use `autoplot()` in the **ggplot2** package:
 ```{r quick-autoplot}
-ggplot2::autoplot(fit, plot.type="observation")
+ggplot2::autoplot(fit, plot.type="observations")
 ```

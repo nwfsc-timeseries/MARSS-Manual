@@ -46,15 +46,70 @@ broom::tidy(fit)
 
 The get the estimated states:
 ```{r quick-rw-augment1}
-head(broom::augment(fit, type="states"))
+head(broom::tidy(fit, type="xtT"))
 ```
 
 The get the fitted values (note these are the smoothed fitted values conditioned on all the data):
 ```{r quick-rw-augment}
-head(broom::augment(fit, type="observations"))
+head(broom::tidy(fit, type="fitted.ytT"))
 ```
 Read up on fitted values for MARSS models at `?fitted.marssMLE`.
 
+## Random walk with time-varying parameters
+
+Let's fit a random walk where the first 50 time steps have one process variance and the rest of the time series has a different process variance. The model is
+\begin{equation}
+\begin{gathered}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q_t)  \\
+y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
+\end{gathered}
+(\#eq:short-rw-tv1)
+\end{equation}
+
+Create some data:  \index{functions!MARSS}
+```{r quick-unis-rw-tv-dat}
+set.seed(123)
+TT <- 100
+sT <- 50
+u <- 0.01
+r <- 0.01
+q <- c(rep(0.1,sT), rep(0.2, TT-sT))
+yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+```
+
+Fit with MARSS:
+```{r quick-unis-rw-tv-fit}
+Q <- array(0, dim=c(1,1,TT))
+Q[1,1,] <- c(rep("q1", sT),rep("q2",TT-sT))
+fit <- MARSS(yt, model=list(Q=Q), silent=TRUE)
+broom::tidy(fit)
+```
+
+We can do the same with the drift term, $u$. We have one $u$ for the first 50 time steps and another for the last 50.
+Let's fit a random walk where the first 50 time steps have one process variance and the rest of the time series has a different process variance. The model is
+\begin{equation}
+\begin{gathered}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q_t)  \\
+y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \,\text{N}(0,r)
+\end{gathered}
+(\#eq:short-rw-tv1)
+\end{equation}
+
+Create some data:  \index{functions!MARSS}
+```{r quick-unis-rw-tv-dat2}
+set.seed(123)
+q <- 0.1
+u <- c(rep(0.1,sT), rep(-0.1, TT-sT))
+yt <- cumsum(rnorm(TT, u, sqrt(q))) + rnorm(TT,0,sqrt(r))
+```
+
+Fit with MARSS:
+```{r quick-unis-rw-tv-fit2}
+U <- array(0, dim=c(1,1,TT))
+U[1,1,] <- c(rep("u1", sT),rep("u2",TT-sT))
+fit <- MARSS(yt, model=list(U=U), silent=TRUE)
+broom::tidy(fit)
+```
 
 ## AR(1) observed with error
 
@@ -140,6 +195,55 @@ If we try fitting the non-stationary data with `arima()`, the estimates will be 
 arima(xt.ns, order=c(1,0,0), include.mean=FALSE, method="ML")
 ```
 
+## Linear regression
+
+A simple linear regression of one covariate is written:
+
+\begin{equation}
+y_{t} = \alpha + \beta*d_t + v_{t}, \text{ } w_t \sim \,\text{N}(0,q)
+(\#eq:short-lr)
+\end{equation}
+
+Let's create some simulated data with this structure:
+```{r quick-unis-lm-ar1-0-dat}
+beta <- 1.1
+alpha <- 1
+r <- 1
+dt <- rnorm(TT,0,1) #our covariate
+vt <- rnorm(TT,0,r)
+yt <- alpha + beta*dt + vt
+plot(dt, yt)
+```
+
+To fit this model, we need to write it in MARSS form. Here's the parts we need with the parameters, we don't need removed.
+\begin{equation}(\#eq:short-lr-ar1-marss)
+\begin{gathered}
+\mathbf{x}_t = \mathbf{x}_{t-1} + \mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,0)\\
+\mathbf{y}_t = 0 \times \mathbf{x}_t + \mathbf{D}\mathbf{d}_t + \mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R})
+\end{gathered}
+\end{equation} 
+
+We write out our parameters in matrix form. We want to set most of the $\mathbf{x}$ parameters to 0 so the algorithm doesn't try to estimate them.
+```{r quick-unis-lm-modlist}
+R <- matrix("r") # no v_t
+D <- matrix("beta")
+d <- matrix(dt, nrow=1)
+Z <- matrix(0)
+A <- matrix("alpha")
+Q <- U <- x0 <- matrix(0)
+```
+`MARSS()` requires $\mathbf{d}$ be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.
+
+```{r quick-unis-lm-ar1-0-fit}
+mod.list <- list(U=U, Q=Q, x0=x0, Z=Z, A=A, D=D, d=d, R=R)
+fit <- MARSS(yt, model=mod.list)
+```
+
+The estimates are the same as with `lm()`:
+```{r quick-lm-lm}
+lm(yt~dt)
+```
+
 ## Linear regression with AR(1) errors
 
 A simple linear regression of one covariate with AR(1) errors is written:
@@ -154,7 +258,7 @@ y_{t} = \beta*d_t + x_{t}
 
 
 Let's create some simulated data with this structure:
-```{r quick-unis-lm-ar1}
+```{r quick-unis-lm-ar1-1-dat}
 beta <- 1.1
 dt <- rnorm(TT,0,1) #our covariate
 wt <- arima.sim(n=TT, model=list(ar=b), sd=sqrt(q))
@@ -206,13 +310,13 @@ R <- matrix(0)
 ```
 However, the EM algorithm in the **MARSS** package will not perform well at all with $\mathbf{R}$ set to zero and it has to do with how $\mathbf{R}=0$ affects the update equations. You can use the BFGS algorithm or estimate $\mathbf{R}$.
 
-```{r quick-unis-lm-ar1-fit}
+```{r quick-unis-lm-ar1-1-fit}
 R <- matrix("r")
 mod.list <- list(B=B, U=U, R=R, D=D, d=d, A=A)
 fit <- MARSS(yt, model=mod.list)
 ```
 Or use the BFGS algorithm for fitting:
-```{r quick-unis-lm-ar1-fit-bfgs}
+```{r quick-unis-lm-ar1-1-fit-bfgs}
 R <- matrix(0)
 mod.list <- list(B=B, U=U, R=R, D=D, d=d, A=A)
 fit <- MARSS(yt, model=mod.list, method="BFGS")
@@ -220,7 +324,7 @@ fit <- MARSS(yt, model=mod.list, method="BFGS")
 
 This is the same model you are fitting when you pass in `xreg` with the `arima()` function:
 
-```{r quick-unis-lm-ar1-fit-arima}
+```{r quick-unis-lm-ar1-1-fit-arima}
 stats::arima(yt, order=c(1,0,0), xreg=dt, include.mean=FALSE, method="ML")
 ```
 Again the estimates are slightly different due to different treatment of the initial conditons.

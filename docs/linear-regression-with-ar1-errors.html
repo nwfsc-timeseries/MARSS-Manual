@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.3 Linear regression with AR(1) errors | MARSS Package Manual</title>
+  <title>5.5 Linear regression with AR(1) errors | MARSS Package Manual</title>
   <meta name="description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.3 Linear regression with AR(1) errors | MARSS Package Manual" />
+  <meta property="og:title" content="5.5 Linear regression with AR(1) errors | MARSS Package Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.3 Linear regression with AR(1) errors | MARSS Package Manual" />
+  <meta name="twitter:title" content="5.5 Linear regression with AR(1) errors | MARSS Package Manual" />
   
   <meta name="twitter:description" content="This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -24,14 +24,14 @@
 <meta name="author" content="E. E. Holmes" />
 
 
-<meta name="date" content="2019-11-27" />
+<meta name="date" content="2020-01-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="ar1-observed-with-error.html"/>
+<link rel="prev" href="linear-regression.html"/>
 <link rel="next" href="linear-regression-with-ar1-errors-and-independent-errors.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -69,7 +69,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -153,14 +153,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="output.html"><a href="output.html"><i class="fa fa-check"></i><b>4</b> Output</a></li>
 <li class="chapter" data-level="5" data-path="univariate-models.html"><a href="univariate-models.html"><i class="fa fa-check"></i><b>5</b> Univariate Models</a><ul>
 <li class="chapter" data-level="5.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>5.1</b> Random walk with drift</a></li>
-<li class="chapter" data-level="5.2" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.2</b> AR(1) observed with error</a></li>
-<li class="chapter" data-level="5.3" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.3</b> Linear regression with AR(1) errors</a></li>
-<li class="chapter" data-level="5.4" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression with AR(1) errors and independent errors</a></li>
-<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) driven by covariate</a></li>
-<li class="chapter" data-level="5.6" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.6</b> Flat level model</a></li>
-<li class="chapter" data-level="5.7" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.7</b> Linear trend model</a></li>
-<li class="chapter" data-level="5.8" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Stochastic level model</a></li>
-<li class="chapter" data-level="5.9" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.9</b> Stochastic slope model</a></li>
+<li class="chapter" data-level="5.2" data-path="random-walk-with-time-varying-parameters.html"><a href="random-walk-with-time-varying-parameters.html"><i class="fa fa-check"></i><b>5.2</b> Random walk with time-varying parameters</a></li>
+<li class="chapter" data-level="5.3" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>5.3</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="5.4" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>5.4</b> Linear regression</a></li>
+<li class="chapter" data-level="5.5" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>5.5</b> Linear regression with AR(1) errors</a></li>
+<li class="chapter" data-level="5.6" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>5.6</b> Linear regression with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="5.7" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>5.7</b> Linear regression with AR(1) driven by covariate</a></li>
+<li class="chapter" data-level="5.8" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>5.8</b> Flat level model</a></li>
+<li class="chapter" data-level="5.9" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>5.9</b> Linear trend model</a></li>
+<li class="chapter" data-level="5.10" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>5.10</b> Stochastic level model</a></li>
+<li class="chapter" data-level="5.11" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>5.11</b> Stochastic slope model</a></li>
 </ul></li>
 <li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
 <li class="chapter" data-level="6" data-path="marss-outputs.html"><a href="marss-outputs.html"><i class="fa fa-check"></i><b>6</b> MARSS outputs</a></li>
@@ -196,29 +198,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="linear-regression-with-ar1-errors" class="section level2">
-<h2><span class="header-section-number">5.3</span> Linear regression with AR(1) errors</h2>
+<h2><span class="header-section-number">5.5</span> Linear regression with AR(1) errors</h2>
 <p>A simple linear regression of one covariate with AR(1) errors is written:</p>
 <p><span class="math display" id="eq:short-lr-ar1">\[\begin{equation}
 \begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
 y_{t} = \beta*d_t + x_{t}
 \end{gathered}
-\tag{5.3}
+\tag{5.6}
 \end{equation}\]</span></p>
 <p>Let’s create some simulated data with this structure:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co">#our covariate</span></a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">wt &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n =</span> TT, <span class="dt">model =</span> <span class="kw">list</span>(<span class="dt">ar =</span> b), <span class="dt">sd =</span> <span class="kw">sqrt</span>(q))</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4">yt &lt;-<span class="st"> </span>beta <span class="op">*</span><span class="st"> </span>dt <span class="op">+</span><span class="st"> </span>wt</a>
-<a class="sourceLine" id="cb43-5" data-line-number="5">yt &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt)  <span class="co"># not ts object</span></a>
-<a class="sourceLine" id="cb43-6" data-line-number="6"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
-<p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">beta &lt;-<span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb55-2" title="2">dt &lt;-<span class="st"> </span><span class="kw">rnorm</span>(TT,<span class="dv">0</span>,<span class="dv">1</span>) <span class="co">#our covariate</span></a>
+<a class="sourceLine" id="cb55-3" title="3">wt &lt;-<span class="st"> </span><span class="kw">arima.sim</span>(<span class="dt">n=</span>TT, <span class="dt">model=</span><span class="kw">list</span>(<span class="dt">ar=</span>b), <span class="dt">sd=</span><span class="kw">sqrt</span>(q))</a>
+<a class="sourceLine" id="cb55-4" title="4">yt &lt;-<span class="st"> </span>beta<span class="op">*</span>dt <span class="op">+</span><span class="st"> </span>wt</a>
+<a class="sourceLine" id="cb55-5" title="5">yt &lt;-<span class="st"> </span><span class="kw">as.vector</span>(yt) <span class="co"># not ts object</span></a>
+<a class="sourceLine" id="cb55-6" title="6"><span class="kw">plot</span>(dt, yt)</a></code></pre></div>
+<p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-1-dat-1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>If we looked at an ACF of the residuals of a linear regression, we’d see that the residuals are highly autocorrelated:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">acf</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(yt <span class="op">~</span><span class="st"> </span>dt)))</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="kw">acf</span>(<span class="kw">residuals</span>(<span class="kw">lm</span>(yt <span class="op">~</span><span class="st"> </span>dt)))</a></code></pre></div>
 <p><img src="MARSS_Manual_files/figure-html/quick-unis-lm-ar1-acf-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>We can fit this model (Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(5.3)</a>) with <code>MARSS()</code>. Please note that there are many better R packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
-<p>To fit this model, we need match our Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(5.3)</a> with the full MARSS model written in matrix form (Equation <a href="#eq:marss-part2">(3.1)</a>). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
-<p><span class="math display" id="eq:short-lr-ar\tag{5.4}on}(#eq:short-lr-ar1-marss)
+<p>We can fit this model (Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(5.6)</a>) with <code>MARSS()</code>. Please note that there are many better R packages specifically designed for linear regression models with correlated errors. This simple example is to help you understand model specification with the <strong>MARSS</strong> package.</p>
+<p>To fit this model, we need match our Equation <a href="linear-regression-with-ar1-errors.html#eq:short-lr-ar1">(5.6)</a> with the full MARSS model written in matrix form (Equation <a href="#eq:marss-part2">(3.1)</a>). Here it is with the parameters that are zero dropped. <span class="math inline">\(\mathbf{Z}_t\)</span> is identity and is also dropped. The <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are time-constant so the <span class="math inline">\(t\)</span> subscript is dropped. The <span class="math inline">\(\mathbf{x}_t\)</span> are the AR(1) errors and the <span class="math inline">\(\mathbf{y}_t\)</span> is the linear regression with <span class="math inline">\(\mathbf{D}\)</span> being the effect sizes and the <span class="math inline">\(\mathbf{d}\)</span> being the covariate.</p>
+<p><span class="math display" id="eq:short-lr-ar\tag{5.5}on}(#eq:short-lr-ar1-marss)
 \begin{gathered}
 \mathbf{x}_t = \mathbf{B}\mathbf{x}_{t-1} + \mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
 \mathbf{y}_t = \mathbf{x}_t + \mathbf{D}\mathbf{d}_t
@@ -230,83 +232,77 @@ y_{t} = \beta*d_t + x_{t}
 \begin{bmatrix}x\end{bmatrix}_{t} = \begin{bmatrix}b\end{bmatrix}\begin{bmatrix}x\end{bmatrix}_{t-1} + \begin{bmatrix}0\end{bmatrix} + \begin{bmatrix}w\end{bmatrix}_{t}  \\
 \begin{bmatrix}y\end{bmatrix}_{t} = \begin{bmatrix}x\end{bmatrix}_{t} + \begin{bmatrix}\beta\end{bmatrix}\begin{bmatrix}d\end{bmatrix}_t
 \end{gathered}
-\tag{5.5}
+\tag{5.7}
 \end{equation}\]</span></p>
 <p>To create the model list for <code>MARSS()</code>, we specify the parameter matrices one-to-one like they look in Equation @ref(eq:short.lr.ar1.mat).</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)  <span class="co"># no v_t</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)  <span class="co"># since arima.sim was used, no u</span></a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb45-6" data-line-number="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>) <span class="co"># no v_t</span></a>
+<a class="sourceLine" id="cb57-2" title="2">D &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb57-3" title="3">U &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>) <span class="co"># since arima.sim was used, no u</span></a>
+<a class="sourceLine" id="cb57-4" title="4">B &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;b&quot;</span>)</a>
+<a class="sourceLine" id="cb57-5" title="5">d &lt;-<span class="st"> </span><span class="kw">matrix</span>(dt, <span class="dt">nrow=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb57-6" title="6">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a></code></pre></div>
 <p><code>MARSS()</code> requires <span class="math inline">\(\mathbf{d}\)</span> be a matrix also. Each row is a covariate and each column is a time step. No missing values allowed as this is an input.</p>
 <p>How should we treat the <span class="math inline">\(\mathbf{R}\)</span> matrix? It is zero, and we could set <span class="math inline">\(\mathbf{R}\)</span> to zero:</p>
 <pre><code>R &lt;- matrix(0)</code></pre>
 <p>However, the EM algorithm in the <strong>MARSS</strong> package will not perform well at all with <span class="math inline">\(\mathbf{R}\)</span> set to zero and it has to do with how <span class="math inline">\(\mathbf{R}=0\)</span> affects the update equations. You can use the BFGS algorithm or estimate <span class="math inline">\(\mathbf{R}\)</span>.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list)</a></code></pre></div>
-<pre><code>Warning! Abstol convergence only. Maxit (=500) reached before log-log convergence.
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="st">&quot;r&quot;</span>)</a>
+<a class="sourceLine" id="cb59-2" title="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B=</span>B, <span class="dt">U=</span>U, <span class="dt">R=</span>R, <span class="dt">D=</span>D, <span class="dt">d=</span>d, <span class="dt">A=</span>A)</a>
+<a class="sourceLine" id="cb59-3" title="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model=</span>mod.list)</a></code></pre></div>
+<pre><code>Success! abstol and log-log tests passed at 75 iterations.
+Alert: conv.test.slope.tol is 0.5.
+Test with smaller values (&lt;0.1) to ensure convergence.
 
 MARSS fit is
 Estimation method: kem 
 Convergence test: conv.test.slope.tol = 0.5, abstol = 0.001
-WARNING: Abstol convergence only no log-log convergence.
- maxit (=500) reached before log-log convergence.
- The likelihood and params might not be at the ML values.
- Try setting control$maxit higher.
-Log-likelihood: -25.53381 
-AIC: 61.06762   AICc: 61.70592   
+Estimation converged in 75 iterations. 
+Log-likelihood: -31.93036 
+AIC: 73.86072   AICc: 74.49902   
  
        Estimate
-R.r     0.00264
-B.b     0.91256
-Q.Q     0.09294
-x0.x0  -1.07486
-D.beta  1.10169
+R.r      0.0116
+B.b      0.9150
+Q.Q      0.0911
+x0.x0    0.0916
+D.beta   1.0817
 Initial states (x0) defined at t=0
 
 Standard errors have not been calculated. 
-Use MARSSparamCIs to compute CIs and bias estimates.
-
-Convergence warnings
- Warning: the  R.r  parameter value has not converged.
- Type MARSSinfo(&quot;convergence&quot;) for more info on this warning.</code></pre>
+Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>Or use the BFGS algorithm for fitting:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B =</span> B, <span class="dt">U =</span> U, <span class="dt">R =</span> R, <span class="dt">D =</span> D, <span class="dt">d =</span> d, <span class="dt">A =</span> A)</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model =</span> mod.list, <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
-<pre><code>Success! Converged in 122 iterations.
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1">R &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb61-2" title="2">mod.list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">B=</span>B, <span class="dt">U=</span>U, <span class="dt">R=</span>R, <span class="dt">D=</span>D, <span class="dt">d=</span>d, <span class="dt">A=</span>A)</a>
+<a class="sourceLine" id="cb61-3" title="3">fit &lt;-<span class="st"> </span><span class="kw">MARSS</span>(yt, <span class="dt">model=</span>mod.list, <span class="dt">method=</span><span class="st">&quot;BFGS&quot;</span>)</a></code></pre></div>
+<pre><code>Success! Converged in 169 iterations.
 Function MARSSkfas used for likelihood calculation.
 
 MARSS fit is
 Estimation method: BFGS 
-Estimation converged in 122 iterations. 
-Log-likelihood: -25.48386 
-AIC: 58.96772   AICc: 59.38878   
+Estimation converged in 169 iterations. 
+Log-likelihood: -32.16264 
+AIC: 72.32527   AICc: 72.74632   
  
        Estimate
-B.b      0.9090
-Q.Q      0.0975
-x0.x0   -1.0754
-D.beta   1.1017
+B.b      0.8970
+Q.Q      0.1114
+x0.x0    0.0936
+D.beta   1.0858
 Initial states (x0) defined at t=0
 
 Standard errors have not been calculated. 
 Use MARSSparamCIs to compute CIs and bias estimates.</code></pre>
 <p>This is the same model you are fitting when you pass in <code>xreg</code> with the <code>arima()</code> function:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">stats<span class="op">::</span><span class="kw">arima</span>(yt, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">xreg =</span> dt, <span class="dt">include.mean =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">    <span class="dt">method =</span> <span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1">stats<span class="op">::</span><span class="kw">arima</span>(yt, <span class="dt">order=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">xreg=</span>dt, <span class="dt">include.mean=</span><span class="ot">FALSE</span>, <span class="dt">method=</span><span class="st">&quot;ML&quot;</span>)</a></code></pre></div>
 <pre><code>
 Call:
 stats::arima(x = yt, order = c(1, 0, 0), xreg = dt, include.mean = FALSE, method = &quot;ML&quot;)
 
 Coefficients:
          ar1      dt
-      0.9143  1.1023
-s.e.  0.0384  0.0266
+      0.8887  1.0859
+s.e.  0.0428  0.0251
 
-sigma^2 estimated as 0.09906:  log likelihood = -27.19,  aic = 60.39</code></pre>
+sigma^2 estimated as 0.1115:  log likelihood = -32.97,  aic = 71.93</code></pre>
 <p>Again the estimates are slightly different due to different treatment of the initial conditons.</p>
 </div>
             </section>
@@ -314,7 +310,7 @@ sigma^2 estimated as 0.09906:  log likelihood = -27.19,  aic = 60.39</code></pre
           </div>
         </div>
       </div>
-<a href="ar1-observed-with-error.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="linear-regression-with-ar1-errors-and-independent-errors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
