@@ -1,0 +1,40 @@
+```{r covariates-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "input-")
+```
+
+# Covariates format {#chap-covariates}
+
+The first argument to `MARSS()` is your data, aka your response variables or the $\yy$ in your MARSS equation.
+```
+MARSS(data, model=list(c=..., d=...))
+```
+
+Your covariates must a matrix with time across the columns ($p \times T$ matrix) where $p$ is the number of covariates. No NAs are allowed in covariates. See [MARMES](https://nwfsc-timeseries.github.io/MARMES/) chapters dealing with missing values in your covariates.
+
+Here is an example of a covariate matrix for 2 covariates.
+\begin{equation*}
+\yy = \left[ \begin{array}{ccccccc}
+    1 & 2 & 5 & 7 & 3.2 & 8\\
+    2 & 5 & 3 & 8 & 5.1 & 10.2\end{array} \right]
+\end{equation*}
+
+
+## Factor covariates
+
+If your covariates are factors, like site number or month, and you are estimating a $a$ value, i.e. level or intercept, for each then you will use a matrix with 0s and 1s. This is identical to how say `lm()` would translate your model with factors.
+
+Say your covariate is quarters and you have 3 years of data:
+```{r}
+covariate <- rep(paste0("q",1:4), 3)
+```
+You translate this to a matrix with four rows and 10 columns. Each row is for a different quarter.
+```{r}
+vals <- unique(covariate)
+TT <- length(covariate)
+p <- length(vals)
+c <- matrix(0, p, TT)
+for(i in 1:p) c[i,] <- covariate == vals[i]
+rownames(c) <- vals
+c
+```
+

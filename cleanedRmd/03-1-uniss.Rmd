@@ -2,7 +2,7 @@
 knitr::opts_knit$set(unnamed.chunk.label = "quick-unis-")
 set.seed(123)
 ```
-# Univariate Models
+# Univariate Models {#chap-uss}
 
 These models can be written in the form:
 \begin{equation}
@@ -45,13 +45,13 @@ broom::tidy(fit)
 ```
 
 The get the estimated states:
-```{r quick-rw-augment1}
-head(broom::tidy(fit, type="xtT"))
+```{r quick-rw-tsSmooth}
+head(stats::tsSmooth(fit, type="xtT"))
 ```
 
 The get the fitted values (note these are the smoothed fitted values conditioned on all the data):
 ```{r quick-rw-augment}
-head(broom::tidy(fit, type="fitted.ytT"))
+head(fitted(fit, type="ytT"))
 ```
 Read up on fitted values for MARSS models at `?fitted.marssMLE`.
 
@@ -464,7 +464,7 @@ fit2 <- MARSS(nile, model=mod.list2)
 The results are the same. We just formatted the model in different ways. We can plot the fitted model against the Nile river flow (blue dots) using `autoplot()`.
 
 ```{r quick-unis-flat-level-plot}
-ggplot2::autoplot(fit2, plot.type="observations")
+ggplot2::autoplot(fit2, plot.type="model.ytT")
 ```
 
 ## Linear trend model
@@ -511,7 +511,7 @@ fit2 <- MARSS(nile, model=mod.list2, control=list(minit=30))
 
 The fits are the same with either formulation of the model as long as we force the algorithm to run longer for the second form.
 ```{r quick-unis-linear-level-plot}
-ggplot2::autoplot(fit2, plot.type="observations")
+ggplot2::autoplot(fit2, plot.type="model.ytT")
 ```
 
 ## Stochastic level model
@@ -548,7 +548,7 @@ fit2 <- MARSS(nile, model=mod.list, inits=fit1, method="BFGS")
 ```
 
 ```{r quick-unis-stoch-level-plot}
-ggplot2::autoplot(fit2, plot.type="observations")
+ggplot2::autoplot(fit2, plot.type="model.ytT")
 ```
 
 This is the same model fit in \citet[p. 148]{Koopmanetal1998} except that we estimate $x_1$ as parameter rather than specifying $x_1$ via a diffuse prior\index{prior!diffuse}. As a result, the log-likelihood value and $\mathbf{R}$ and $\mathbf{Q}$ are a little different than in  \citet{Koopmanetal1998}. 
@@ -604,5 +604,5 @@ fit2 <- MARSS(nile, model=mod.list, inits=fit1, method="BFGS")
 ```
 
 ```{r quick-unis-stoch-slope-plot}
-ggplot2::autoplot(fit2, plot.type="observations")
+ggplot2::autoplot(fit2, plot.type="model.ytT")
 ```

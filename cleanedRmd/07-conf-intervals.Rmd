@@ -2,5 +2,5 @@
 knitr::opts_knit$set(unnamed.chunk.label = "confint-")
 ```
 
-# Confidence Intervals
+# Confidence Intervals {#chap-CIs}
 

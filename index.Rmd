@@ -1,6 +1,6 @@
 --- 
 title: "MARSS Package Manual"
-author: "E. E. Holmes"
+author: "E. E. Holmes, M. D. Scheuerell, and E. J. Ward"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 fontsize: 12pt
@@ -8,7 +8,7 @@ documentclass: book
 bibliography: [tex/book.bib, tex/packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This is the manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data."
+description: "This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data by Holmes, Scheuerell and Ward."
 cover-image: images/cover.png
 favicon: "favicon.ico"
 ---
@@ -22,7 +22,7 @@ library(MARSS)
 
 The **MARSS** R package allows you to fit **constrained** multivariate autoregressive state-space models. 
 
-This manual covers the **MARSS** \textbf{R} package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see the companion book *MARSS Modeling for Environmental Data* by Holmes, Scheurell, and Ward. 
+This manual covers the **MARSS** \textbf{R} package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see the companion book *MARSS Modeling for Environmental Data* by Holmes, Scheuerell, and Ward. 
 
 ### Installation {-}
 
@@ -51,26 +51,35 @@ options(devtools.install.args = "--no-multiarch")
 To install an \textbf{R} package from Github, you need to be able to build an \textbf{R} package on your machine. If you are on Windows, that means you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). On a Mac, installation should work fine; you don't need to install anything.
 
 
-### Author {-}
+### Authors {-}
 
-Elizabeth E. Holmes is a research scientist at the Northwest Fisheries Science Center (NWFSC) a US Federal government research center.  This work was conducted as part of her job for NOAA Fisheries, as such the work is in the public domain and cannot be copyrighted.   
+The authors are research scientists with the US Federal government.  This work was conducted as part of their jobs for NOAA Fisheries and USGS, as such the work is in the public domain and cannot be copyrighted.   
 
-Links to more code and publications can be found on our academic websites:
+Links to more code and publications can be found on their academic websites:
 
 * http://faculty.washington.edu/eeholmes
+* https://faculty.washington.edu/scheuerl
+* http://faculty.washington.edu/warde
 
 
 ### Citation {-}
 
 
-Holmes, E. E. 2019. MARSS Manual. NOAA Fisheries, Northwest Fisheries Science Center, 2725 Montlake Blvd E., Seattle, WA 98112.  Contact eli.holmes@noaa.gov.
+Holmes, E. E., M.D. Scheuerell, E.J. Ward. MARSS Package Manual. Accessed `r Sys.Date()`. <https://nwfsc-timeseries.github.io/MARSS-Manual/>
+
+Holmes, E.E., E.J. Ward, and K. Wills. 2012. MARSS: multivariate autoregressive state-space models for analyzing time-series data. R Journal 4(1): 11-19. https://doi.org/10.32614/RJ-2012-002
 
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  'MARSS','bookdown', 'knitr', 'rmarkdown','tseries','tidyverse'
+  'MARSS', 'KFAS', 'bookdown', 'knitr', 'rmarkdown','tseries','tidyverse'
 ), 'tex/packages.bib')
 ```
+
+### Acknowledgments {-}
+
+Early development of the MARSS functions into an R package was done by Kellie Wills, a contractor at NWFSC. Students in the workshops on MAR and MARSS modeling and the course at University of Washington have helped us refine the package. The Kalman filter and smoother functions used by the MARSS package are now those written by Jouni Helske for the **KFAS**  package. Use of the **KFAS** Kalman functions has made the **MARSS** package faster and more stable.
+
 
 

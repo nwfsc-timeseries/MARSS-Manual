@@ -2,7 +2,129 @@
 knitr::opts_knit$set(unnamed.chunk.label = "quick-")
 ```
 
-# How to get started (quickly)
+# Quick Start  {#chap-quick-start}
 
-If you already work with models in the form of Equation \ref{eqn:marss}, you can immediately fit your model with the **MARSS** package.  Install the **MARSS** package and then type `library(MARSS)` at the command line to load the package.  Look at the Quick Start Guide and then skim through Chapter \ref{chap:Examples} to, hopefully, find an example similar to your application.  Appendix \ref{chap:modelspec} also has many examples of how to specify different forms for your parameter matrices. 
+If you already work with models in the form of Equation \@ref(eq:marss), you can immediately fit your model with the **MARSS** package.  Install the **MARSS** package and then type `library(MARSS)` at the command line to load the package.
+
+The default MARSS model is:
+\begin{equation}\label{eqn:marss}
+\begin{gathered}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ } \ww_t \sim \MVN(0,\QQ_t) \\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ } \vv_t \sim \MVN(0,\RR_t) \\
+\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)
+\end{gathered}
+\end{equation}
+$\cc$ and $\dd$ are inputs (aka, exogenous variables or covariates or indicator variables) and must have no missing values.  They are not treated as `data' in the likelihood but as inputs.  In most cases, $\GG$ and $\HH$ are fixed (not estimated) and must have no missing values. $\ww_t$ and $\vv_t$ are uncorrelated.
+
+The MARSS package is designed to handle linear constraints within the parameter matrices: $\BB$, $\uu$, $\CC$, $\QQ$, $\ZZ$, $\aa$, $\DD$, $\RR$, $\pipi$, and $\LAM$ (and in limited situations $\GG$ and $\HH$).  Linear constraint means you can write the elements of the matrix as a linear equation of all the other elements.
+
+Example: a mean-reverting random walk model with three observation time series:
+\begin{gather*}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
+= \begin{bmatrix}b&0\\ 0&b\end{bmatrix}
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_{t-1}
++ \begin{bmatrix}w_1\\ w_2\end{bmatrix}_t, \quad 
+\begin{bmatrix}w_1\\ w_2\end{bmatrix}_t \sim \MVN\begin{pmatrix}\begin{bmatrix}0\\0\end{bmatrix},\begin{bmatrix}q_{11}&q_{12}\\ q_{12}&q_{22}\end{bmatrix} \end{pmatrix}, \quad
+\begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \MVN\begin{pmatrix}\begin{bmatrix}0\\ 0\end{bmatrix},\begin{bmatrix}1&0\\ 0&1\end{bmatrix} \end{pmatrix} \\
+\\
+\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}_t
+= \begin{bmatrix}1&1\\ 0&1\\ 1&0\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_t
++ \begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t,\quad 
+\begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix}_t \sim MVN\begin{pmatrix}\begin{bmatrix}a_1\\ 0\\ 0\end{bmatrix},
+ \begin{bmatrix}r_{11}&0&0\\ 0&r&0\\ 0&0&r\end{bmatrix} \end{pmatrix} 
+\end{gather*}
+
+To fit with `MARSS()`, we translate this model into equivalent matrices (or arrays if time-varying) in \R. Matrices that combine fixed and estimated values are specified using a list matrix with numerical values for fixed values and  character names for the estimated values. 
+```{r quick-start-01}
+B1 <- matrix(list("b",0,0,"b"),2,2)
+U1 <- matrix(0,2,1)
+Q1 <- matrix(c("q11","q12","q12","q22"),2,2)
+Z1 <- matrix(c(1,0,1,1,1,0),3,2)
+A1 <- matrix(list("a1",0,0),3,1)
+R1 <- matrix(list("r11",0,0,0,"r",0,0,0,"r"),3,3)
+pi1 <- matrix(0,2,1); V1=diag(1,2)
+model.list <- list(B=B1,U=U1,Q=Q1,Z=Z1,A=A1,R=R1,x0=pi1,V0=V1,tinitx=0)
+```
+Try printing these out and you will see the one-to-one correspondence between the model in R and the math version of the model.  Matrix names in the model list must be `B`, `U`, `C`, `c`, `Q`, `Z`, `A`, `D`, `d`, `R`, `x0`, and `V0`, although in many cases you will use the default values and do not need to specify for the model list.  The `tinitx` element tells `MARSS()` whether the initial state for $x$ is at $t=1$ (`tinitx=1`) or $t=0$ (`tinitx=0`).   The data must be entered as a $n \times T$ matrix, a ts object (which will be converted to a $n \times T$ matrix) or a vector (which will be converted to a $1 \times T$ matrxi).  `MARSS()` has a number of text shortcuts for common parameter forms, such as ``diagonal and unequal''.
+
+The call to MARSS is 
+```
+fit <- MARSS(data, model=model.list)
+```
+The `R`, `Q` and `V0` variances can be set to zero to specify partially deterministic systems.  This allows you to write MAR(p) models in MARSS form for example. 
+
+## Linear constraints
+
+Your model can have simple linear constraints within all the parameters except $\QQ$, $\RR$ and $\LAM$.  For example $1+2a-3b$ is a linear constraint. When entering this value for you matrix, you specify this as \verb@"1+2*a+-3*b"@. NOTE: $+$'s join parts so $+-3*b$ to specify $-3b$. Anything after `*` is a parameter. So `1*1` has a parameter called `"1"`. Example, let's change the $\BB$ and $\QQ$ matrices in the previous model to:
+\begin{equation*}
+\BB = \begin{bmatrix}b-0.1&0\\ 0&b+0.1\end{bmatrix}\quad
+\QQ = \begin{bmatrix}q_{11}&0\\ 1&0\end{bmatrix}\quad
+\ZZ = \begin{bmatrix}z_1-z_2&2*z_1\\ 0&z_1\\ z_2&0\end{bmatrix}
+\end{equation*}
+
+This would be specified as (notice `"1*z1+-1*z2"` for `z1-z2`):
+```{r}
+B1 <- matrix(list("-0.1+1*b",0,0,"0.1+1*b"),2,2)
+Q1 <- matrix(list("q11",0,0,1),2,2)
+Z1 <- matrix(list("1*z1+-1*z2",0,"z2","2*z1","z1",0),3,2)
+model.list <- list(B=B1,U=U1,Q=Q1,Z=Z1,A=A1,R=R1,x0=pi1,V0=V1,tinitx=0)
+```
+
+You can call `toLatex()` on your model to make sure you and `MARSS()` agree on what model you a trying to fit:
+```
+fit <- MARSS(data, model=model.list)
+toLatex(fit$model)
+```
+
+## Important
+
+* Specification of a properly constrained model with a unique solution is the responsibility of the user because MARSS has no way to tell if you have specified an insufficiently constrained model.
+*  The code in the MARSS package is not particularly fast and EM algorithms are famously slow.  You can try `method="BFGS"` and see if that is faster.  For some models, it will be much faster and for others, much slower. "BFGS" can be quite sensitive to initial conditions. You can run EM a few iterations and then pass to "BFGS", and it will do better.
+    ```
+    fit1 <- MARSS(data, model=model.list, control=list(minit=10, maxit=10))
+    fit2 <- MARSS(data, model=model.list, method="BFGS", inits=fit1)
+    ```
+
+## Time-varying parameters and inputs
+
+You can pass in an array of $T$ matrices for a time-varying parameter ($T$ is the number of time-steps in your data and is the 3rd dimension in the array):  
+\begin{equation}
+\begin{gathered}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \quad
+\WW_t \sim \MVN(0,\QQ_t)\\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \quad
+\VV_t \sim \MVN(0,\RR_t)\\
+\xx_{t_0} \sim \MVN(\pipi,\LAM)
+\end{gathered}
+\end{equation}
+Zeros are allowed on the diagonals of $\QQ$, $\RR$ and $\LAM$.  NOTE(!!), the time indexing.  Make sure you enter your arrays such that the right parameter (or input) at time $t$ lines up with $\xx_t$, e.g. it is common for state equations to have $\BB_{t-1}$ lined up with $\xx_t$ so you might need to enter the $\BB$ array such that your $\BB_{t-1}$ is entered at `Bt[,,t]` in the R code.
+
+The length of the 3rd dimension must be the same as your data.  For example, say in your  mean-reverting random walk model (the example on the first page) you wanted $\BB(2,2)$ to be one value before $t=20$ and another value after but $\BB(1,1)$ to be time constant. You can pass in the following:
+```
+TT <- dim(data)[2]
+B1 <- array(list(),dim=c(2,2,TT))
+B1[,,1:20] <- matrix(list("b",0,0,"b_1"),2,2)
+B1[,,21:TT] <- matrix(list("b",0,0,"b_2"),2,2)
+```
+Notice the specification is one-to-one to your $\BB_t$ matrices on paper.
+
+## Inputs
+
+Inputs are specified in exactly the same manner.  $\CC$ and $\DD$ are the estimated parameters and $\cc$ and $\dd$ are the inputs.  Let's say you have temperature data and you want to include a linear effect of temperature that is different for each $\xx$ time series:
+```
+C1 <- matrix(c("temp1","temp2"),2,1)
+model.list <- list(B=B1,U=U1,C=C1,c=temp,Q=Q1,Z=Z1,A=A1,R=R1,x0=pi1,V0=V1,tinitx=0)
+```
+If you want a factor effect, then you'll need to recode your factor as a matrix with $T$ columns and a row for each factor.  Then you have 0 or 1 if that factor applies in time period $t$.  $\CC$ then has a column for each estimated factor effect.  See the covariate chapters in the [MARMES](https://nwfsc-timeseries.github.io/MARMES/) for examples.
+
+## Outputs
+
+There are \verb@plot@, \verb@autoplot@, \verb@print@, \verb@summary@, \verb@coef@, \verb@fitted@, \verb@residuals@ and \verb@predict@ functions for marssMLE objects. See the man files, e.g. `?plot` to see examples.
+
+## Tips and Tricks
+
+Use `plot(fit)` (or `autoplot(fit)`) to see a series of plots and diagnostics for your model. Try `MARSSinfo()` if you get errors you don't understand or fitting is taking a long time to converge.  When fitting a model with `MARSS()`, pass in `silent=2` to see what `MARSS()` is doing.  This puts it in verbose mode.   Use `fit=FALSE` to set up a model without fitting. Let's say you do `fit <- MARSS(..., fit=FALSE)`.  Now you can do `summary(fit$model)` to see what `MARSS()` thinks you are trying to fit.  You can also try `toLatex(fit$model)` to make a LaTeX file and pdf version of your model (saved in the working directory).  This loads the **Hmisc** package (and all its dependencies) and requires that you are able to process LaTeX files (e.g. you have the **tinytex** package).
+
+Let's say you specified your model with some text shortcuts, like `Q="unconstrained"`, but you want the list matrix form for a next step. `a <- summary(fit$model)` returns that list (invisibly).  Because the model argument of `MARSS()` will understand a list of list matrices, you can pass in `model=a` to specify the model.  `MARSSkfas(fit, return.kfas.model=TRUE)`  will return your model in KFAS form (class SSModel), thus you can use all the functions available in the KFAS package on your model.
 

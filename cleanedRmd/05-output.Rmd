@@ -2,7 +2,7 @@
 knitr::opts_knit$set(unnamed.chunk.label = "output-")
 ```
 
-# MARSS outputs
+# MARSS outputs {#chap-outputs}
 
 MARSS models are used in many different ways and different users will want different types of output.  Some users will want the parameter estimates while others want the smoothed states and others want to use MARSS models to interpolate missing values and want the expected values of missing data.  
 
