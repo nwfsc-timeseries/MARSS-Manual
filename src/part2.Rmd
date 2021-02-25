@@ -1,0 +1,15 @@
+# <i style="font-size: 110%; color:#990017;">Part 2. Short Examples</i> {- #part2}
+
+The section shows a series of short examples for different types of models specified in MARSS structure. See the `r MARMES` book for a wide variety of detailed examples and explanations.
+
+The MARSS model has the form:
+\begin{equation*}
+\begin{gathered}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ where } \ww_t \sim \MVN(0,\QQ_t)\\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ where } \vv_t \sim \MVN(0,\RR_t)\\
+\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)
+\end{gathered}
+(\#eq:marss-part2)
+\end{equation*} 
+
+The $\xx$ on the left are the hidden states. The $\yy$ on the left are the observed data. Missing values are allowed in $\yy$. 

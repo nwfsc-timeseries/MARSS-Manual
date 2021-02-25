@@ -1,0 +1,6 @@
+```{r output-setup-smoothed, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "output-states-")
+```
+
+# States and smoothed estimates {#chap-states}
+

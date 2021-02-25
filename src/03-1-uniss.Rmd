@@ -92,7 +92,7 @@ Let's fit a random walk where the first 50 time steps have one process variance 
 x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q_t)  \\
 y_{t} = x_{t} + v_{t}, \text{ } v_t \sim \N(0,r)
 \end{gathered}
-(\#eq:short-rw-tv1)
+(\#eq:short-rw-tv2)
 \end{equation}
 
 Create some data:  \index{functions!MARSS}
@@ -115,7 +115,7 @@ broom::tidy(fit)
 
 With the addition of $b$ in front of $x_{t-1}$ we have an AR(1) process. \begin{equation}
 \begin{gathered}
-x_{t} = bx_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q)  \\
+x_{t} = b x_{t-1} + u + w_{t}, \text{ } w_t \sim \N(0,q)  \\
 y_{t} = x_{t} + v_{t}, \text{ } w_t \sim \N(0,r)
 \end{gathered}
 (\#eq:short-ar1)
@@ -153,7 +153,7 @@ yt.s <- xt.s + rnorm(TT, 0, sqrt(r))
 yt.s <- as.vector(yt.s)
 xt.s <- as.vector(xt.s)
 ```
-These stationary data can be fit as before but the data must be a matrix with time across the columns not a **ts** object. If you pass in a vector, `MARSS()` will convert that to a matrix with one row.
+These stationary data can be fit as before but the data must be a matrix with time across the columns not a `ts` object. If you pass in a vector, `MARSS()` will convert that to a matrix with one row.
 
 
 ```{r quick-unis-ar1-plot2}
@@ -195,12 +195,12 @@ If we try fitting the non-stationary data with `arima()`, the estimates will be 
 arima(xt.ns, order=c(1,0,0), include.mean=FALSE, method="ML")
 ```
 
-## Linear regression
+## Linear regression (LR)
 
 A simple linear regression of one covariate is written:
 
 \begin{equation}
-y_{t} = \alpha + \beta*d_t + v_{t}, \text{ } w_t \sim \N(0,q)
+y_{t} = \alpha + \beta \, d_t + v_{t}, \text{ } w_t \sim \N(0,q)
 (\#eq:short-lr)
 \end{equation}
 
@@ -244,14 +244,14 @@ The estimates are the same as with `lm()`:
 lm(yt~dt)
 ```
 
-## Linear regression with AR(1) errors
+## LR with AR(1) errors
 
 A simple linear regression of one covariate with AR(1) errors is written:
 
 \begin{equation}
 \begin{gathered}
-x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \N(0,q)  \\
-y_{t} = \beta*d_t + x_{t}
+x_{t} = b x_{t-1} + w_{t}, \text{ } w_t \sim \N(0,q)  \\
+y_{t} = \beta d_t + x_{t}
 \end{gathered}
 (\#eq:short-lr-ar1)
 \end{equation}
@@ -277,7 +277,7 @@ We can fit this model (Equation \@ref(eq:short-lr-ar1)) with `MARSS()`. Please n
 
 To fit this model, we need match our Equation \@ref(eq:short-lr-ar1) with the full MARSS model written in matrix form (Equation \@ref(eq:marss-part2)). Here it is with the parameters that are zero dropped. $\ZZ_t$ is identity and is also dropped. The $\BB$ and $\DD$ are time-constant so the $t$ subscript is dropped.  The $\xx_t$ are the AR(1) errors and the $\yy_t$ is the linear regression with $\DD$ being the effect sizes and the $\dd$ being the covariate.
 
-\begin{equation}(\#eq:short-lr-ar1-marss)
+\begin{equation}(\#eq:short-lr-ar1-marss2)
 \begin{gathered}
 \xx_t = \BB\xx_{t-1} + \ww_t, \text{ where } \ww_t \sim \MVN(0,\QQ_t)\\
 \yy_t = \xx_t + \DD\dd_t
@@ -329,14 +329,14 @@ stats::arima(yt, order=c(1,0,0), xreg=dt, include.mean=FALSE, method="ML")
 ```
 Again the estimates are slightly different due to different treatment of the initial conditons.
 
-## Linear regression with AR(1) errors and independent errors
+## LR with AR(1) errors and independent errors
 
 We can add some independent error to our model:
 
 \begin{equation}
 \begin{gathered}
 x_{t} = bx_{t-1} + w_{t}, \text{ } w_t \sim \N(0,q)  \\
-y_{t} = \beta*d_t + x_{t} + v_t, , \text{ } v_t \sim \N(0,r)  
+y_{t} = \beta d_t + x_{t} + v_t, \text{ } v_t \sim \N(0,r)  
 \end{gathered}
 (\#eq:short-lr-ar1-r)
 \end{equation}
@@ -355,13 +355,13 @@ fit <- MARSS(yt.r, model=mod.list)
 
 This is not a model that can be fit with `arima()`.
 
-## Linear regression with AR(1) driven by covariate
+## LR with AR(1) errors driven by covariate
 
 We can model a situation where the regression errors are autocorrelated but some of the variance is driven by a covariate.  For example, good and bad 'years' are driven partially by, say, temperature, which we will model by `ct`. We will use an autocorrelated `ct` in the example, but it could be anything. How are autocorrelated errors different? There is memory in the errors. The `ct` in the past still affects the current error ($w_t$ in this model). 
 
 \begin{equation}
 \begin{gathered}
-x_{t} = bx_{t-1} + \beta*c_t + w_{t}, \text{ } w_t \sim \N(0,q)  \\
+x_{t} = bx_{t-1} + \beta c_t + w_{t}, \text{ } w_t \sim \N(0,q)  \\
 y_{t} = x_{t} + v_t, \text{ } v_t \sim \N(0,r)  
 \end{gathered}
 (\#eq:short-lr-ar1-c)
@@ -473,7 +473,7 @@ Looking at the data, we might expect that a declining average river flow would b
 \begin{equation}
 \begin{gathered}
 x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \N(0,0) \\
-y_t = 0 \times x_t + a + \beta*t + v_t, \text{ } v_t \sim \N(0,r)  \\
+y_t = 0 \times x_t + a + \beta t + v_t, \text{ } v_t \sim \N(0,r)  \\
 x_0 = 0 
 \end{gathered}   
 (\#eq:short-linear-level-model1)
@@ -520,8 +520,8 @@ We will now model the average river flow at year $t$ as a random walk, specifica
 
 \begin{equation}
 \begin{gathered}
-x_t = x_{t-1}+w_t \text{ where } w_t \sim \N(0,q) \\
-y_t = x_t+v_t \text{ where } v_t \sim \N(0,r)  \\
+x_t = x_{t-1}+w_t, \text{ } w_t \sim \N(0,q) \\
+y_t = x_t+v_t, \text{ } v_t \sim \N(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
 (\#eq:short-stoch-level-model)
@@ -530,8 +530,8 @@ x_0 = \pi
 With all the MARSS parameters shown, the model is:
 \begin{equation}
 \begin{gathered}
-x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \N(0,q) \\
-y_t = 1 \times x_t + 0 + v_t \text{ where } v_t \sim \N(0,r)  \\
+x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \N(0,q) \\
+y_t = 1 \times x_t + 0 + v_t, \text{ } v_t \sim \N(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
 (\#eq:short-stoch-level-model2)
@@ -551,14 +551,14 @@ fit2 <- MARSS(nile, model=mod.list, inits=fit1, method="BFGS")
 ggplot2::autoplot(fit2, plot.type="model.ytT")
 ```
 
-This is the same model fit in \citet[p. 148]{Koopmanetal1998} except that we estimate $x_1$ as parameter rather than specifying $x_1$ via a diffuse prior\index{prior!diffuse}. As a result, the log-likelihood value and $\RR$ and $\QQ$ are a little different than in  \citet{Koopmanetal1998}. 
+This is the same model fit in @Koopmanetal1998 (p. 148) except that we estimate $x_1$ as parameter rather than specifying $x_1$ via a diffuse prior\index{prior!diffuse}. As a result, the log-likelihood value and $\RR$ and $\QQ$ are a little different than in  @Koopmanetal1998. 
 
 We can fit the Koopman model with `stats::StructTS()`. The estimates are slightly different since the initial conditions are treated differently.
 ```{r quick-unis-stoch-level-StructTS}
 fit.ts <- stats::StructTS(nile, type="level")
 fit.ts
 ```
-The fitted values returned by `fitted()` applied to a **StructTS** object are different than that returned by `fitted()` applied to a **marssMLE** object. The former returns $\hat{y}$ conditioned on the data up to time $t$, while the latter returns the $\hat{y}$ conditioned on all the data. If you want to compare use:
+The fitted values returned by `fitted()` applied to a `StructTS` object are different than that returned by `fitted()` applied to a `marssMLE` object. The former returns $\hat{y}$ conditioned on the data up to time $t$, while the latter returns the $\hat{y}$ conditioned on all the data. If you want to compare use:
 
 ```{r quick-unis-stoch-level-StructTS-plot}
 plot(nile, type="p", pch=16, col="blue")
@@ -573,8 +573,8 @@ We can also model the $\beta$ as a random walk:
 
 \begin{equation}
 \begin{gathered}
-\beta_t = \beta_{t-1}+w_t \text{ where } w_t \sim \N(0,q) \\
-y_t = a + \beta_t*t + v_t \text{ where } v_t \sim \N(0,r)  \\
+\beta_t = \beta_{t-1}+w_t, \text{ } w_t \sim \N(0,q) \\
+y_t = a + \beta_t t + v_t, \text{} v_t \sim \N(0,r)  \\
 x_0 = \pi 
 \end{gathered}   
 (\#eq:short-stoch-slope-model)
@@ -583,8 +583,8 @@ x_0 = \pi
 The $\beta_t$ is model with $x_t$. With all the MARSS parameters shown, the model is:
 \begin{equation}
 \begin{gathered}
-x_t = 1 \times x_{t-1}+ 0 + w_t    \text{ where } w_t \sim \N(0,q) \\
-y_t = t \times x_t + a + v_t \text{ where } v_t \sim \N(0,r)  \\
+x_t = 1 \times x_{t-1}+ 0 + w_t,    \text{ } w_t \sim \N(0,q) \\
+y_t = t \times x_t + a + v_t, \text{ } v_t \sim \N(0,r)  \\
 x_0 = \pi 
  \end{gathered}   
 (\#eq:short-stoch-slope-model2)

@@ -4,35 +4,34 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Part 2. Examples | MARSS Package Manual</title>
-  <meta name="description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data by Holmes, Scheuerell and Ward." />
+  <title>Part 2. Short Examples | MARSS R Package</title>
+  <meta name="description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MAR Modeling for Environmenal Science by Holmes, Scheuerell and Ward." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Part 2. Examples | MARSS Package Manual" />
+  <meta property="og:title" content="Part 2. Short Examples | MARSS R Package" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
-  <meta property="og:description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data by Holmes, Scheuerell and Ward." />
+  <meta property="og:description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MAR Modeling for Environmenal Science by Holmes, Scheuerell and Ward." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Part 2. Examples | MARSS Package Manual" />
+  <meta name="twitter:title" content="Part 2. Short Examples | MARSS R Package" />
   
-  <meta name="twitter:description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data by Holmes, Scheuerell and Ward." />
+  <meta name="twitter:description" content="This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MAR Modeling for Environmenal Science by Holmes, Scheuerell and Ward." />
   <meta name="twitter:image" content="images/cover.png" />
 
-<meta name="author" content="E. E. Holmes, M. D. Scheuerell, and E. J. Ward" />
+<meta name="author" content="Elizabeth E. Holmes, Eric J. Ward, Mark D. Scheuerell, and K. Wills" />
 
 
-<meta name="date" content="2021-02-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="factor-covariates.html"/>
-<link rel="next" href="chap-uss.html"/>
+<link rel="prev" href="chap-covariates.html"/>
+<link rel="next" href="chap-short-output.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -130,88 +129,88 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">MARSS Manual</a></li>
+<li><a href="./">MARSS Package Manual</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#authors"><i class="fa fa-check"></i>Authors</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+<li class="chapter" data-level="" data-path="installation.html"><a href="installation.html"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="authors.html"><a href="authors.html"><i class="fa fa-check"></i>Authors</a></li>
+<li class="chapter" data-level="" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i>Citation</a></li>
+<li class="chapter" data-level="" data-path="acknowledgments.html"><a href="acknowledgments.html"><i class="fa fa-check"></i>Acknowledgments</a></li>
 </ul></li>
 <li><a href="part1.html#part1"><i style="font-size: 110%; color:#990017;">Part 1. Overview</i></a></li>
 <li class="chapter" data-level="1" data-path="chap-overview.html"><a href="chap-overview.html"><i class="fa fa-check"></i><b>1</b> Overview</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="marss-model-form.html"><a href="marss-model-form.html"><i class="fa fa-check"></i><b>1.1</b> MARSS model form</a></li>
-<li class="chapter" data-level="1.2" data-path="examples-of-marss-models.html"><a href="examples-of-marss-models.html"><i class="fa fa-check"></i><b>1.2</b> Examples of MARSS models</a></li>
+<li class="chapter" data-level="1.2" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>1.2</b> Example model</a></li>
+<li class="chapter" data-level="1.3" data-path="notes.html"><a href="notes.html"><i class="fa fa-check"></i><b>1.3</b> Notes</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chap-quick-start.html"><a href="chap-quick-start.html"><i class="fa fa-check"></i><b>2</b> Quick Start</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="linear-constraints.html"><a href="linear-constraints.html"><i class="fa fa-check"></i><b>2.1</b> Linear constraints</a></li>
-<li class="chapter" data-level="2.2" data-path="important.html"><a href="important.html"><i class="fa fa-check"></i><b>2.2</b> Important</a></li>
-<li class="chapter" data-level="2.3" data-path="time-varying-parameters-and-inputs.html"><a href="time-varying-parameters-and-inputs.html"><i class="fa fa-check"></i><b>2.3</b> Time-varying parameters and inputs</a></li>
-<li class="chapter" data-level="2.4" data-path="inputs.html"><a href="inputs.html"><i class="fa fa-check"></i><b>2.4</b> Inputs</a></li>
-<li class="chapter" data-level="2.5" data-path="outputs.html"><a href="outputs.html"><i class="fa fa-check"></i><b>2.5</b> Outputs</a></li>
-<li class="chapter" data-level="2.6" data-path="tips-and-tricks.html"><a href="tips-and-tricks.html"><i class="fa fa-check"></i><b>2.6</b> Tips and Tricks</a></li>
+<li class="chapter" data-level="2.1" data-path="model-specification.html"><a href="model-specification.html"><i class="fa fa-check"></i><b>2.1</b> Model specification</a></li>
+<li class="chapter" data-level="2.2" data-path="linear-constraints.html"><a href="linear-constraints.html"><i class="fa fa-check"></i><b>2.2</b> Linear constraints</a></li>
+<li class="chapter" data-level="2.3" data-path="time-varying-parameters.html"><a href="time-varying-parameters.html"><i class="fa fa-check"></i><b>2.3</b> Time-varying parameters</a></li>
+<li class="chapter" data-level="2.4" data-path="inputs-c-and-d.html"><a href="inputs-c-and-d.html"><i class="fa fa-check"></i><b>2.4</b> Inputs <code>c</code> and <code>d</code></a></li>
+<li class="chapter" data-level="2.5" data-path="tips-and-tricks.html"><a href="tips-and-tricks.html"><i class="fa fa-check"></i><b>2.5</b> Tips and Tricks</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chap-input.html"><a href="chap-input.html"><i class="fa fa-check"></i><b>3</b> Data format</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="ts-objects.html"><a href="ts-objects.html"><i class="fa fa-check"></i><b>3.1</b> <strong>ts</strong> objects</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="ts-objects.html"><a href="ts-objects.html#univariate-ts-object"><i class="fa fa-check"></i><b>3.1.1</b> Univariate <strong>ts</strong> object</a></li>
-<li class="chapter" data-level="3.1.2" data-path="ts-objects.html"><a href="ts-objects.html#multivariate-ts-object"><i class="fa fa-check"></i><b>3.1.2</b> Multivariate <strong>ts</strong> object</a></li>
+<li class="chapter" data-level="3.1" data-path="ts-objects.html"><a href="ts-objects.html"><i class="fa fa-check"></i><b>3.1</b> <code>ts</code> objects</a></li>
+<li class="chapter" data-level="3.2" data-path="tsibble-objects.html"><a href="tsibble-objects.html"><i class="fa fa-check"></i><b>3.2</b> <code>tsibble</code> objects</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="tsibble-objects.html"><a href="tsibble-objects.html"><i class="fa fa-check"></i><b>3.2</b> <strong>tsibble</strong> objects</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="chap-model-list.html"><a href="chap-model-list.html"><i class="fa fa-check"></i><b>4</b> Specifying the model</a>
+<li class="chapter" data-level="4" data-path="chap-model-list.html"><a href="chap-model-list.html"><i class="fa fa-check"></i><b>4</b> Model specification</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="general-matrix-specification.html"><a href="general-matrix-specification.html"><i class="fa fa-check"></i><b>4.1</b> General matrix specification</a></li>
 <li class="chapter" data-level="4.2" data-path="linear-constraints-1.html"><a href="linear-constraints-1.html"><i class="fa fa-check"></i><b>4.2</b> Linear constraints</a></li>
-<li class="chapter" data-level="4.3" data-path="time-varying-parameters.html"><a href="time-varying-parameters.html"><i class="fa fa-check"></i><b>4.3</b> Time-varying parameters</a></li>
-<li class="chapter" data-level="4.4" data-path="model-structures.html"><a href="model-structures.html"><i class="fa fa-check"></i><b>4.4</b> Model structures</a>
-<ul>
-<li class="chapter" data-level="4.4.1" data-path="model-structures.html"><a href="model-structures.html#mathbfu-mathbfa-and-boldsymbolpi"><i class="fa fa-check"></i><b>4.4.1</b> <span class="math inline">\(\mathbf{u}\)</span>, <span class="math inline">\(\mathbf{a}\)</span> and <span class="math inline">\(\boldsymbol{\pi}\)</span></a></li>
-<li class="chapter" data-level="4.4.2" data-path="model-structures.html"><a href="model-structures.html#mathbfq-mathbfr-boldsymbollambda"><i class="fa fa-check"></i><b>4.4.2</b> <span class="math inline">\(\mathbf{Q}\)</span>, <span class="math inline">\(\mathbf{R}\)</span>, <span class="math inline">\(\boldsymbol{\Lambda}\)</span></a></li>
-<li class="chapter" data-level="4.4.3" data-path="model-structures.html"><a href="model-structures.html#mathbfb"><i class="fa fa-check"></i><b>4.4.3</b> <span class="math inline">\(\mathbf{B}\)</span></a></li>
-<li class="chapter" data-level="4.4.4" data-path="model-structures.html"><a href="model-structures.html#mathbfz"><i class="fa fa-check"></i><b>4.4.4</b> <span class="math inline">\(\mathbf{Z}\)</span></a></li>
+<li class="chapter" data-level="4.3" data-path="time-varying-parameters-1.html"><a href="time-varying-parameters-1.html"><i class="fa fa-check"></i><b>4.3</b> Time-varying parameters</a></li>
+<li class="chapter" data-level="4.4" data-path="examples-for-each-parameter.html"><a href="examples-for-each-parameter.html"><i class="fa fa-check"></i><b>4.4</b> Examples for each parameter</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="chap-covariates.html"><a href="chap-covariates.html"><i class="fa fa-check"></i><b>5</b> Covariates format</a>
+<li class="chapter" data-level="5" data-path="chap-covariates.html"><a href="chap-covariates.html"><i class="fa fa-check"></i><b>5</b> Covariates format</a></li>
+<li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Short Examples</i></a></li>
+<li class="chapter" data-level="6" data-path="chap-short-output.html"><a href="chap-short-output.html"><i class="fa fa-check"></i><b>6</b> Common output for fits</a></li>
+<li class="chapter" data-level="7" data-path="chap-uss.html"><a href="chap-uss.html"><i class="fa fa-check"></i><b>7</b> Univariate Models</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="factor-covariates.html"><a href="factor-covariates.html"><i class="fa fa-check"></i><b>5.1</b> Factor covariates</a></li>
+<li class="chapter" data-level="7.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>7.1</b> Random walk with drift</a></li>
+<li class="chapter" data-level="7.2" data-path="random-walk-with-time-varying-parameters.html"><a href="random-walk-with-time-varying-parameters.html"><i class="fa fa-check"></i><b>7.2</b> Random walk with time-varying parameters</a></li>
+<li class="chapter" data-level="7.3" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>7.3</b> AR(1) observed with error</a></li>
+<li class="chapter" data-level="7.4" data-path="linear-regression-lr.html"><a href="linear-regression-lr.html"><i class="fa fa-check"></i><b>7.4</b> Linear regression (LR)</a></li>
+<li class="chapter" data-level="7.5" data-path="lr-with-ar1-errors.html"><a href="lr-with-ar1-errors.html"><i class="fa fa-check"></i><b>7.5</b> LR with AR(1) errors</a></li>
+<li class="chapter" data-level="7.6" data-path="lr-with-ar1-errors-and-independent-errors.html"><a href="lr-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>7.6</b> LR with AR(1) errors and independent errors</a></li>
+<li class="chapter" data-level="7.7" data-path="lr-with-ar1-errors-driven-by-covariate.html"><a href="lr-with-ar1-errors-driven-by-covariate.html"><i class="fa fa-check"></i><b>7.7</b> LR with AR(1) errors driven by covariate</a></li>
+<li class="chapter" data-level="7.8" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>7.8</b> Flat level model</a></li>
+<li class="chapter" data-level="7.9" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>7.9</b> Linear trend model</a></li>
+<li class="chapter" data-level="7.10" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>7.10</b> Stochastic level model</a></li>
+<li class="chapter" data-level="7.11" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>7.11</b> Stochastic slope model</a></li>
 </ul></li>
-<li><a href="part2.html#part2"><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></a>
+<li class="chapter" data-level="8" data-path="chap-marss.html"><a href="chap-marss.html"><i class="fa fa-check"></i><b>8</b> Multivariate Models</a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="part2.html"><a href="part2.html"><i class="fa fa-check"></i><b>5.1.1</b> Output</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="chap-uss.html"><a href="chap-uss.html"><i class="fa fa-check"></i><b>6</b> Univariate Models</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="random-walk-with-drift.html"><a href="random-walk-with-drift.html"><i class="fa fa-check"></i><b>6.1</b> Random walk with drift</a></li>
-<li class="chapter" data-level="6.2" data-path="random-walk-with-time-varying-parameters.html"><a href="random-walk-with-time-varying-parameters.html"><i class="fa fa-check"></i><b>6.2</b> Random walk with time-varying parameters</a></li>
-<li class="chapter" data-level="6.3" data-path="ar1-observed-with-error.html"><a href="ar1-observed-with-error.html"><i class="fa fa-check"></i><b>6.3</b> AR(1) observed with error</a></li>
-<li class="chapter" data-level="6.4" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>6.4</b> Linear regression</a></li>
-<li class="chapter" data-level="6.5" data-path="linear-regression-with-ar1-errors.html"><a href="linear-regression-with-ar1-errors.html"><i class="fa fa-check"></i><b>6.5</b> Linear regression with AR(1) errors</a></li>
-<li class="chapter" data-level="6.6" data-path="linear-regression-with-ar1-errors-and-independent-errors.html"><a href="linear-regression-with-ar1-errors-and-independent-errors.html"><i class="fa fa-check"></i><b>6.6</b> Linear regression with AR(1) errors and independent errors</a></li>
-<li class="chapter" data-level="6.7" data-path="linear-regression-with-ar1-driven-by-covariate.html"><a href="linear-regression-with-ar1-driven-by-covariate.html"><i class="fa fa-check"></i><b>6.7</b> Linear regression with AR(1) driven by covariate</a></li>
-<li class="chapter" data-level="6.8" data-path="flat-level-model.html"><a href="flat-level-model.html"><i class="fa fa-check"></i><b>6.8</b> Flat level model</a></li>
-<li class="chapter" data-level="6.9" data-path="linear-trend-model.html"><a href="linear-trend-model.html"><i class="fa fa-check"></i><b>6.9</b> Linear trend model</a></li>
-<li class="chapter" data-level="6.10" data-path="stochastic-level-model.html"><a href="stochastic-level-model.html"><i class="fa fa-check"></i><b>6.10</b> Stochastic level model</a></li>
-<li class="chapter" data-level="6.11" data-path="stochastic-slope-model.html"><a href="stochastic-slope-model.html"><i class="fa fa-check"></i><b>6.11</b> Stochastic slope model</a></li>
+<li class="chapter" data-level="8.1" data-path="rw-observed-with-multiple-time-series.html"><a href="rw-observed-with-multiple-time-series.html"><i class="fa fa-check"></i><b>8.1</b> RW observed with multiple time series</a></li>
+<li class="chapter" data-level="8.2" data-path="multiple-time-series-each-observing-a-rw.html"><a href="multiple-time-series-each-observing-a-rw.html"><i class="fa fa-check"></i><b>8.2</b> Multiple time series each observing a RW</a></li>
+<li class="chapter" data-level="8.3" data-path="different-time-series-observing-a-rw.html"><a href="different-time-series-observing-a-rw.html"><i class="fa fa-check"></i><b>8.3</b> Different time series observing a RW</a></li>
+<li class="chapter" data-level="8.4" data-path="trend-observed-with-ar1-error.html"><a href="trend-observed-with-ar1-error.html"><i class="fa fa-check"></i><b>8.4</b> Trend observed with AR(1) error</a></li>
+<li class="chapter" data-level="8.5" data-path="dynamic-factor-model-with-3-trends.html"><a href="dynamic-factor-model-with-3-trends.html"><i class="fa fa-check"></i><b>8.5</b> Dynamic Factor Model with 3 trends</a></li>
+<li class="chapter" data-level="8.6" data-path="linear-constraints-2.html"><a href="linear-constraints-2.html"><i class="fa fa-check"></i><b>8.6</b> Linear constraints</a></li>
 </ul></li>
 <li><a href="part3.html#part3"><i style="font-size: 110%; color:#990017;">Part 3. Outputs</i></a></li>
-<li class="chapter" data-level="7" data-path="chap-outputs.html"><a href="chap-outputs.html"><i class="fa fa-check"></i><b>7</b> MARSS outputs</a></li>
-<li class="chapter" data-level="8" data-path="chap-residuals.html"><a href="chap-residuals.html"><i class="fa fa-check"></i><b>8</b> MARSS Residuals</a></li>
-<li class="chapter" data-level="9" data-path="chap-CIs.html"><a href="chap-CIs.html"><i class="fa fa-check"></i><b>9</b> Confidence Intervals</a></li>
-<li class="chapter" data-level="10" data-path="chap-predictions.html"><a href="chap-predictions.html"><i class="fa fa-check"></i><b>10</b> Predictions</a></li>
+<li class="chapter" data-level="9" data-path="chap-params.html"><a href="chap-params.html"><i class="fa fa-check"></i><b>9</b> Parameter estimates</a></li>
+<li class="chapter" data-level="10" data-path="chap-states.html"><a href="chap-states.html"><i class="fa fa-check"></i><b>10</b> States and smoothed estimates</a></li>
+<li class="chapter" data-level="11" data-path="chap-fitted.html"><a href="chap-fitted.html"><i class="fa fa-check"></i><b>11</b> Model fits</a></li>
+<li class="chapter" data-level="12" data-path="chap-residuals.html"><a href="chap-residuals.html"><i class="fa fa-check"></i><b>12</b> Residuals</a></li>
+<li class="chapter" data-level="13" data-path="chap-CIs.html"><a href="chap-CIs.html"><i class="fa fa-check"></i><b>13</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="14" data-path="chap-predictions.html"><a href="chap-predictions.html"><i class="fa fa-check"></i><b>14</b> Predictions and forecasts</a></li>
 <li><a href="part4.html#part4"><i style="font-size: 110%; color:#990017;">Part 4. Tips and Tricks</i></a></li>
-<li class="chapter" data-level="11" data-path="chap-troubleshooting.html"><a href="chap-troubleshooting.html"><i class="fa fa-check"></i><b>11</b> Troubleshooting</a></li>
-<li class="chapter" data-level="12" data-path="chap-EM-algorithm.html"><a href="chap-EM-algorithm.html"><i class="fa fa-check"></i><b>12</b> EM algorithm</a>
+<li class="chapter" data-level="15" data-path="chap-troubleshooting.html"><a href="chap-troubleshooting.html"><i class="fa fa-check"></i><b>15</b> Troubleshooting</a></li>
+<li class="chapter" data-level="16" data-path="chap-algorithm-notes.html"><a href="chap-algorithm-notes.html"><i class="fa fa-check"></i><b>16</b> Algorithm notes and cautions</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="important-notes-about-the-algorithms.html"><a href="important-notes-about-the-algorithms.html"><i class="fa fa-check"></i><b>12.1</b> Important notes about the algorithms</a></li>
-<li class="chapter" data-level="12.2" data-path="state-space-form-of-armapq-models.html"><a href="state-space-form-of-armapq-models.html"><i class="fa fa-check"></i><b>12.2</b> State-space form of ARMA(p,q) models</a></li>
+<li class="chapter" data-level="16.1" data-path="properly-constrained-models.html"><a href="properly-constrained-models.html"><i class="fa fa-check"></i><b>16.1</b> Properly constrained models</a></li>
+<li class="chapter" data-level="16.2" data-path="notes-on-the-kalman-filter.html"><a href="notes-on-the-kalman-filter.html"><i class="fa fa-check"></i><b>16.2</b> Notes on the Kalman filter</a></li>
+<li class="chapter" data-level="16.3" data-path="notes-on-the-em-algorithm.html"><a href="notes-on-the-em-algorithm.html"><i class="fa fa-check"></i><b>16.3</b> Notes on the EM algorithm</a></li>
+<li class="chapter" data-level="16.4" data-path="bias-in-variance-estimates.html"><a href="bias-in-variance-estimates.html"><i class="fa fa-check"></i><b>16.4</b> Bias in variance estimates</a></li>
+<li class="chapter" data-level="16.5" data-path="careful-if-specifying-a-prior-on-initial-conditions.html"><a href="careful-if-specifying-a-prior-on-initial-conditions.html"><i class="fa fa-check"></i><b>16.5</b> Careful if specifying a prior on initial conditions</a></li>
+<li class="chapter" data-level="16.6" data-path="state-space-form-of-armapq-models.html"><a href="state-space-form-of-armapq-models.html"><i class="fa fa-check"></i><b>16.6</b> State-space form of ARMA(p,q) models</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="chap-other-packages.html"><a href="chap-other-packages.html"><i class="fa fa-check"></i><b>13</b> Other related packages</a></li>
+<li class="chapter" data-level="17" data-path="chap-other-packages.html"><a href="chap-other-packages.html"><i class="fa fa-check"></i><b>17</b> Other related packages</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li style="font-weight: normal"><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -225,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MARSS Package Manual</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MARSS R Package</a>
           </h1>
         </div>
 
@@ -234,329 +233,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="part2" class="section level1 unnumbered">
-<h1><i style="font-size: 110%; color:#990017;">Part 2. Examples</i></h1>
-<p>Here a series of short examples are shown for different types of models specified in MARSS structure. Output is shown briefly.</p>
+<h1><i style="font-size: 110%; color:#990017;">Part 2. Short Examples</i></h1>
+<p>The section shows a series of short examples for different types of models specified in MARSS structure. See the <a href="https://nwfsc-timeseries.github.io/atsa-labs/">ATSA</a> book for a wide variety of detailed examples and explanations.</p>
 <p>The MARSS model has the form:
-<span class="math display" id="eq:marss-part2\tag{5.1}on}(#eq:marss-part2)
+<span class="math display" id="eq:marss-part2">\[\begin{equation*}
 \begin{gathered}
 \mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ where } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t)\\
 \mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ where } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t)\\
 \mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})
 \end{gathered}
-\end{equation}\]</span></p>
-<p>The <span class="math inline">\(\mathbf{x}\)</span> on the left are the hidden states. The <span class="math inline">\(\mathbf{y}\)</span> on the left are the observed data. Missing values are allowed in <span class="math inline">\(\mathbf{y}\)</span>. The <span class="math inline">\(\mathbf{c}\)</span> and <span class="math inline">\(\mathbf{d}\)</span> are inputs (not estimated). Bolded capitalized values on the right are parameters and 2D (or 3D if time-varying) matrices. Parameters can be estimated, constrained or fixed at a specific value. Within a parameter matrix, you can have a combination of estimated, constrained (shared), or fixed values. The <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{a}\)</span> are parameter column-matrices and can be similarly estimated, constrained or fixed. <span class="math inline">\(\mathbf{w}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> are the errors and are computed values, after parameters are estimated.</p>
-<div id="output" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Output</h3>
-<p>This is a brief summary of outputs. The output are shown with the following simple fit:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="part2.html#cb25-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
-<span id="cb25-2"><a href="part2.html#cb25-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">MARSS</span>(dat)</span></code></pre></div>
-<p>Use the <strong>broom</strong> package to get the model output in <strong>tidy</strong> form. The confidence intervals shown are approximate and based on the estimated Hessian matrix. See <code>?tidy.marssMLE</code> for information on how to change to a different type of confidence interval.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="part2.html#cb26-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">tidy</span>(fit)</span></code></pre></div>
-<pre><code>   term    estimate  std.error    conf.low    conf.up
-1   R.R  0.20232993 0.07256917  0.06009696 0.34456290
-2   U.U -0.03710875 0.05988268 -0.15447663 0.08025914
-3   Q.Q  0.35208044 0.10659375  0.14316053 0.56100035
-4 x0.x0  0.66568193 0.70913982 -0.72420657 2.05557043</code></pre>
-<p>The get the estimated states use:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="part2.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stats<span class="sc">::</span><span class="fu">tsSmooth</span>(fit, <span class="at">type=</span><span class="st">&quot;xtT&quot;</span>))</span></code></pre></div>
-<pre><code>  .rownames t .estimate       .se
-1      X.Y1 1 0.6287215 0.3194423
-2      X.Y1 2 0.6361536 0.3325886
-3      X.Y1 3 0.1632734 0.3336694
-4      X.Y1 4 0.1711874 0.3337600
-5      X.Y1 5 0.3302335 0.3337676
-6      X.Y1 6 0.2024342 0.3337682</code></pre>
-<p>Note that generic rownames were given since none were specified for <code>dat</code>.
-You can also get all the Kalman filter and smoother estimates for <span class="math inline">\(x\)</span> from <code>MARSSkf()</code>. See <code>?MARSSkf</code>.</p>
-<p>There are two types of fitted values that are used in the state-space literature: the one-step-ahead which uses on the data up to <span class="math inline">\(t-1\)</span> and the smoothed fitted values which uses all the data. Read up on fitted values for MARSS models at <code>?fitted.marssMLE</code>.</p>
-<p>To get the fitted values, the estimated <span class="math inline">\(y\)</span>, using all the data:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="part2.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">fitted</span>(fit, <span class="at">type=</span><span class="st">&quot;ytT&quot;</span>))</span></code></pre></div>
-<pre><code>  .rownames t           y   .fitted
-1        Y1 1  0.60321037 0.6287215
-2        Y1 2  0.91217455 0.6361536
-3        Y1 3 -0.11302441 0.1632734
-4        Y1 4  0.08433636 0.1711874
-5        Y1 5  0.49507490 0.3302335
-6        Y1 6  0.36857168 0.2024342</code></pre>
-<p>To get the fitted values, the estimated <span class="math inline">\(y\)</span>, using the data up to time <span class="math inline">\(t-1\)</span>:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="part2.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">fitted</span>(fit, <span class="at">type=</span><span class="st">&quot;ytt1&quot;</span>))</span></code></pre></div>
-<pre><code>  .rownames t           y   .fitted
-1        Y1 1  0.60321037 0.6285732
-2        Y1 2  0.91217455 0.5753577
-3        Y1 3 -0.11302441 0.7752737
-4        Y1 4  0.08433636 0.1078043
-5        Y1 5  0.49507490 0.0540304
-6        Y1 6  0.36857168 0.3301366</code></pre>
-<p>Note, this is the default for <code>fitted(fit)</code>.</p>
-<p>To make some generic plots and diagnostic plots, you can use <code>autoplot()</code> in the <strong>ggplot2</strong> package:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="part2.html#cb34-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(fit, <span class="at">plot.type =</span> <span class="st">&quot;xtT&quot;</span>)</span></code></pre></div>
-<p><img src="MARSS_Manual_files/figure-html/quick-autoplot-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>To get residuals, use:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="part2.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residuals</span>(fit)</span></code></pre></div>
-<pre><code>    type .rownames  name   t       value     .fitted      .resids    .sigma
-1   ytt1        Y1 model   1  0.60321037  0.62857318 -0.025362815 0.7445874
-2   ytt1        Y1 model   2  0.91217455  0.57535768  0.336816865 0.8263781
-3   ytt1        Y1 model   3 -0.11302441  0.77527365 -0.888298063 0.8347419
-4   ytt1        Y1 model   4  0.08433636  0.10780433 -0.023467967 0.8354575
-5   ytt1        Y1 model   5  0.49507490  0.05403040  0.441044493 0.8355177
-6   ytt1        Y1 model   6  0.36857168  0.33013661  0.038435072 0.8355228
-7   ytt1        Y1 model   7 -0.52050972  0.32032329 -0.840833007 0.8355232
-8   ytt1        Y1 model   8 -0.49182837 -0.31391996 -0.177908413 0.8355232
-9   ytt1        Y1 model   9  1.31105615 -0.47737395  1.788430098 0.8355232
-10  ytt1        Y1 model  10  0.71684417  0.75560700 -0.038762830 0.8355232
-11  ytt1        Y1 model  11 -0.99878849  0.69097005 -1.689758542 0.8355232
-12  ytt1        Y1 model  12  0.23275826 -0.54615480  0.778913068 0.8355232
-13  ytt1        Y1 model  13 -0.00390208 -0.03010273  0.026200648 0.8355232
-14  ytt1        Y1 model  14  2.10613518 -0.04860456  2.154739739 0.8355232
-15  ytt1        Y1 model  15  1.68812157  1.44451858  0.243602995 0.8355232
-16  ytt1        Y1 model  16  1.62559746  1.58040941  0.045188054 0.8355232
-17  ytt1        Y1 model  17  1.12146601  1.57539187 -0.453925864 0.8355232
-18  ytt1        Y1 model  18  0.56150771  1.21591851 -0.654410800 0.8355232
-19  ytt1        Y1 model  19  0.35118665  0.71406674 -0.362880088 0.8355232
-20  ytt1        Y1 model  20  1.88206344  0.41925138  1.462812060 0.8355232
-21  ytt1        Y1 model  21  1.38135785  1.42098812 -0.039630264 0.8355232
-22  ytt1        Y1 model  22  3.48533006  1.35573514  2.129594923 0.8355232
-23  ytt1        Y1 model  23  2.77738045  2.83100117 -0.053620725 0.8355232
-24  ytt1        Y1 model  24  4.01617182  2.75581259  1.260359231 0.8355232
-25  ytt1        Y1 model  25  4.06814255  3.61377337  0.454369186 0.8355232
-26  ytt1        Y1 model  26  5.37099679  3.89934406  1.471652733 0.8355232
-27  ytt1        Y1 model  27  4.72462393  4.90735918 -0.182735256 0.8355232
-28  ytt1        Y1 model  28  4.86451117  4.74047731  0.124033867 0.8355232
-29  ytt1        Y1 model  29  3.56742022  4.79145371 -1.224033492 0.8355232
-30  ytt1        Y1 model  30  3.19915448  3.88507289 -0.685918410 0.8355232
-31  ytt1        Y1 model  31  2.19466585  3.36084535 -1.166179505 0.8355232
-32  ytt1        Y1 model  32  2.97934645  2.49555071  0.483795743 0.8355232
-33  ytt1        Y1 model  33  3.19221162  2.80201926  0.390192358 0.8355232
-34  ytt1        Y1 model  34  3.72943895  3.04201349  0.687425458 0.8355232
-35  ytt1        Y1 model  35  3.66103788  3.49309379  0.167944091 0.8355232
-36  ytt1        Y1 model  36  3.28276734  3.57525393 -0.292486588 0.8355232
-37  ytt1        Y1 model  37  2.77579693  3.33042993 -0.554633000 0.8355232
-38  ytt1        Y1 model  38  3.76057257  2.89943737  0.861135194 0.8355232
-39  ytt1        Y1 model  39  4.79385783  3.47388115  1.319976682 0.8355232
-40  ytt1        Y1 model  40  4.52404906  4.37418046  0.149868594 0.8355232
-41  ytt1        Y1 model  41  3.80133834  4.44350392 -0.642165580 0.8355232
-42  ytt1        Y1 model  42  4.67160376  3.95034834  0.721255421 0.8355232
-43  ytt1        Y1 model  43  3.76957432  4.42545367 -0.655879352 0.8355232
-44  ytt1        Y1 model  44  2.80894129  3.92255897 -1.113617685 0.8355232
-45  ytt1        Y1 model  45  2.78871254  3.09459217 -0.305879627 0.8355232
-46  ytt1        Y1 model  46  3.78684489  2.84025683  0.946588060 0.8355232
-47  ytt1        Y1 model  47  2.17223509  3.47538669 -1.303151593 0.8355232
-48  ytt1        Y1 model  48  2.99416914  2.51281855  0.481350586 0.8355232
-49  ytt1        Y1 model  49  3.72232406  2.81755063  0.904773428 0.8355232
-50  ytt1        Y1 model  50  2.54292901  3.42298498 -0.880055967 0.8355232
-51  ytt1        Y1 model  51  3.20183248  2.76088674  0.440945740 0.8355232
-52  ytt1        Y1 model  52  2.65715778  3.03692450 -0.379766716 0.8355232
-53  ytt1        Y1 model  53  3.80602922  2.73011676  1.075912458 0.8355232
-54  ytt1        Y1 model  54  2.35804620  3.45708894 -1.099042743 0.8355232
-55  ytt1        Y1 model  55  2.54891371  2.63947283 -0.090559119 0.8355232
-56  ytt1        Y1 model  56  3.13144574  2.53805169  0.593394046 0.8355232
-57  ytt1        Y1 model  57  1.26158753  2.92235370 -1.660766167 0.8355232
-58  ytt1        Y1 model  58  1.77788221  1.70581836  0.072063853 0.8355232
-59  ytt1        Y1 model  59  2.74819311  1.71988721  1.028305901 0.8355232
-60  ytt1        Y1 model  60  2.50125053  2.41305064  0.088199895 0.8355232
-61  ytt1        Y1 model  61  2.82060018  2.43857882  0.382021359 0.8355232
-62  ytt1        Y1 model  62  1.68790353  2.67277025 -0.984866715 0.8355232
-63  ytt1        Y1 model  63 -0.21490711  1.93623854 -2.151145645 0.8355232
-64  ytt1        Y1 model  64  0.80481421  0.37145033  0.433363889 0.8355232
-65  ytt1        Y1 model  65 -0.36945385  0.64210368 -1.011557533 0.8355232
-66  ytt1        Y1 model  66  0.67121207 -0.11338305  0.784595115 0.8355232
-67  ytt1        Y1 model  67  0.11726027  0.40670425 -0.289443978 0.8355232
-68  ytt1        Y1 model  68 -0.17286971  0.16404102 -0.336910729 0.8355232
-69  ytt1        Y1 model  69  0.10135430 -0.11233168  0.213685973 0.8355232
-70  ytt1        Y1 model  70 -0.46913180  0.00231298 -0.471444776 0.8355232
-71  ytt1        Y1 model  71 -0.48236550 -0.36960178 -0.112763713 0.8355232
-72  ytt1        Y1 model  72 -2.02546102 -0.48679196 -1.538669066 0.8355232
-73  ytt1        Y1 model  73 -1.37343837 -1.61661757  0.243179201 0.8355232
-74  ytt1        Y1 model  74 -1.93693665 -1.48102771 -0.455908938 0.8355232
-75  ytt1        Y1 model  75 -1.28902022 -1.84190938  0.552889160 0.8355232
-76  ytt1        Y1 model  76 -0.84848181 -1.48637274  0.637890929 0.8355232
-77  ytt1        Y1 model  77 -1.23695927 -1.07047038 -0.166488889 0.8355232
-78  ytt1        Y1 model  78 -1.22290938 -1.22581457  0.002905193 0.8355232
-79  ytt1        Y1 model  79 -0.29185274 -1.26086014  0.969007405 0.8355232
-80  ytt1        Y1 model  80 -0.45940114 -0.60980874  0.150407592 0.8355232
-81  ytt1        Y1 model  81  0.74941972 -0.54010250  1.289522219 0.8355232
-82  ytt1        Y1 model  82 -0.26676678  0.33856896 -0.605335748 0.8355232
-83  ytt1        Y1 model  83 -0.28279101 -0.12843117 -0.154359832 0.8355232
-84  ytt1        Y1 model  84 -1.01600628 -0.27516167 -0.740844613 0.8355232
-85  ytt1        Y1 model  85 -2.63391079 -0.83839616 -1.795514629 0.8355232
-86  ytt1        Y1 model  86 -3.65559805 -2.15062584 -1.504972214 0.8355232
-87  ytt1        Y1 model  87 -3.50168232 -3.25652096 -0.245161360 0.8355232
-88  ytt1        Y1 model  88 -4.12242168 -3.46773599 -0.654685691 0.8355232
-89  ytt1        Y1 model  89 -3.39859244 -3.96978298  0.571190546 0.8355232
-90  ytt1        Y1 model  90 -3.87909764 -3.60124924 -0.277848395 0.8355232
-91  ytt1        Y1 model  91 -4.24380478 -3.83567763 -0.408127143 0.8355232
-92  ytt1        Y1 model  92 -4.24017018 -4.16262610 -0.077544072 0.8355232
-93  ytt1        Y1 model  93 -4.38339297 -4.25480434 -0.128588627 0.8355232
-94  ytt1        Y1 model  94 -4.19148449 -4.38323289  0.191748405 0.8355232
-95  ytt1        Y1 model  95 -4.08193628 -4.28416765  0.202231366 0.8355232
-96  ytt1        Y1 model  96 -3.18658804 -4.17765771  0.991069673 0.8355232
-97  ytt1        Y1 model  97 -3.40417769 -3.51093834  0.106760649 0.8355232
-98  ytt1        Y1 model  98 -3.50604642 -3.47222886 -0.033817556 0.8355232
-99  ytt1        Y1 model  99 -2.43325199 -3.53335383  1.100101838 0.8355232
-100 ytt1        Y1 model 100 -3.14971354 -2.78920307 -0.360510469 0.8355232
-     .std.resids
-1   -0.034062913
-2    0.407582028
-3   -1.064159007
-4   -0.028089960
-5    0.527869719
-6    0.046001227
-7   -1.006355090
-8   -0.212930544
-9    2.140491195
-10  -0.046393480
-11  -2.022395666
-12   0.932245865
-13   0.031358372
-14   2.578910657
-15   0.291557420
-16   0.054083541
-17  -0.543283361
-18  -0.783234724
-19  -0.434314784
-20   1.750773675
-21  -0.047431672
-22   2.548815962
-23  -0.064176223
-24   1.508467029
-25   0.543813953
-26   1.761354676
-27  -0.218707573
-28   0.148450533
-29  -1.464990392
-30  -0.820944759
-31  -1.395747569
-32   0.579033270
-33   0.467003607
-34   0.822748477
-35   0.201004696
-36  -0.350063984
-37  -0.663815183
-38   1.030653814
-39   1.579820463
-40   0.179370950
-41  -0.768578974
-42   0.863238032
-43  -0.784992369
-44  -1.332838701
-45  -0.366093507
-46   1.132928488
-47  -1.559683274
-48   0.576106772
-49   1.082882444
-50  -1.053299232
-51   0.527748037
-52  -0.454525628
-53   1.287711018
-54  -1.315394611
-55  -0.108386119
-56   0.710206529
-57  -1.987696003
-58   0.086249971
-59   1.230732880
-60   0.105562469
-61   0.457224107
-62  -1.178742481
-63  -2.574609048
-64   0.518673663
-65  -1.210687515
-66   0.939046450
-67  -0.346422422
-68  -0.403233232
-69   0.255751088
-70  -0.564250955
-71  -0.134961794
-72  -1.841563498
-73   0.291050200
-74  -0.545656813
-75   0.661728060
-76   0.763462838
-77  -0.199263031
-78   0.003477094
-79   1.159761189
-80   0.180016053
-81   1.543370891
-82  -0.724499012
-83  -0.184746310
-84  -0.886683451
-85  -2.148970350
-86  -1.801233258
-87  -0.293422557
-88  -0.783563729
-89   0.683632162
-90  -0.332544192
-91  -0.488468941
-92  -0.092808997
-93  -0.153901919
-94   0.229495004
-95   0.242041586
-96   1.186166521
-97   0.127776998
-98  -0.040474705
-99   1.316662194
-100           NA</code></pre>
-<p>There are many types of residuals possible for MARSS models. The default <code>residuals(fit)</code> will return the innovations residuals, which are what are typically used for residuals diagnostics for state-space models. However <code>residuals()</code> and the companion <code>MARSSresiduals()</code> will return all possible residuals for your model. Read about MARSS residuals in <code>?residuals.marssMLE</code>.</p>
-<p>To get your parameter estimates, use:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="part2.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
-<pre><code>$Z
-     [,1]
+\tag{5.2}
+\end{equation*}\]</span></p>
+<p>The <span class="math inline">\(\mathbf{x}\)</span> on the left are the hidden states. The <span class="math inline">\(\mathbf{y}\)</span> on the left are the observed data. Missing values are allowed in <span class="math inline">\(\mathbf{y}\)</span>.</p>
 
-$A
-     [,1]
-
-$R
-       [,1]
-R 0.2023299
-
-$B
-     [,1]
-
-$U
-         [,1]
-U -0.03710875
-
-$Q
-       [,1]
-Q 0.3520804
-
-$x0
-        [,1]
-x0 0.6656819
-
-$V0
-     [,1]
-
-$G
-     [,1]
-
-$H
-     [,1]
-
-$L
-     [,1]
-
-$C
-     [,1]
-
-$D
-     [,1]
-
-$c
-     [,1]
-
-$d
-     [,1]</code></pre>
-<p>Type <code>?coef.marssMLE</code> to see the different forms that you can get your estimated parameters in. A common form is as a matrix. To get that use <code>coef(fit, type="matrix")</code>.</p>
-
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="factor-covariates.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chap-uss.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chap-covariates.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chap-short-output.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -587,7 +284,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/03-0-part2.Rmd",
+"link": "https://github.com/nwfsc-timeseries/MARSS-Manual/blob/master/cleanedRmd/part2.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,0 +1,328 @@
+```{r examples-marss-setup, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "quick-marss-")
+set.seed(123)
+```
+
+# Multivariate Models {#chap-marss}
+
+These models can be written in the form:
+\begin{equation}
+\begin{gathered}
+\mathbf{x}_t = \mathbf{B}_t\mathbf{x}_{t-1} + \mathbf{u}_t + \mathbf{C}_t\mathbf{c}_t + \mathbf{G}_t\mathbf{w}_t, \text{ } \mathbf{w}_t \sim \,\text{MVN}(0,\mathbf{Q}_t) \\
+\mathbf{y}_t = \mathbf{Z}_t\mathbf{x}_t + \mathbf{a}_t + \mathbf{D}_t\mathbf{d}_t + \mathbf{H}_t\mathbf{v}_t, \text{ } \mathbf{v}_t \sim \,\text{MVN}(0,\mathbf{R}_t) \\
+\mathbf{x}_1 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda}) \text{ or } \mathbf{x}_0 \sim \,\text{MVN}(\boldsymbol{\pi},\boldsymbol{\Lambda})
+\end{gathered}
+(\#eq:short-marss)
+\end{equation}
+
+Set up a plotting function for the parameters:
+```{r quick-plot-params}
+plot.pars <- function(fit){
+  df <- broom::tidy(fit)
+  df$parameter <- sapply(df$term, function(x){stringr::str_split(x, "[.]")[[1]][1]})
+  df$parameter[df$parameter %in% c("R","Q")] <- "R and Q"
+  ggplot2::ggplot(df, ggplot2::aes(x=term, y=estimate)) + 
+    ggplot2::geom_point() +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin=conf.low, ymax=conf.up), width=0.2) +
+    geom_hline(yintercept=0, col="blue") +
+    facet_wrap(~parameter, scales="free")
+  }
+```
+
+### Harbor seal data {-}
+
+For these examples, we will use the harbor seal data set.
+```{r harborseal, message=FALSE, warning=FALSE}
+data(harborSealWA, package="MARSS")
+harbordf <- pivot_longer(as.data.frame(harborSealWA), cols= -Year, values_to="log.Count")
+ggplot2::ggplot(harbordf, aes(x=Year, y=log.Count, col=name)) + 
+  geom_line() + geom_point()
+```
+
+## RW observed with multiple time series
+
+A univariate random walk observed by 3 observation time series.
+\begin{equation}
+\begin{gathered}
+x_{t} = x_{t-1} + u + w_{t}, \text{ } w_t \sim \,\text{N}(0,q)  \\
+\\
+\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}_t
+= \begin{bmatrix}1\\1\\1\end{bmatrix}
+x_t
++ \begin{bmatrix}0\\0\\0\end{bmatrix}
++ \begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix},
+ \textrm{ } \mathbf{v}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\\0\end{bmatrix},\begin{bmatrix}r&0&0\\0&r&0\\0&0&r\end{bmatrix} \end{pmatrix}
+ \end{gathered}
+(\#eq:short-mrw1)
+\end{equation}
+
+Create set up the model:
+```{r quick-marss-rw1-model}
+Z <- matrix(1,3,1)
+R <- "diagonal and equal"
+```
+
+Fit with `MARSS()`:
+```{r short-marss-rw1-fit, results="hide"}
+yt <- t(harborSealWA)[c("EBays", "PSnd", "HC"),]
+fit <- MARSS(yt, model=list(R=R, Z=Z))
+```
+
+Get confidence intervals with `tidy()`:
+```{r quick-marss-rw1-tidy}
+broom::tidy(fit)
+```
+
+```{r}
+plot.pars(fit)
+```
+
+
+## Multiple time series each observing a RW
+
+Each time series is observing its own random walk but the random walks have correlated process error.
+\begin{equation}
+\begin{gathered}
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_t
+=
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_{t-1}
++ \begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix}
++ \begin{bmatrix}w_1\\ w_2\\ w_3\end{bmatrix},
+ \textrm{ } \mathbf{w}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\\0\end{bmatrix},
+ \begin{bmatrix}q_1&c_{12}&c_{13}\\c_{12}&q_2&c_{23}\\c_{13}&c_{23}&q_3\end{bmatrix} \end{pmatrix}\\
+ \begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}_t
+= \begin{bmatrix}1&0&0\\0&1&0\\1&0&0\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_t
++ \begin{bmatrix}0\\0\\0\end{bmatrix}
++ \begin{bmatrix}v_1\\ v_2\\ v_3\end{bmatrix},
+ \textrm{ } \mathbf{v}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\\0\end{bmatrix},\begin{bmatrix}r&0&0\\0&r&0\\0&0&r\end{bmatrix} \end{pmatrix}  
+ \end{gathered}
+(\#eq:short-mrw2)
+\end{equation}
+
+Create set up the model:
+```{r quick-marss-rw2-model}
+Q <- "unconstrained"
+R <- "diagonal and equal"
+```
+
+Fit with `MARSS()`:
+```{r short-marss-rw2-fit, results="hide"}
+fit <- MARSS(yt, model=list(R=R, Q=Q))
+```
+
+```{r}
+plot.pars(fit)
+```
+
+Look at the $\mathbf{Q}$. Hood Canal (HC) appears to be behaving independently.
+```{r}
+Q.est <- coef(fit, type="matrix")$Q
+rownames(Q.est) <- rownames(yt)
+corrplot::corrplot(cov2cor(Q.est))
+```
+
+
+## Different time series observing a RW
+
+The three outer regions (EBays, SJI, and SJF) are observing one random walk and PSnd and HC (more interior) are each observing their own. The regions are correlated. The observations error variances are shared within regions but unique across regions.
+\begin{equation}
+\begin{gathered}
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_t
+=
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_{t-1}
++ \begin{bmatrix}u_1\\u_2\\u_3\end{bmatrix}
++ \begin{bmatrix}w_1\\ w_2\\ w_3\end{bmatrix},
+ \textrm{ } \mathbf{w}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\\0\end{bmatrix},
+ \begin{bmatrix}q_1&c_{12}&c_{13}\\c_{12}&q_2&c_{23}\\c_{13}&c_{23}&q_3\end{bmatrix} \end{pmatrix}\\
+ \begin{bmatrix}y_1\\y_2\\y_3\\y_4\\y_5\end{bmatrix}_t
+= \begin{bmatrix}1&0&0\\1&0&0\\1&0&0\\0&1&0\\0&0&1\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}_t
++ \begin{bmatrix}0\\a_2\\a_3\\0\\0\end{bmatrix}
++ \begin{bmatrix}v_1\\ v_2\\ v_3 \\ v_4 \\ v_5\end{bmatrix},
+ \textrm{ } 
+ \mathbf{v}_t \sim \,\text{MVN}
+ \begin{pmatrix}
+ \begin{bmatrix}0\\0\\0\\0\\0\end{bmatrix},
+ \begin{bmatrix}
+ r_1&0&0&0&0\\
+ 0&r_1&0&0&0\\
+ 0&0&r_1&0&0\\
+ 0&0&0&r_2&0\\
+ 0&0&0&0&r_3
+ \end{bmatrix}
+ \end{pmatrix}  
+ \end{gathered}
+(\#eq:short-mrw3)
+\end{equation}
+
+Create set up the model:
+```{r quick-marss-rw3-model}
+Q <- "unconstrained"
+R <- matrix(list(0),5,5)
+diag(R) <- c("Outer","Outer","Outer","PSnd","HC")
+Z <- matrix(0,5,3)
+colnames(Z) <- c("Outer","PSnd","HC")
+Z[1:3,1] <- 1
+Z[4,2] <- Z[5,3] <- 1
+```
+
+Fit with `MARSS()`:
+```{r short-marss-rw3-fit, results="hide"}
+yt <- t(harborSealWA)[2:6,]
+fit <- MARSS(yt, model=list(R=R, Q=Q, Z=Z))
+```
+
+```{r}
+plot.pars(fit)
+```
+
+Model fits.
+```{r quick-mss-rw3}
+ggplot2::autoplot(fit, plot.type="model.ytT")
+```
+
+## Trend observed with AR(1) error
+
+So far we have been assuming that the observations errors, $\mathbf{v}_t$, are temporally independent. Let's assume 3 observations of one underlying trend but assume the observations have AR(1) errors. We'll assume that the variance of those error is correlated across the first 2 time series and they have the same level of autocorrelation ($b$). We'll treat the 3rd time series as independent.
+
+To do this, we need to move the observation errors into the $\mathbf{x}$ part of the MARSS model and we need to add the $\mathbf{B}$ matrix for the AR(1) feature. Notice that the $\mathbf{y}$ equation does not have $\mathbf{v}_t$ since the observation errors are specified in the $\mathbf{x}$ part of the equation and are flowing from $\mathbf{x}$ to $\mathbf{y}$ via $\mathbf{Z}$.
+\begin{equation}
+\begin{gathered}
+\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}_t
+=
+\begin{bmatrix}
+1&0&0&0\\
+0&b_1&0&0\\
+0&0&b_1&0\\
+0&0&0&b_2\\
+\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}_{t-1}
++ \begin{bmatrix}w_1\\ w_2\\ w_3 \\ w_4\end{bmatrix},
+ \textrm{ } \mathbf{w}_t \sim \,\text{MVN}\begin{pmatrix}
+ \begin{bmatrix}0\\0\\0\end{bmatrix},
+ \begin{bmatrix}
+ q_1&0&0&0\\
+ 0&q_2&c&0\\
+ 0&c&q_3&0\\
+ 0&0&0&q_4\end{bmatrix} \end{pmatrix}\\
+\begin{bmatrix}y_1\\y_2\\y_3\end{bmatrix}_t
+= \begin{bmatrix}
+ 1&1&0&0\\
+ 1&0&1&0\\
+ 1&0&0&1\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\\x_3\\x_4\end{bmatrix}_t
++ \begin{bmatrix}0\\a_2\\a_3\end{bmatrix}
+\end{gathered}
+(\#eq:short-mss-ar1)
+\end{equation}
+
+Create set up the model.
+```{r quick-marss-ar1-model}
+Z <- matrix(0,3,4)
+Z[,1] <- 1
+Z[,2:4] <- diag(1,3)
+R <- U <- A <- "zero"
+Q <- matrix(list(0), 4, 4)
+diag(Q) <- paste0("q", 1:4)
+Q[2,3] <- Q[3,2] <- "c"
+```
+
+Print out the `Q` to make sure it matches our equation.
+```{r}
+Q
+```
+
+Fit with `MARSS()`:
+```{r short-marss-ar1-fit, results="hide"}
+yt <- t(harborSealWA)[c("EBays", "SJI", "PSnd"),]
+fit <- MARSS(yt, model=list(R=R, Z=Z, Q=Q, U=U, A=A),     
+             inits=list(x0=matrix(0,4,1)))
+```
+
+Estimated states. The first one is the trend and the next 3 are the AR(1) errors. If your goal was to estimate the underlying *signal*, then the plot for `X1` is what you want and has the confidence intervals that you want.
+
+```{r quick-mss-ar1-plot}
+ggplot2::autoplot(fit, plot.type="xtT")
+```
+
+If on the otherhand, you wanted estimates of the numbers in each region then sadly the model fit plots are not what you want. Since $\mathbf{R}$ was set to 0, the model fits will exactly fit the data. You would need to write a custom function for the expected value of $\mathbf{y}$ and its variance. The expected value is just the estimated first state ($x_1$) plus the corresponding $a$ term. But the variance would need to computed using the variances of states 2 to 4 (the AR(1) errors).
+
+```{r quick-mss-ar1-plot2}
+ggplot2::autoplot(fit, plot.type="model.ytT")
+```
+
+## Dynamic Factor Model with 3 trends
+
+Dynamic Factor Modeling is akin to PCA (Principal Components Analysis) for time series data. This is a large topic. See the chapter on DFAs in the `r MARMES` book. **MARSS** has a short-cut for fitting DFAs. See `?MARSS.dfa` but we will fit manually by specifying all the matrices.
+
+We will fit a DFA with 2 trends.
+\begin{equation}
+\begin{gathered}
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_t
+=
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_{t-1}
++ \begin{bmatrix}w_1\\ w_2\end{bmatrix},
+ \textrm{ } \mathbf{w}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\end{bmatrix},
+ \begin{bmatrix}1&0\\0&1\end{bmatrix} \end{pmatrix}\\
+ \begin{bmatrix}y_1\\y_2\\y_3\\y_4\\y_5\end{bmatrix}_t
+= \begin{bmatrix}z_1&0\\z_2&z_6\\z_3&z_7\\z_4&z_8\\z_5&z_9\end{bmatrix}
+\begin{bmatrix}x_1\\x_2\end{bmatrix}_t
++ \begin{bmatrix}0\\0\\0\\0\\0\end{bmatrix}
++ \begin{bmatrix}v_1\\ v_2\\ v_3 \\ v_4 \\ v_5\end{bmatrix},
+ \textrm{ } \mathbf{v}_t \sim \,\text{MVN}\begin{pmatrix}\begin{bmatrix}0\\0\\0\\0\\0\end{bmatrix},
+ \begin{bmatrix}
+ r&0&0&0&0\\
+ 0&r&0&0&0\\
+ 0&0&r&0&0\\
+ 0&0&0&r&0\\
+ 0&0&0&0&r
+ \end{bmatrix} \end{pmatrix}  
+ \end{gathered}
+(\#eq:short-mdfa)
+\end{equation}
+
+Create set up the model:
+```{r quick-marss-dfa-model}
+Q <- diag(1,2)
+R <- "diagonal and equal"
+Z <- matrix(list(0),5,2)
+Z[,] <- paste0("z", 1:10)
+Z[1,2] <- 0
+A <- "zero"
+U <- "zero"
+```
+
+Fit with `MARSS()`. We need to demean the data for a DFA. These models take a long time to converge. This one works better with the BFGS algorithm.
+```{r short-marss-dfa-fit, results="hide"}
+yt <- t(harborSealWA)[2:6,]
+fit <- MARSS(zscore(yt, mean.only=TRUE), model=list(R=R, Q=Q, Z=Z, A=A, U=U),
+             method="BFGS")
+```
+
+## Linear constraints
+
+Your model can have simple linear constraints within all the parameters except $\mathbf{Q}$, $\mathbf{R}$ and $\boldsymbol{\Lambda}$.  For example $1+2a-3b$ is a linear constraint. When entering this value for you matrix, you specify this as \verb@"1+2*a+-3*b"@. NOTE: $+$'s join parts so use `"+-3*b"` to specify $-3b$. Anything after `*` is a parameter. So `1*1` has a parameter called `"1"`. Example, let's specify the following $\mathbf{B}$, $\mathbf{Q}$ and $\mathbf{Z}$ matrices:
+\begin{equation*}
+\mathbf{U} = \begin{bmatrix}u-0.1\\ u+0.1\end{bmatrix}\quad
+\mathbf{Q} = \begin{bmatrix}q_{11}&0\\ 0.01&0\end{bmatrix}\quad
+\mathbf{Z} = \begin{bmatrix}z_1-z_2&2z_1\\ 0&z_1\\ z_2&0 \\ 0&z_3 \\ 0&1+z_3\end{bmatrix}
+\end{equation*}
+
+This would be specified as (notice `"1*z1+-1*z2"` for $z_1-z_2$):
+```{r quick-mss-lc-model}
+U <- matrix(list("-0.1+1*u","0.1+1*u"),2,1)
+Q <- matrix(list("q11",0,0,0.01),2,2)
+Z <- matrix(list("1*z1+-1*z2",0,"z2",0,0,"2*z1","z1",0,"z3","1+z3"),5,2)
+```
+
+We need to fix $\mathbf{A}$ if $\mathbf{Z}$ is estimated. 
+```{r}
+yt <- t(harborSealWA)[2:6,]
+fit <- MARSS(yt, model = list(Z = Z, Q = Q, U = U, A="zero"))
+```
+
+This is a toy example and cannot fit the data.
+```{r quick-mss-lc-plot}
+ggplot2::autoplot(fit, plot.type="model.ytT")
+```

@@ -8,29 +8,29 @@ The first argument to `MARSS()` is your data, aka your response variables or the
 ```
 MARSS(data, ...)
 ```
-Your data need to be a matrix with time across the columns ($n \times T$ matrix). Note, you can pass in a **ts** object or a vector (not data frame) and `MARSS()` will convert this to a matrix. Here is an example of a data matrix with three observation time series and six time steps. Note that NAs are fine and it is not necessary for all observation time series to have observations at time step $t$.
+Your data need to be a matrix with time across the columns ($n \times T$ matrix). Note, you can pass in a `ts` object or a vector (not data frame) and `MARSS()` will convert this to a matrix. Here is an example of a data matrix with three observation time series and six time steps. Note that NAs are fine and it is not necessary for all observation time series to have observations at time step $t$.
 
 *Tip: put rownames on your data matrix and those will be used in the output.*
 
 \begin{equation*}
 \mathbf{y} = \left[ \begin{array}{ccccccc}
-    1 & 2 & NA & NA & 3.2 & 8\\
-    2 & 5 &  3 & NA & 5.1 & NA\\
-    NA & NA & NA & 2.2 & NA & 7\end{array} \right]
+    1 & 2 & \text{NA} & \text{NA} & 3.2 & 8\\
+    2 & 5 &  3 & \text{NA} & 5.1 & \text{NA}\\
+    \text{NA} & \text{NA} & \text{NA} & 2.2 & \text{NA} & 7\end{array} \right]
 \end{equation*}
 where NA denotes a missing value. However, the **MARSS** functions assume discrete time steps and you will need a value for each time step.  Replace any missing time steps with NA. 
 
 Why does **MARSS** require your data in matrix form? Because **MARSS** will not make any guesses about your intentions. You must be 100\% explicit in terms of what model you trying to fit and what you consider to be `data`. MARSS models are used in many different fields in different ways. There is no *guess* that would work for all models. Instead **MARSS** requires that you write your model in matrix form, and then pass everything in in a format that is one-to-one with that mathematical model. That way **MARSS** knows exactly what you are trying to do.
 
-## **ts** objects
+## `ts` objects
 
-A **ts** object (time series object) stores information about the time steps of the data and often seasonal information (the quarter or month).  If you pass in a **ts** object as data into `MARSS()`, it will convert this to a matrix but it will ignore any information about the seasonality. It will store this information, but it doesn't use it.
+In base R, time-series data can be stored as a `ts` object. A `ts` object (time series object) stores information about the time steps of the data and often seasonal information (the quarter or month).  If you pass in a `ts` object as data into `MARSS()`, it will convert this to a matrix but it will ignore any information about the seasonality. It will store this information, but it does not use it as part of model specification.
 
-If you have your data in **ts** form, then you may be using year and season (quarter, month) as covariates to estimate trend and seasonality.  The next sections give examples of converting your data from **ts** form to matrix form with the season information.
+If you have your data stored as a `ts` object, then you may be using year and season (quarter, month) as covariates to estimate trend and seasonality.  The next sections give examples of converting your data to matrix form with the season information.
 
-### Univariate **ts** object
+### Univariate `ts` object
 
-This converts a univariate **ts** object with year and quarter into a matrix with a row for the response (here called `Temp`), year, and quarter.  
+This converts a univariate `ts` object with year and quarter into a matrix with a row for the response (here called `Temp`), year, and quarter.  
 
 ```
 z <- ts(rnorm(10), frequency = 4, start = c(1959, 2))
@@ -39,9 +39,9 @@ dat <- data.frame(Yr = floor(time(z) + .Machine$double.eps),
 dat <- t(dat)
 class(dat)
 ```
-Notice that the class of `dat` is matrix, which is what we want. There are three rows, first is the reponse and the second and third are the covariates, Year and Quarter.  When you call MARSS, `dat["Temp",]` is the data. `dat[c("Yr","Qtr"),]` are your covariates.  
+Notice that the class of `dat` is matrix, which is what we want. There are three rows, first is the reponse and the second and third are the covariates, Year and Quarter.  When you call `MARSS()`, `dat["Temp",]` is the data. `dat[c("Yr","Qtr"),]` are your covariates.  
 
-### Multivariate **ts** object
+### Multivariate `ts` object
 
 In this example, we have two temperature readings, our responses, and a salinity reading, a covariate. The data are monthly.
 
@@ -53,13 +53,13 @@ dat <- data.frame(Yr = floor(time(z) + .Machine$double.eps),
 dat <- t(dat)
 ```
 
-When you call MARSS, `dat[c("Temp1","Temp2"),]` are the data and `dat[c("Yr","Month","Sal"),]` are your covariates.  
+When you call `MARSS()`, `dat[c("Temp1","Temp2"),]` are the data and `dat[c("Yr","Month","Sal"),]` are your covariates.  
 
-See the [MARMES](https://nwfsc-timeseries.github.io/MARMES/) chapters that discuss seasonality for examples of how to model season.  The brute force method of treating month or quarter as a factor requires estimation of more parameters than is necessary in many cases.
+See the chapters in the `r MARMES` book that discuss seasonality for examples of how to model season.  The brute force method of treating month or quarter as a factor requires estimation of more parameters than is necessary in many cases.
 
-## **tsibble** objects
+## `tsibble` objects
 
-There are many ways that you can transform a **tsibble** object into a matrix with each row being an observed time series.
+The **tsibble** package extends the tidyverse to temporal data and `tsibble` (or `tbl_ts`) objects are the way time-series data are stored in that package.  There are many ways that you can transform a `tsibble` object into a matrix with each row being an observed time series.
 
 ```{r input-tsibble, message=FALSE}
 library(tidyverse)

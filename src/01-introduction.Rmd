@@ -4,9 +4,11 @@ knitr::opts_knit$set(unnamed.chunk.label = "intro-")
 
 # Overview {#chap-overview}
 
-MARSS stands for Multivariate Auto-Regressive(1) State-Space. The **MARSS** package is an R package for estimating the parameters of linear MARSS models with Gaussian errors.  This class of model is extremely important in the study of linear stochastic dynamical systems, and these models are important in many different fields, including economics, engineering, genetics, physics and ecology.  The model class has different names in different fields, for example in some fields they are termed dynamic linear models (DLMs) or vector autoregressive (VAR) state-space models.  The **MARSS** package allows you to easily fit time-varying constrained and unconstrained MARSS models with or without covariates to multivariate time-series data via maximum-likelihood using primarily an EM algorithm. The EM algorithm in the **MARSS** package allows you to apply linear constraints on all the parameters within the model matrices.  Fitting via the BFGS algorithm is also provided in the package using \R's `optim` function, but this is not the focus of the **MARSS** package. 
+MARSS stands for Multivariate Auto-Regressive(1) State-Space. The **MARSS** package [@Holmesetal2012] is an R package for estimating the parameters of linear MARSS models with Gaussian errors.  This class of model is extremely important in the study of linear stochastic dynamical systems, and these models are important in many different fields, including economics, engineering, genetics, physics and ecology.  The model class has different names in different fields, for example in some fields they are termed dynamic linear models (DLMs) or vector autoregressive (VAR) state-space models.  
 
-**MARSS**, `MARSS()` and MARSS. MARSS model refers to the class of models which the **MARSS** package fits using, primarily, an EM algorithm. In the text, **MARSS** refers to the R package. Within the package, the main fitting function is `MARSS()`. When the class of model is being discussed, rather than the package or the function, "MARSS" is used.
+The **MARSS** package allows you to easily fit time-varying constrained and unconstrained MARSS models with or without covariates to multivariate time-series data via maximum-likelihood using primarily an EM algorithm [@Holmes2013]. The EM algorithm in the **MARSS** package allows you to apply linear constraints on all the parameters within the model matrices.  Fitting via the BFGS algorithm is also provided in the package using R's `optim` function, but this is not the focus of the **MARSS** package. 
+
+**MARSS**, `MARSS()` and MARSS. MARSS model refers to the class of models which the **MARSS** package fits using, primarily, an EM algorithm. In the text, **MARSS** refers to the R package. Within the package, the main fitting function is `MARSS()`. When the class of model is being discussed, rather than the package or the function, MARSS (not bolded) is used. MAR model refers to a multivariate auto-regressive model while MARSS model refers to a MAR model with the observation (SS) component.
 
 ## MARSS model form
 
@@ -36,13 +38,13 @@ The bolded terms are matrices with the following definitions:
 * $\cc$ and $\dd$ are inputs (no missing values) and are $p \times T$ and $q \times T$ matrices.
 * $\GG_t$ and $\HH_t$ are inputs (no missing values) and are $m \times g$ and $n \times h$ matrices.
 
-AR(p) models can be written in the above form by properly defining the $\xx$ vector and setting some of the $\RR$ variances to zero; see Chapter \ref{chap:ARMA}. Although the model appears to only include i.i.d. errors ($\vv_t$ and $\ww_t$), in practice, AR(p) errors can be included by moving the error terms into the state model.  Similarly, the model appears to have independent process ($\vv_t$) and observation ($\ww_t$) errors, however, in practice, these can be modeled as identical or correlated by using one of the state processes to model the errors with the $\BB$ matrix set appropriately for AR or white noise---although one may have to fix many of the parameters associated with the errors to have an identifiable model.  Study the application chapters and textbooks on MARSS models (Appendix \@ref(chap-SSreferences)) for examples of how a wide variety of autoregressive models can be written in MARSS form.  
+AR(p) models can be written in the above form by properly defining the $\xx$ vector and setting some of the $\RR$ variances to zero. Although the model appears to only include i.i.d. errors ($\vv_t$ and $\ww_t$), in practice, AR(p) errors can be included by moving the error terms into the state model.  Similarly, the model appears to have independent process ($\vv_t$) and observation ($\ww_t$) errors, however, in practice, these can be modeled as identical or correlated by using one of the state processes to model the errors with the $\BB$ matrix set appropriately for AR or white noise.
 
-## Examples of MARSS models
+## Example model
 
 An unconstrained MARSS model, meaning all the elements in a parameter matrices are allowed to be different and none constrained to be equal or related.
 
-\begin{equation}
+\begin{equation*}
 \begin{gathered}
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
 = \begin{bmatrix}b_{11}&b_{12}\\b_{21}&b_{22}\end{bmatrix}
@@ -61,12 +63,11 @@ An unconstrained MARSS model, meaning all the elements in a parameter matrices a
 or\quad 
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_1 \sim \MVN\begin{pmatrix}\begin{bmatrix}\pi_1\\ \pi_2\end{bmatrix},\begin{bmatrix}\nu_{11}&\nu_{12}\\ \nu_{21}&\nu_{22}\end{bmatrix} \end{pmatrix} 
 \end{gathered}
-(\#eq:marss1)
-\end{equation}
+\end{equation*}
 
 A constrianed MARSS model. The MARSS package allows you to specify constraints by fixing elements in a parameter matrix or specifying that some elements are estimated---or have a linear relationship to other elements. Here is an example:
 
-\begin{equation}
+\begin{equation*}
 \begin{gathered}
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_t
 = \begin{bmatrix}a&0\\0&a\end{bmatrix}
@@ -83,7 +84,18 @@ A constrianed MARSS model. The MARSS package allows you to specify constraints b
 \\
 \begin{bmatrix}x_1\\ x_2\end{bmatrix}_0 \sim \MVN\begin{pmatrix}\begin{bmatrix}\pi\\ \pi\end{bmatrix},\begin{bmatrix}1&0\\ 0&1\end{bmatrix} \end{pmatrix}
 \end{gathered}
-(\#eq:marss2)
-\end{equation}
+\end{equation*}
 
-Notice that some elements are fixed (in this case to 0, but could be any fixed number), some elements are shared (have the same value), and some elements are linear combinations of other estimated values ($c$, $1+2d+3c$ and $2+3d$ are linear combinations of $c$ and $d$).
+Notice that some elements are fixed (in this case to 0, but could be any fixed number), some elements are shared (have the same value), and some elements are linear combinations of other estimated values: $c$, $1+2d+3c$ and $2+3d$ are linear combinations of $c$ and $d$.
+
+## Notes
+
+Specification of a properly constrained model with a unique solution is the responsibility of the user because `MARSS()` has no way to tell if you have specified an insufficiently constrained model.
+
+The code in the **MARSS** package is not particularly fast and EM algorithms are famously slow.  You can try `method="BFGS"` and see if that is faster.  For some models, it will be much faster and for others, much slower. BFGS can be quite sensitive to initial conditions. You can fit a model with EM a few iterations and then pass to the fit to BFGS, and it may do better.
+
+```
+fit1 <- MARSS(data, model=model.list, control=list(minit=10, maxit=10))
+fit2 <- MARSS(data, model=model.list, method="BFGS", inits=fit1)
+```
+

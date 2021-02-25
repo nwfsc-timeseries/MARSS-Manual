@@ -1,11 +1,25 @@
 # <i style="font-size: 110%; color:#990017;">Part 3. Outputs</i> {- #part3}
 
-Part 3 discusses how to get outputs from **MARSS** fitted objects. Specifically:
+Part 3 discusses how to get outputs from `marssMLE` objects which are the class of object resulting from a call to `fit <- MARSS()`. Specifically:
 
 - Estimated states
+- Model fits
+- Parameter estimates
 - Kalman filter and smoother output
 - Residuals
 - Confidence intervals
-- Predictions
+- Predictions and forecasts
 - Bootstrap resamples: parametric and innovations
 - Simulated data
+
+MARSS models are used in many many different ways and different users will want different types of output.  **MARSS** functions will give you every type of output but the trick is to figure out what it is you want. Because MARSS models are used in so many different ways, what is *standard* output in one field or application might never be used in another field or application.
+
+The notation in the **MARSS** package follows these conventions:
+
+* `tT` expectation of something at $t$ conditioned on all the data.
+* `tt1` expectation of something at $t$ conditioned on the data up to $t-1$.
+* `tt` expectation of something at $t$ conditioned on the data up to $t$.
+* *fitted* means the expected value of the right side of a MARSS $\mathbf{x}$ or $\mathbf{y}$ equation without the error term ($\mathbf{w}$ or $\mathbf{v}$). Probably not what you want if you are trying to get *states* or $\mathbf{x}$ estimates. Fitted values can be computed using any of the time conditionals listed above. Probably what you want if you are trying to get expected values of $\mathbf{y}$ or *model* estimates.
+* *smoothed* and *filtered* means the expected values including the error terms ($\mathbf{w}$ or $\mathbf{v}$). Probably what you want if you are trying to get *states* or $\mathbf{x}$ estimates and not what you want if you are trying to get *model* or $\mathbf{y}$ estimates.
+
+

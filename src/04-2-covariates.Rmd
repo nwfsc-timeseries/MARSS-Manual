@@ -4,12 +4,22 @@ knitr::opts_knit$set(unnamed.chunk.label = "input-")
 
 # Covariates format {#chap-covariates}
 
-The first argument to `MARSS()` is your data, aka your response variables or the $\yy$ in your MARSS equation.
+Covariates (aka inputs or exogenous variables) appear as $\cc$ and $\dd$ in the MARSS model and their effects are in the $\CC$ and $\DD$ matrices. As usual, constraints (such as shared or fixed values) can be applied within the matrix, though not across the $\CC$ and $\DD$ matrices. No missing values are allowed in $\cc$ and $\dd$.
+
+\begin{equation}
+\begin{gathered}
+\xx_t = \BB_t\xx_{t-1} + \uu_t + \CC_t\cc_t + \GG_t\ww_t, \text{ } \ww_t \sim \MVN(0,\QQ_t) \\
+\yy_t = \ZZ_t\xx_t + \aa_t + \DD_t\dd_t + \HH_t\vv_t, \text{ } \vv_t \sim \MVN(0,\RR_t) \\
+\xx_1 \sim \MVN(\pipi,\LAM) \text{ or } \xx_0 \sim \MVN(\pipi,\LAM)
+\end{gathered}
+(\#eq:marss-cov)
+\end{equation}
+
+Covariates are passed in the model list.
 ```
 MARSS(data, model=list(c=..., d=...))
 ```
-
-Your covariates must a matrix with time across the columns ($p \times T$ matrix) where $p$ is the number of covariates. No NAs are allowed in covariates. See [MARMES](https://nwfsc-timeseries.github.io/MARMES/) chapters dealing with missing values in your covariates.
+Your covariates must a matrix with time across the columns ($p \times T$ matrix) where $p$ is the number of covariates. No NAs are allowed in covariates. See the chapters in the `r MARMES` book dealing with missing values in your covariates.
 
 Here is an example of a covariate matrix for 2 covariates.
 \begin{equation*}
@@ -19,7 +29,7 @@ Here is an example of a covariate matrix for 2 covariates.
 \end{equation*}
 
 
-## Factor covariates
+### Factor covariates {-}
 
 If your covariates are factors, like site number or month, and you are estimating a $a$ value, i.e. level or intercept, for each then you will use a matrix with 0s and 1s. This is identical to how say `lm()` would translate your model with factors.
 

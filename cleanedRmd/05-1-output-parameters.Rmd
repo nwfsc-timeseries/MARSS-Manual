@@ -1,0 +1,6 @@
+```{r output-setup-params, include=FALSE, purl=FALSE}
+knitr::opts_knit$set(unnamed.chunk.label = "output-params-")
+```
+
+# Parameter estimates {#chap-params}
+

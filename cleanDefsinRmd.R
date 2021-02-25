@@ -21,17 +21,21 @@ replace.defs = function(defsfile, inputfile, outputfile){
 basefiles=c(
   "src/01-introduction",
   "src/02-quick-start",
-  "src/03-0-part2",
+  "src/part2",
+  "src/03-0-output",
   "src/03-1-uniss",
+  "src/03-2-marss",
   "src/04-0-input",
   "src/04-1-model-list",
   "src/04-2-covariates",
-  "src/05-output",
+  "src/05-1-output-parameters",
+  "src/05-2-output-smoothed",
+  "src/05-3-output-fitted",
   "src/06-residuals",
   "src/07-conf-intervals",
   "src/08-predictions",
   "src/09-troubleshooting",
-  "src/10-em-algorithm",
+  "src/10-algorithm-notes",
   "src/11-other-packages"
 )
 for(basefile in basefiles){

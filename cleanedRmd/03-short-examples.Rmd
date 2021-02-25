@@ -352,7 +352,8 @@ glance(kemfit)
 The function `MARSSparamCIs()`\index{functions!MARSSparamCIs} is used to compute confidence intervals with a default alpha level of 0.05.  The default is to compute approximate confidence intervals using a the Hessian matrix (`method="hessian"`).  Confidence intervals can also be computed  via parametric (`method="parametric"`)   or non-parametric (`method="innovations"`)  bootstrapping.  Note, if you want confidence intervals on variances, then it is unwise to use the Hessian approximation as it is symmetric and variances are constrained to be positive.
 
 ### Approximate confidence intervals from a Hessian matrix
-The default method for `MARSSparamCIs` computes approximate confidence intervals using an analytically computed Hessian matrix \citet[sec 3.4.5]{Harvey1989}.  The call is:
+
+The default method for `MARSSparamCIs` computes approximate confidence intervals using an analytically computed Hessian matrix [sec 3.4.5, @Harvey1989].  The call is:
 ```{r CIs-hessian, include.source=F, keep.source=T}
 kem.with.hess.CIs = MARSSparamCIs(kemfit) 
 ```

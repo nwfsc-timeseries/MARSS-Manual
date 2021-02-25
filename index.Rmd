@@ -1,14 +1,14 @@
 --- 
-title: "MARSS Package Manual"
-author: "E. E. Holmes, M. D. Scheuerell, and E. J. Ward"
-date: "`r Sys.Date()`"
+title: "MARSS R Package"
+author: "Elizabeth E. Holmes, Eric J. Ward, Mark D. Scheuerell, and K. Wills"
+date: "`r paste('Version', packageVersion('MARSS'))`"
 site: bookdown::bookdown_site
 fontsize: 12pt
 documentclass: book
 bibliography: [tex/book.bib, tex/packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MARSS Modeling for Environmenal Data by Holmes, Scheuerell and Ward."
+description: "This is the online manual for the MARSS R package. It covers the package functions, input and output, residuals, prediction, error messages and troubleshooting. For vignettes showing different applications of MARSS models, including Dynamic Factor Analysis and Dynamic Linear Models, please see the companion book MAR Modeling for Environmenal Science by Holmes, Scheuerell and Ward."
 cover-image: images/cover.png
 favicon: "favicon.ico"
 ---
@@ -17,14 +17,16 @@ favicon: "favicon.ico"
 
 ```{r RUNFIRST, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment=NA, cache=TRUE, tidy.opts=list(width.cutoff=60), tidy=TRUE, fig.align='center', out.width='80%')
+MARMES <- "[ATSA](https://nwfsc-timeseries.github.io/atsa-labs/)"
+MARMEStitle <- "[Applied Time Series Analysis for Fisheries and Environmental Sciences](https://nwfsc-timeseries.github.io/atsa-labs/)"
 library(MARSS)
 ```
 
-The **MARSS** R package allows you to fit **constrained** multivariate autoregressive state-space models. 
+The **MARSS** R package allows you to fit a general class linearly constrained multivariate autoregressive state-space models using an EM algorithm [@Holmes2013]. Fitting using the BFGS algorithm (via `optim`) is also provided.
 
-This manual covers the **MARSS** \textbf{R} package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see the companion book *MARSS Modeling for Environmental Data* by Holmes, Scheuerell, and Ward. 
+This manual covers the **MARSS** R package: what it does, how to set up your models, how to structure your input, and how to get different types of output. For vignettes showing how to use MARSS models to analyze data, see our companion book `r MARMEStitle` by Holmes, Scheuerell and Ward.
 
-### Installation {-}
+## Installation {-}
 
 To install and load the **MARSS** package from CRAN:
 
@@ -33,39 +35,46 @@ install.packages("MARSS")
 library(MARSS)
 ```
 
-The latest release on GitHub may be ahead of the CRAN release. To install the latest release on GitHub:
+#### Installation of the development release {-}
+
+Users do not need to install the package from GitHub. Critical updates are published to CRAN. However, if you want/need to install the latest development release on GitHub, use:
 ```
 install.packages("devtools")
 library(devtools)
 install_github("nwfsc-timeseries/MARSS@*release")
 library(MARSS)
 ```
-The master branch on GitHub is not a 'release'. It has work leading up to a GitHub release.  The code here may be broken though usually preliminary work is done on a development branch.  To install the master branch:
-```
-install_github("nwfsc-timeseries/MARSS")
-```
+The master branch on GitHub is not a 'release'. It has work leading up to a GitHub release.  The code here may be broken though usually preliminary work is done on a development branch. 
+
+To install an R package from Github, you need to be able to build an R package on your machine. If you are on Windows, that means you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). On a Mac or Linux machine, installation should work fine; you don't need to install anything.
+
 If you are on a Windows machine and get an error saying 'loading failed for i386' or similar, then try
 ```
 options(devtools.install.args = "--no-multiarch")
 ```
-To install an \textbf{R} package from Github, you need to be able to build an \textbf{R} package on your machine. If you are on Windows, that means you will need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). On a Mac, installation should work fine; you don't need to install anything.
+With R version 4+, Windows users may also need to run the following if installation fails due to warnings converted to errors:
+```
+Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")
+```
 
 
-### Authors {-}
+## Authors {-}
 
 The authors are research scientists with the US Federal government.  This work was conducted as part of their jobs for NOAA Fisheries and USGS, as such the work is in the public domain and cannot be copyrighted.   
 
 Links to more code and publications can be found on their academic websites:
 
-* http://faculty.washington.edu/eeholmes
-* https://faculty.washington.edu/scheuerl
-* http://faculty.washington.edu/warde
+* Elizabeth E. Holmes http://faculty.washington.edu/eeholmes
+* Mark D. Scheuerell https://faculty.washington.edu/scheuerl
+* Eric J. Ward http://faculty.washington.edu/warde
 
 
-### Citation {-}
+## Citation {-}
 
 
-Holmes, E. E., M.D. Scheuerell, E.J. Ward. MARSS Package Manual. Accessed `r Sys.Date()`. <https://nwfsc-timeseries.github.io/MARSS-Manual/>
+Holmes, E.E., M.D. Scheuerell, E.J. Ward. Online MARSS Package Manual. Version 3.11.3. Accessed `r Sys.Date()`. <https://nwfsc-timeseries.github.io/MARSS-Manual/>
+
+Holmes, E.E., E.J. Ward, M.D. Scheuerell, and K. Wills. 2020. MARSS: Multivariate Autoregressive State-Space Modeling. R package version 3.11.3. <https://CRAN.R-project.org/package=MARSS>
 
 Holmes, E.E., E.J. Ward, and K. Wills. 2012. MARSS: multivariate autoregressive state-space models for analyzing time-series data. R Journal 4(1): 11-19. https://doi.org/10.32614/RJ-2012-002
 
@@ -77,9 +86,15 @@ knitr::write_bib(c(
 ), 'tex/packages.bib')
 ```
 
-### Acknowledgments {-}
+## Acknowledgments {-}
 
-Early development of the MARSS functions into an R package was done by Kellie Wills, a contractor at NWFSC. Students in the workshops on MAR and MARSS modeling and the course at University of Washington have helped us refine the package. The Kalman filter and smoother functions used by the MARSS package are now those written by Jouni Helske for the **KFAS**  package. Use of the **KFAS** Kalman functions has made the **MARSS** package faster and more stable.
+Early development of the MARSS functions into an R package was done by Kellie Wills, a contractor at NWFSC. Many students in our workshops on MAR and MARSS modeling and our winter course at the University of Washington have helped us refine the package. The Kalman filter and smoother functions used by the MARSS package are now those written by Jouni Helske for the **KFAS**  package. Use of the **KFAS** Kalman functions has made the **MARSS** package faster and more stable.
+
+The **MARSS** R package began as code developed to study noisy and gappy multivarite time-series data that are ubiquitous in fisheries and ecological research. Our initial forays into model estimation for these data were inspired by Chapter 6 in @ShumwayStoffer2006 and @Harvey1989. Due to difficulties fitting these models, we gravitated towards the EM algorithm as outlined by @ShumwayStoffer1982. The first version of the EM algorithm that E. E. Holmes wrote however was based on a 1996 technical report by Z. Ghahramani and G. E. Hinton [@GhahramaniHinton1996]. The Kalman filter and smoother was that given in @ShumwayStoffer2006. This initial algorithm allowed only shared terms within the $\mathbf{u}$ matrix and generic constraints on the $\mathbf{Q}$ and $\mathbf{R}$ matrices, as this is what our work on population structure required.
+
+During this time, the authors were working together at the Northwest Fisheries Science Center. M. D. Scheuerell provided the impetus and inspiration to derive a general EM algorithm for MARSS models with linear constraints. He needed these models for research problems and in the course of deriving the EM algorithm for constrained $\mathbf{Q}$ matrices, it became apparent how to derive the fully general case. Thus began a five-year project resulting in @Holmes2013. Subsequently, we also needed to work with partially deterministic systems, and thus the EM algorithm was extended to the case of partially deterministic MARSS models.
+
+Later algorithms for residuals and inference from MARSS models were added [@Holmes2014]. This work was founded mainly on work by Andrew Harvey, Siem Jan Koopman, and Jeremy Penzer on inference and diagnostic checking of MARSS models [@Harvey1989; @HarveyKoopman1992; @Harveyetal1998; @deJongPenzer1998]. Extending the algorithm for the Fisher Information matrix in section 3.4.5 of @Harvey1989 to the general MARSS model in the **MARSS** package allowed rapid calculation of approximate confidence intervals.  Algorithms for bootstrap AIC [@CavanaughShumway1997] and innovations bootstrapping [@StofferWall1991] were also added.
 
 
 

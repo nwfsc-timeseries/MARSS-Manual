@@ -2,6 +2,6 @@
 knitr::opts_knit$set(unnamed.chunk.label = "pred-")
 ```
 
-# Predictions {#chap-predictions}
+# Predictions and forecasts {#chap-predictions}
 
 

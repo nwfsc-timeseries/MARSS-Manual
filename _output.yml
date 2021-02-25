@@ -2,11 +2,12 @@ bookdown::gitbook:
   css: style.css
   split_by: section
   split_bib: FALSE
+  toc_depth: 2
   config:
     toc: 
       collapse: section
       before: |
-        <li><a href="./">MARSS Manual</a></li>
+        <li><a href="./">MARSS Package Manual</a></li>
       after: |
         <li style="font-weight: normal"><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
     download: [pdf]
